@@ -31,8 +31,8 @@ module.exports = function( grunt ) {
 			target: {
 				options: {
 					domainPath: '/languages',
-					mainFile: '.php',
-					potFilename: '.pot',
+					mainFile: 'image-shortcake.php',
+					potFilename: 'image-shortcake.pot',
 					potHeaders: {
 						poedit: true,
 						'x-poedit-keywordslist': true
