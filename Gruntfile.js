@@ -32,7 +32,7 @@ module.exports = function( grunt ) {
 				src: './'
 			},
 			options: {
-				bin: "vendor/bin/phpcs --extensions=php --ignore=\"*/vendor/*\"",
+				bin: "vendor/bin/phpcs --extensions=php --ignore=\"*/vendor/*,*/node_modules/*\"",
 				standard: "WordPress"
 			}
 		},
