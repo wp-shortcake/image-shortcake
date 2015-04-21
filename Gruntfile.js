@@ -29,10 +29,10 @@ module.exports = function( grunt ) {
 
 		phpcs: {
 			plugin: {
-				src: [ '*.php' ],
+				src: './'
 			},
 			options: {
-				bin: "vendor/bin/phpcs",
+				bin: "vendor/bin/phpcs --extensions=php --ignore=\"*/vendor/*\"",
 				standard: "WordPress"
 			}
 		},
