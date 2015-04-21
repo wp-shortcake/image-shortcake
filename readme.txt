@@ -1,5 +1,5 @@
 === Image-shortcake ===
-Contributors: (this should be a list of wordpress.org userid's)
+Contributors: fusionengineering
 Donate link: http://example.com/
 Tags: comments, spam
 Requires at least: 3.0.1
