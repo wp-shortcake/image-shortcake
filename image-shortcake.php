@@ -10,6 +10,8 @@ Text Domain: image-shortcake
 Domain Path: /languages
 */
 
+require_once( 'inc/class-img-shortcode.php' );
+require_once( 'inc/class-img-shortcode-ui.php' );
 
 class Image_Shortcake {
 
@@ -40,90 +42,11 @@ class Image_Shortcake {
 			return;
 		}
 
-		add_shortcode( 'shortcake_image',
+		add_shortcode( 'img',
 			array( $this, 'shortcake_image_shortcode' )
 		);
 
-		shortcode_ui_register_for_shortcode(
-			'shortcake_image',
-			array(
-
-				// Display label. String. Required.
-				'label' => 'Image',
-
-				// Icon/attachment for shortcode. Optional. src or dashicons-$icon. Defaults to carrot.
-				'listItemImage' => 'dashicons-format-image',
-
-				'inner_content' => array(
-					'label' => 'Image',
-				),
-
-				'post_type'     => array( 'post' ),
-
-				'attrs' => array(
-
-					array(
-						'label' => 'Choose Attachment',
-						'attr'  => 'attachment',
-						'type'  => 'attachment',
-						'libraryType' => array( 'image' ),
-						'addButton'   => 'Select Image',
-						'frameTitle'  => 'Select Image',
-					),
-
-					array(
-						'label'       => 'Image size',
-						'attr'        => 'size',
-						'type'        => 'select',
-						'options' => array(
-							'thumbnail' => 'Thumbnail',
-							'small'     => 'Small',
-							'medium'    => 'Medium',
-							'large'     => 'Large',
-						),
-					),
-
-					array(
-						'label' => 'Alt',
-						'attr'  => 'alt',
-						'type'  => 'text',
-						'placeholder' => 'Alt text for the image',
-					),
-
-					array(
-						'label'       => 'Caption',
-						'attr'        => 'caption',
-						'type'        => 'text',
-						'placeholder' => 'Caption for the image',
-					),
-
-					array(
-						'label'       => 'Alignment',
-						'attr'        => 'align',
-						'type'        => 'select',
-						'options' => array(
-							'alignleft'   => 'Float left',
-							'alignright'  => 'Float right',
-							'aligncenter' => 'Float center',
-							'alignnone'   => 'None (inline)',
-						),
-					),
-
-					array(
-						'label'       => 'Link to',
-						'attr'        => 'linkto',
-						'type'        => 'select',
-						'options' => array(
-							'none'       => 'None (no link)',
-							'attachment' => 'Link to attachment file',
-							'file'       => 'Link to file',
-							'custom'     => 'Custom link',
-						),
-					),
-
-				),
-			)
-		);
+		shortcode_ui_register_for_shortcode( 'img', Image_Shortcode_UI::shortcode_ui_attrs() );
 	}
 
 
@@ -133,51 +56,12 @@ class Image_Shortcake {
 	 * This should handle all markup generation, and include filters for
 	 * theme-specific overrides.
 	 *
-	 * @shortcode shortcake_image
+	 * @shortcode img
 	 * @param $attr
 	 */
 	public function shortcake_image_shortcode( $attr, $content = '' ) {
-
-		$attr = wp_parse_args( $attr, array(
-			'attachment' => 0,
-			'size'       => 'full',
-			'alt'        => '',
-			'caption'    => '',
-			'align'      => 'none',
-			'linkto'     => '',
-		) );
-
-		// XXX Actually build html here
-		$image_html = '<img ';
-
-		$image_attr = array(
-			'classes' => explode( ',', $attr['classes'] ),
-			'alt' => $attr['alt'],
-		);
-
-		$image_attr['classes'][] = 'size-' . $attr['size'];
-		$image_attr['classes'][] = $attr['align'];
-
-		if ( isset( $attr['attachment'] ) &&
-			$attachment = wp_get_attachment_image_src( (int) $attr['attachment'], $attr['size'] ) ) {
-			$image_attr['src'] = $attachment[0];
-			$image_attr['width'] = $attachment[1];
-			$image_attr['height'] = $attachment[2];
-		} else {
-			$image_attr['src'] = $attr['src'];
-		}
-
-		foreach ( $image_attr as $attr_name => $attr_value ) {
-			if ( ! empty( $attr_value ) ) {
-				$image_html .= $attr_name . '="' .
-					esc_attr( $attr_value ) . '" ';
-			}
-		}
-
-		$image_html .= '/>';
-
-		return $image_html;
-
+		$img_shortcode = new Image_Shortcode( $attr );
+		return $img_shortcode->render();
 	}
 
 }

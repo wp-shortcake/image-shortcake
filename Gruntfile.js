@@ -39,7 +39,7 @@ module.exports = function( grunt ) {
 
 		watch: {
 			dev: {
-				files: [ '*.php' ],
+				files: [ '**/*.php' ],
 				tasks: [ 'phpcs' ]
 			}
 		},
