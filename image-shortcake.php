@@ -10,13 +10,9 @@ Text Domain: image-shortcake
 Domain Path: /languages
 */
 
-require_once( 'inc/class-img-shortcode.php' );
-require_once( 'inc/class-img-shortcode-ui.php' );
-
 class Image_Shortcake {
 
 	private static $instance;
-
 
 	/**
 	 * Activate the plugin as a singleton.
@@ -25,28 +21,68 @@ class Image_Shortcake {
 	public static function get_instance() {
 
 		if ( ! isset( self::$instance ) ) {
+			self::require_files();
+
 			self::$instance = new Image_Shortcake;
-			self::$instance->register_shortcodes();
+			self::$instance->register_shortcode();
 		}
+
 		return self::$instance;
 	}
 
-	private function register_shortcodes() {
 
-		if ( ! function_exists( 'shortcode_ui_register_for_shortcode' ) ) {
-			add_action( 'admin_notices', function(){
-				if ( current_user_can( 'activate_plugins' ) ) {
-					echo '<div class="error message"><p>Shortcode UI plugin must be active for Image Shortcake plugin to function.</p></div>';
-				}
-			});
-			return;
-		}
+	/**
+	 * Require all the plugin's files.
+	 *
+	 */
+	private function require_files() {
+		require_once( plugins_url( 'inc/class-img-shortcode.php', __FILE__ ) );
+		require_once( plugins_url( 'inc/class-img-shortcode-ui.php', __FILE ) );
+	}
+
+
+	/**
+	 * Register the [img] shortcode and the UI for it..
+	 *
+	 */
+	private function register_shortcode() {
 
 		add_shortcode( 'img',
-			array( $this, 'shortcake_image_shortcode' )
+			array( $this, 'shortcake_img_shortcode' )
 		);
 
-		shortcode_ui_register_for_shortcode( 'img', Image_Shortcode_UI::shortcode_ui_attrs() );
+		if ( function_exists( 'shortcode_ui_register_for_shortcode' ) ) {
+
+			shortcode_ui_register_for_shortcode( 'img', Img_Shortcode_UI::shortcode_ui_attrs() );
+
+		} else {
+
+			add_action( 'admin_notices', function(){
+				if ( current_user_can( 'activate_plugins' ) ) {
+					echo '<div class="error message"><p>' .
+						esc_html__( 'Shortcode UI plugin must be active for Image Shortcake plugin to function.', 'image-shortcake' ) .
+						'</p></div>';
+				}
+			});
+
+		}
+	}
+
+
+	/**
+	 * Output a warning notice to authorized users if shortcake is not active.
+	 *
+	 * if Shortcode UI plugin is not active, the UI for the [img] shortcode
+	 * will not be able to be registered.
+	 *
+	 * @action admin_notices
+	 */
+	public function admin_notices_warning() {
+		if ( current_user_can( 'activate_plugins' ) ) {
+			echo '<div class="error message"><p>' .
+				esc_html__( 'Shortcode UI plugin must be active for Image Shortcake plugin to function.', 'image-shortcake' ) .
+				'</p></div>';
+		}
 	}
 
 
@@ -59,8 +95,8 @@ class Image_Shortcake {
 	 * @shortcode img
 	 * @param $attr
 	 */
-	public function shortcake_image_shortcode( $attr, $content = '' ) {
-		$img_shortcode = new Image_Shortcode( $attr );
+	public function shortcake_img_shortcode( $attr, $content = '' ) {
+		$img_shortcode = new Img_Shortcode( $attr );
 		return $img_shortcode->render();
 	}
 

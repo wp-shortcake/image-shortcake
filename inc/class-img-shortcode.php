@@ -5,7 +5,7 @@
  * Creates and renders an [img] shortcode.
  */
 
-class Image_Shortcode {
+class Img_Shortcode {
 
 	private $attachment;
 	private $size;

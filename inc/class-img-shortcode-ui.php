@@ -9,7 +9,7 @@
  *
  */
 
-class Image_Shortcode_UI {
+class Img_Shortcode_UI {
 
 	/**
 	 * Shortcode UI attributes.
