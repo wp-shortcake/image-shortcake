@@ -92,7 +92,6 @@ class Image_Shortcode {
 
 		$image_html = '<img ';
 
-
 		$image_classes = explode( ' ', $this->classes );
 		$image_classes[] = 'size-' . $this->size;
 		$image_classes[] = $this->align;
