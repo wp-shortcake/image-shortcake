@@ -7,23 +7,117 @@
 
 class Img_Shortcode {
 
-	private $attachment;
-	private $size;
-	private $alt;
-	private $classes;
-	private $caption;
-	private $align;
-	private $linkto;
 
 	/**
-	 * Initialize the shortcode.
+	 * Shortcode UI attributes.
 	 *
-	 * Reads attrs passed in, merges them with defaults, and creates a
-	 * shortcode object which can be rendered.
-	 *
-	 * @param array $attr Shortcode attributes.
+	 * To modify these attributes (for example to limit this shortcode to certain
+	 * post types), this object can be filtered with the `image_shortcake_ui_args`
+	 * filter.
 	 */
-	public function __construct( $attr ) {
+	public static function get_shortcode_ui_args() {
+
+		$shortcode_ui_args = array(
+
+				'label' => 'Image',
+
+				'listItemImage' => 'dashicons-format-image',
+
+				'post_type'     => array( 'post' ),
+
+				'attrs' => array(
+
+					array(
+						'label' => 'Choose Attachment',
+						'attr'  => 'attachment',
+						'type'  => 'attachment',
+						'libraryType' => array( 'image' ),
+						'addButton'   => 'Select Image',
+						'frameTitle'  => 'Select Image',
+					),
+
+					array(
+						'label'       => 'Image size',
+						'attr'        => 'size',
+						'type'        => 'select',
+						'options' => array(
+							'thumbnail' => 'Thumbnail',
+							'small'     => 'Small',
+							'medium'    => 'Medium',
+							'large'     => 'Large',
+						),
+					),
+
+					array(
+						'label' => 'Alt',
+						'attr'  => 'alt',
+						'type'  => 'text',
+						'placeholder' => 'Alt text for the image',
+					),
+
+					array(
+						'label'       => 'Caption',
+						'attr'        => 'caption',
+						'type'        => 'text',
+						'placeholder' => 'Caption for the image',
+					),
+
+					array(
+						'label'       => 'Alignment',
+						'attr'        => 'align',
+						'type'        => 'select',
+						'options' => array(
+							'alignleft'   => 'Float left',
+							'alignright'  => 'Float right',
+							'aligncenter' => 'Float center',
+							'alignnone'   => 'None (inline)',
+						),
+					),
+
+					array(
+						'label'       => 'Link to',
+						'attr'        => 'linkto',
+						'type'        => 'select',
+						'options' => array(
+							'none'       => 'None (no link)',
+							'attachment' => 'Link to attachment file',
+							'file'       => 'Link to file',
+							'custom'     => 'Custom link',
+						),
+					),
+
+				),
+			);
+
+		$shortcode_ui_args = apply_filters( 'image_shortcake_ui_args', $shortcode_ui_args );
+
+		return $shortcode_ui_args;
+	}
+
+
+	/**
+	 * Take content containing existing image tags or [caption] shortcodes,
+	 * turn it into the shortcodes we want, so all images can be processed in
+	 * the same way.
+	 *
+	 */
+	public static function reversal( $content ) {
+		/**
+		 * TODO: detect images in content. If we can, try and replace them with
+		 * the [img] shortcode.
+		 */
+		return $content;
+	}
+
+
+	/**
+	 * Render output from this shortcode.
+	 *
+	 * @param array $attrs Shortcode attributes. See definition in
+	 *                     @function `get_shortcode_ui_args()`
+	 * @return string
+	 */
+	public static function callback( $attrs ) {
 
 		$attr = wp_parse_args( $attr, array(
 			'attachment' => 0,
@@ -35,56 +129,19 @@ class Img_Shortcode {
 			'linkto'     => '',
 		) );
 
-		$this->attachment = $attr['attachment'];
-		$this->size       = $attr['size'];
-		$this->alt        = $attr['alt'];
-		$this->classes    = $attr['classes'];
-		$this->caption    = $attr['caption'];
-		$this->align      = $attr['align'];
-		$this->linkto     = $attr['linkto'];
-
-	}
-
-	/**
-	 * Gather the shortcode attributes, and allow them to be filtered before
-	 * rendering.
-	 *
-	 * @param none
-	 * @return array
-	 */
-	private function attributes() {
-		$attrs = array(
-			'attachment' => $this->attachment,
-			'size'       => $this->size,
-			'alt'        => $this->alt,
-			'classes'    => $this->classes,
-			'caption'    => $this->caption,
-			'align'      => $this->align,
-			'linkto'     => $this->linkto,
-		);
-
-		return apply_filters( 'image_shortcode_attrs', $attrs );
-	}
-
-	/**
-	 * Render output from this created shortcode object.
-	 *
-	 * @param none
-	 * @return string
-	 */
-	public function render() {
+		$attr = apply_filters( 'image_shortcode_attrs', $attrs );
 
 		/**
 		 * Filter the default shortcode output.
 		 *
 		 * If the filtered output isn't empty, it will be used instead of generating
-		 * the default caption template.
+		 * the default image template.
 		 *
-		 * @param string $output  The caption output. Default empty.
-		 * @param array  $attr    Attributes of the caption shortcode.
+		 * @param string $output  The image output. Default empty.
+		 * @param array  $attr    Attributes of the image shortcode.
 		 * @param string $content The image element, possibly wrapped in a hyperlink.
 		 */
-		$output = apply_filters( 'image_shortcake_output', '', $this->attributes() );
+		$output = apply_filters( 'image_shortcake_output', '', $attr );
 
 		if ( $output !== '' ) {
 			return $output;
@@ -92,22 +149,22 @@ class Img_Shortcode {
 
 		$image_html = '<img ';
 
-		$image_classes = explode( ' ', $this->classes );
-		$image_classes[] = 'size-' . $this->size;
-		$image_classes[] = $this->align;
+		$image_classes = explode( ' ', $attr['classes'] );
+		$image_classes[] = 'size-' . $attr['size'];
+		$image_classes[] = $attr['align'];
 
 		$image_attr = array(
-			'alt' => $this->alt,
+			'alt' => $attr['alt'],
 			'class' => implode( ' ', $image_classes ),
 		);
 
-		if ( isset( $this->attachment ) &&
-				$attachment = wp_get_attachment_image_src( (int) $this->attachment, $this->size ) ) {
+		if ( isset( $attr['attachment'] ) &&
+				$attachment = wp_get_attachment_image_src( (int) $attr['attachment'], $attr['size'] ) ) {
 			$image_attr['src'] = $attachment[0];
 			$image_attr['width'] = $attachment[1];
 			$image_attr['height'] = $attachment[2];
 		} else {
-			$image_attr['src'] = $this->src;
+			$image_attr['src'] = $attr['src'];
 		}
 
 		foreach ( $image_attr as $attr_name => $attr_value ) {

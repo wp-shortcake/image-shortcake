@@ -32,12 +32,11 @@ class Image_Shortcake {
 
 
 	/**
-	 * Require all the plugin's files.
+	 * Require the plugin's shortcode class file.
 	 *
 	 */
 	private static function require_files() {
 		require_once( dirname( __FILE__ ) . '/inc/class-img-shortcode.php' );
-		require_once( dirname( __FILE__ ) . '/inc/class-img-shortcode-ui.php' );
 	}
 
 
