@@ -52,7 +52,7 @@ class Image_Shortcake {
 
 		if ( function_exists( 'shortcode_ui_register_for_shortcode' ) ) {
 
-			shortcode_ui_register_for_shortcode( 'img', Img_Shortcode_UI::shortcode_ui_attrs() );
+			shortcode_ui_register_for_shortcode( 'img', Img_Shortcode::get_shortcode_ui_args() );
 
 		} else {
 
@@ -95,8 +95,7 @@ class Image_Shortcake {
 	 * @param $attr
 	 */
 	public function shortcake_img_shortcode( $attr, $content = '' ) {
-		$img_shortcode = new Img_Shortcode( $attr );
-		return $img_shortcode->render();
+		return Img_Shortcode::callback( $attr );
 	}
 
 }
