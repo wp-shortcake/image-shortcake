@@ -169,7 +169,7 @@ class Img_Shortcode {
 
 		foreach ( $image_attr as $attr_name => $attr_value ) {
 			if ( ! empty( $attr_value ) ) {
-				$image_html .= $attr_name . '="' . esc_attr( $attr_value ) . '" ';
+				$image_html .= sanitize_key( $attr_name ) . '="' . esc_attr( $attr_value ) . '" ';
 			}
 		}
 
