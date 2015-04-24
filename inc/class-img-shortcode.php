@@ -67,10 +67,10 @@ class Img_Shortcode {
 						'attr'        => 'align',
 						'type'        => 'select',
 						'options' => array(
-							'alignleft'   => 'Float left',
-							'alignright'  => 'Float right',
-							'aligncenter' => 'Float center',
-							'alignnone'   => 'None (inline)',
+							'left'   => 'Float left',
+							'right'  => 'Float right',
+							'center' => 'Center',
+							'none'   => 'None (inline)',
 						),
 					),
 
@@ -117,7 +117,7 @@ class Img_Shortcode {
 	 *                     @function `get_shortcode_ui_args()`
 	 * @return string
 	 */
-	public static function callback( $attrs ) {
+	public static function callback( $attr ) {
 
 		$attr = wp_parse_args( $attr, array(
 			'attachment' => 0,
@@ -129,7 +129,7 @@ class Img_Shortcode {
 			'linkto'     => '',
 		) );
 
-		$attr = apply_filters( 'image_shortcode_attrs', $attrs );
+		$attr = apply_filters( 'image_shortcode_attrs', $attr );
 
 		/**
 		 * Filter the default shortcode output.
@@ -151,11 +151,11 @@ class Img_Shortcode {
 
 		$image_classes = explode( ' ', $attr['classes'] );
 		$image_classes[] = 'size-' . $attr['size'];
-		$image_classes[] = $attr['align'];
+		$image_classes[] = 'align' . $attr['align'];
 
 		$image_attr = array(
 			'alt' => $attr['alt'],
-			'class' => implode( ' ', $image_classes ),
+			'class' => trim( implode( ' ', $image_classes ) ),
 		);
 
 		if ( isset( $attr['attachment'] ) &&
