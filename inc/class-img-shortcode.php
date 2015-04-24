@@ -23,8 +23,6 @@ class Img_Shortcode {
 
 				'listItemImage' => 'dashicons-format-image',
 
-				'post_type'     => get_post_types(),
-
 				'attrs' => array(
 
 					array(
