@@ -46,24 +46,12 @@ class Image_Shortcake {
 	 */
 	private function register_shortcode() {
 
-		add_shortcode( 'img',
-			array( $this, 'shortcake_img_shortcode' )
-		);
+		add_shortcode( 'img', 'Img_Shortcode::callback' );
 
 		if ( function_exists( 'shortcode_ui_register_for_shortcode' ) ) {
-
 			shortcode_ui_register_for_shortcode( 'img', Img_Shortcode::get_shortcode_ui_args() );
-
 		} else {
-
-			add_action( 'admin_notices', function(){
-				if ( current_user_can( 'activate_plugins' ) ) {
-					echo '<div class="error message"><p>' .
-						esc_html__( 'Shortcode UI plugin must be active for Image Shortcake plugin to function.', 'image-shortcake' ) .
-						'</p></div>';
-				}
-			});
-
+			add_action( 'admin_notices', 'Image_Shortcake::admin_notices_warning' );
 		}
 	}
 
@@ -79,30 +67,12 @@ class Image_Shortcake {
 	public function admin_notices_warning() {
 		if ( current_user_can( 'activate_plugins' ) ) {
 			echo '<div class="error message"><p>' .
-				esc_html__( 'Shortcode UI plugin must be active for Image Shortcake plugin to function.', 'image-shortcake' ) .
+				esc_html__( 'Shortcode UI plugin is not active. No UI will be available for the image shortcode.', 'image-shortcake' ) .
 				'</p></div>';
 		}
 	}
 
-
-	/**
-	 * Build the HTML output for the shortcode.
-	 *
-	 * This should handle all markup generation, and include filters for
-	 * theme-specific overrides.
-	 *
-	 * @shortcode img
-	 * @param $attr
-	 */
-	public function shortcake_img_shortcode( $attr, $content = '' ) {
-		return Img_Shortcode::callback( $attr );
-	}
-
 }
 
-
-function _image_shortcake() {
-	return Image_Shortcake::get_instance();
-}
-add_action( 'init', '_image_shortcake' );
+add_action( 'init', 'Image_Shortcake::get_instance' );
 
