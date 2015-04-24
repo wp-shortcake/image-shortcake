@@ -158,11 +158,11 @@ class Img_Shortcode {
 
 		if ( isset( $attr['attachment'] ) &&
 				$attachment = wp_get_attachment_image_src( (int) $attr['attachment'], $attr['size'] ) ) {
-			$image_attr['src'] = $attachment[0];
-			$image_attr['width'] = $attachment[1];
-			$image_attr['height'] = $attachment[2];
+			$image_attr['src'] = esc_url( $attachment[0] );
+			$image_attr['width'] = intval( $attachment[1] );
+			$image_attr['height'] = intval( $attachment[2] );
 		} else {
-			$image_attr['src'] = $attr['src'];
+			$image_attr['src'] = esc_url( $attr['src'] );
 		}
 
 		foreach ( $image_attr as $attr_name => $attr_value ) {
