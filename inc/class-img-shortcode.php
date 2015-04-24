@@ -12,7 +12,7 @@ class Img_Shortcode {
 	 * Shortcode UI attributes.
 	 *
 	 * To modify these attributes (for example to limit this shortcode to certain
-	 * post types), this object can be filtered with the `image_shortcake_ui_args`
+	 * post types), this object can be filtered with the `image_shortcode_ui_args`
 	 * filter.
 	 */
 	public static function get_shortcode_ui_args() {
@@ -89,7 +89,7 @@ class Img_Shortcode {
 				),
 			);
 
-		$shortcode_ui_args = apply_filters( 'image_shortcake_ui_args', $shortcode_ui_args );
+		$shortcode_ui_args = apply_filters( 'image_shortcode_ui_args', $shortcode_ui_args );
 
 		return $shortcode_ui_args;
 	}
@@ -141,7 +141,7 @@ class Img_Shortcode {
 		 * @param array  $attr    Attributes of the image shortcode.
 		 * @param string $content The image element, possibly wrapped in a hyperlink.
 		 */
-		$output = apply_filters( 'image_shortcake_output', '', $attr );
+		$output = apply_filters( 'image_shortcode_output', '', $attr );
 
 		if ( $output !== '' ) {
 			return $output;
