@@ -173,6 +173,12 @@ class Img_Shortcode {
 
 		$image_html .= '/>';
 
+		// If a link is specified, wrap the image in a link tag
+		if ( ! empty( $attr['linkto'] ) || ! empty( $attr['url'] ) ) {
+			$image_html = self::linkify( $image_html, $attr );
+		}
+
+		// If a caption is specified, wrap the image in the appropriat caption markup.
 		if ( ! empty( $attr['caption'] ) ) {
 
 			// The WP caption element requires a width defined
@@ -184,6 +190,46 @@ class Img_Shortcode {
 		}
 
 		return $image_html;
+	}
+
+
+	/**
+	 * Wrap an image in a link.
+	 *
+	 * Can be short-circuited by returning a non-empty string on the
+	 * `img_shortcode_link_output` filter.
+	 *
+	 */
+	private static function linkify( $img_tag, $attributes ) {
+		$html = apply_filters( 'img_shortcode_link_output', '', $img_tag, $attributes );
+
+		if ( ! empty( $html ) ) {
+			return $html;
+		}
+
+		$link_attrs = array();
+
+		if ( isset( $attributes['url'] ) ) {
+			$link_attrs['href'] = esc_url( $attributes['url'] );
+		} else if ( ! empty( $attributes['linkto'] ) && 'attachment' === $attributes['linkto'] ) {
+			$link_attrs['href'] = get_attachment_link( $id );
+		} elseif ( ! empty( $attributes['linkto'] ) && 'file' === $attributes['linkto'] ) {
+			$attachment_src = wp_get_attachment_image( $id, 'full', false, $attributes );
+			$link_attrs['href'] = $attachment_src[0];
+		} else {
+			// No link is defined, or its in a format that's not implemented yet.
+			return $img_tag;
+		}
+
+		$html = '<a ';
+
+		foreach ( $link_attrs as $attr_name => $attr_value ) {
+			$html .= sanitize_key( $attr_name ) . '="' . esc_attr( $attr_value ) . '" ';
+		}
+
+		$html .= '>' . $img_tag .'</a>';
+
+		return $html;
 	}
 
 
@@ -224,6 +270,6 @@ class Img_Shortcode {
 		$html = img_caption_shortcode( $attributes, $img_tag );
 
 		return $html;
-
 	}
+
 }
