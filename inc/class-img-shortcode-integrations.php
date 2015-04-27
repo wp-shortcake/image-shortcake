@@ -33,6 +33,7 @@ class Img_Shortcode_Integrations {
 			'size' => 'size',
 			'align' => 'align',
 			'image_alt' => 'alt',
+			'post_excerpt' => 'caption',
 		);
 
 		foreach ( $allowed_attrs as $attachment_attr => $shortcode_attr ) {
@@ -43,7 +44,7 @@ class Img_Shortcode_Integrations {
 
 		$shortcode .= '/]';
 
-		return preg_replace( '/<img[^>]*>/', $shortcode, $html );
+		return $shortcode;
 	}
 
 }
