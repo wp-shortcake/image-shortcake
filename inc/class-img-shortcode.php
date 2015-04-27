@@ -173,7 +173,57 @@ class Img_Shortcode {
 
 		$image_html .= '/>';
 
+		if ( ! empty( $attr['caption'] ) ) {
+
+			// The WP caption element requires a width defined
+			if ( empty( $attr['width'] ) ) {
+				$attr['width'] = $image_attr['width'];
+			}
+
+			$image_html = self::captionify( $image_html, $attr );
+		}
+
 		return $image_html;
 	}
 
+
+	/**
+	 * Wrap an image in the markup for a caption.
+	 *
+	 * Uses the `img_caption_shortcode` function from WP core for compatibility
+	 * with themes and plugins that already filter caption markup through filters there.
+	 *
+	 * Can be short-circuited by returning a non-empty string on the
+	 * `img_shortcode_caption_output` filter.
+	 *
+	 * @attr string $img_tag HTML markup for the <img> tag.
+	 * @attr string $caption Caption text.
+	 * @attr array $attributes The attributes set on the shortcode.
+	 * @return string HTML `<dl>` element representing the image and caption
+	 */
+	private static function captionify( $img_tag, $attributes ) {
+
+		$html = apply_filters( 'img_shortcode_caption_output', '', $img_tag, $attributes );
+
+		if ( ! empty( $html ) ) {
+			return $html;
+		}
+
+		$attributes = wp_parse_args( $attributes,
+			array(
+				'id' => null,
+				'caption' => '',
+				'title' => '',
+				'align' => '',
+				'url' => '',
+				'size' => '',
+				'alt' => '',
+			)
+		);
+
+		$html = img_caption_shortcode( $attributes, $img_tag );
+
+		return $html;
+
+	}
 }
