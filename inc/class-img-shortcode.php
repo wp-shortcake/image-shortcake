@@ -65,10 +65,10 @@ class Img_Shortcode {
 						'attr'        => 'align',
 						'type'        => 'select',
 						'options' => array(
-							'left'   => 'Float left',
-							'right'  => 'Float right',
-							'center' => 'Center',
-							'none'   => 'None (inline)',
+							'alignleft'   => 'Float left',
+							'alignright'  => 'Float right',
+							'aligncenter' => 'Center',
+							'alignnone'   => 'None (inline)',
 						),
 					),
 
@@ -123,7 +123,7 @@ class Img_Shortcode {
 			'alt'        => '',
 			'classes'    => '',
 			'caption'    => '',
-			'align'      => 'none',
+			'align'      => 'alignnone',
 			'linkto'     => '',
 		) );
 
@@ -149,7 +149,7 @@ class Img_Shortcode {
 
 		$image_classes = explode( ' ', $attr['classes'] );
 		$image_classes[] = 'size-' . $attr['size'];
-		$image_classes[] = 'align' . $attr['align'];
+		$image_classes[] = $attr['align'];
 
 		$image_attr = array(
 			'alt' => $attr['alt'],
