@@ -207,14 +207,16 @@ class Img_Shortcode {
 			return $html;
 		}
 
+		$_id = intval( $attributes['attachment'] );
+
 		$link_attrs = array();
 
 		if ( isset( $attributes['url'] ) ) {
 			$link_attrs['href'] = esc_url( $attributes['url'] );
 		} else if ( ! empty( $attributes['linkto'] ) && 'attachment' === $attributes['linkto'] ) {
-			$link_attrs['href'] = get_attachment_link( $id );
+			$link_attrs['href'] = get_permalink( $_id );
 		} elseif ( ! empty( $attributes['linkto'] ) && 'file' === $attributes['linkto'] ) {
-			$attachment_src = wp_get_attachment_image( $id, 'full', false, $attributes );
+			$attachment_src = wp_get_attachment_image_src( $_id, 'full', false, $attributes );
 			$link_attrs['href'] = $attachment_src[0];
 		} else {
 			// No link is defined, or its in a format that's not implemented yet.
