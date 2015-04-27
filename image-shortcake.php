@@ -38,7 +38,6 @@ class Image_Shortcake {
 	 */
 	private static function require_files() {
 		require_once( dirname( __FILE__ ) . '/inc/class-img-shortcode.php' );
-		require_once( dirname( __FILE__ ) . '/inc/class-img-shortcode-integrations.php' );
 	}
 
 
@@ -63,7 +62,7 @@ class Image_Shortcake {
 	 *
 	 */
 	private function attach_filters() {
-		add_filter( 'media_send_to_editor', 'Img_Shortcode_Integrations::filter_media_send_to_editor', 10, 3 );
+		add_filter( 'media_send_to_editor', 'Img_Shortcode::filter_media_send_to_editor', 10, 3 );
 	}
 
 
