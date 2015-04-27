@@ -13,7 +13,7 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 	 * should just render an image with that src.
 	 */
 	function test_img_shortcode_with_src_tag() {
-		$str = '[img src="http://example.com/example.jpg" align="left" /]';
+		$str = '[img src="http://example.com/example.jpg" align="alignleft" /]';
 		$content = apply_filters( 'the_content', $str );
 
 		$this->assertContains( '<img class="size-full alignleft" src="http://example.com/example.jpg" />', $content );
