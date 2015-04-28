@@ -8,6 +8,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 	private $image_tag_from_attachment;
 	private $image_tag_from_src;
 
+	// @codingStandardsIgnoreStart
 	public function setUp() {
 
 		parent::setUp();
@@ -51,6 +52,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 
 		unlink( $this->image_path );
 	}
+	// @codingStandardsIgnoreEnd
 
 
 	/**
@@ -170,8 +172,10 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 		$contents = rand_str();
 
 		if ( $image ) {
+			// @codingStandardsIgnoreStart
 			$filename = basename( $image );
 			$contents = file_get_contents( $image );
+			// @codingStandardsIgnoreEnd
 		}
 
 		$upload = wp_upload_bits( $filename, null, $contents );

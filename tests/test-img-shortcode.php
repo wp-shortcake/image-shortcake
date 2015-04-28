@@ -6,6 +6,7 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 	private $image_src;
 	private $image_path;
 
+	// @codingStandardsIgnoreStart
 	public function setUp() {
 		parent::setUp();
 
@@ -31,6 +32,7 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 
 		unlink( $this->image_path );
 	}
+	// @codingStandardsIgnoreEnd
 
 	function test_construct_ui() {
 		// replace this with some actual testing code
@@ -102,8 +104,10 @@ EOL;
 		$contents = rand_str();
 
 		if ( $image ) {
+			// @codingStandardsIgnoreStart
 			$filename = basename( $image );
 			$contents = file_get_contents( $image );
+			// @codingStandardsIgnoreEnd
 		}
 
 		$upload = wp_upload_bits( $filename, null, $contents );
