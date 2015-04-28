@@ -82,8 +82,10 @@ EOL;
 		$contents = rand_str();
 
 		if ( $image ) {
+			// @codingStandardsIgnoreStart
 			$filename = basename( $image );
 			$contents = file_get_contents( $image );
+			// @codingStandardsIgnoreEnd
 		}
 
 		$upload = wp_upload_bits( $filename, null, $contents );
