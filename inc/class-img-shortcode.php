@@ -87,6 +87,11 @@ class Img_Shortcode {
 				),
 			);
 
+		/**
+		 * Filter the shortcode UI definition arguments
+		 *
+		 * @param array Shortcode UI arguments
+		 */
 		$shortcode_ui_args = apply_filters( 'img_shortcode_ui_args', $shortcode_ui_args );
 
 		return $shortcode_ui_args;
@@ -111,11 +116,7 @@ class Img_Shortcode {
 	/**
 	 * Render output from this shortcode.
 	 *
-	 * Can be filtered using the following hooks:
-	 * - `img_shortcode_attrs`          Initial shortcode attributes
-	 * - `img_shortcode_img_output`     Output of the <img> tag, before wrapping in link and caption
-	 * - `img_shortcode_link_output`    The <img> tag, possibly wrapped in a link, before wrapping in caption
-	 * - `img_shortcode_caption_output` Final shortcode output: caption, link, and image
+	 * Can be filtered at several different points.
 	 *
 	 * @param array $attrs Shortcode attributes. See definitions in
 	 *                     @function `get_shortcode_ui_args()`
@@ -133,6 +134,11 @@ class Img_Shortcode {
 			'linkto'     => '',
 		) );
 
+		/**
+		 *
+		 *
+		 * @param
+		 */
 		$attr = apply_filters( 'img_shortcode_attrs', $attr );
 
 		$image_html = '<img ';
@@ -165,6 +171,12 @@ class Img_Shortcode {
 
 		$image_html .= '/>';
 
+		/**
+		 * Filter the output of the <img> tag before wrapping it in link or caption
+		 *
+		 * @param string HTML markup of the image tag
+		 * @param array Shortcode attributes
+		 */
 		$image_html = apply_filters( 'img_shortcode_img_output', $image_html, $attr );
 
 		// If a link is specified, wrap the image in a link tag
@@ -172,6 +184,12 @@ class Img_Shortcode {
 			$image_html = self::linkify( $image_html, $attr );
 		}
 
+		/**
+		 * Filter the output of the <img> tag after wrapping in link
+		 *
+		 * @param string HTML markup of the image tag, possibly wrapped in a link
+		 * @param array Shortcode attributes
+		 */
 		$image_html = apply_filters( 'img_shortcode_link_output', $image_html, $attr );
 
 		// If a caption is specified, wrap the image in the appropriat caption markup.
@@ -185,6 +203,12 @@ class Img_Shortcode {
 			$image_html = self::captionify( $image_html, $attr );
 		}
 
+		/**
+		 * Filter the output of the <img> tag after wrapping in link and attaching caption
+		 *
+		 * @param string HTML markup of the image tag, possibly wrapped in a link and caption
+		 * @param array Shortcode attributes
+		 */
 		$image_html = apply_filters( 'img_shortcode_caption_output', $image_html, $attr );
 
 		return $image_html;
