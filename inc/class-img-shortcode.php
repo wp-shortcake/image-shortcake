@@ -151,8 +151,10 @@ class Img_Shortcode {
 			$image_attr['src'] = esc_url( $attachment[0] );
 			$image_attr['width'] = intval( $attachment[1] );
 			$image_attr['height'] = intval( $attachment[2] );
+		} else if ( ! empty( $attr['src'] ) ) {
+			$image_attr['src'] = esc_url( $attr['src'] ) : '';
 		} else {
-			$image_attr['src'] = esc_url( $attr['src'] );
+			return; // An image without a src isn't much of an image
 		}
 
 		foreach ( $image_attr as $attr_name => $attr_value ) {
