@@ -111,7 +111,13 @@ class Img_Shortcode {
 	/**
 	 * Render output from this shortcode.
 	 *
-	 * @param array $attrs Shortcode attributes. See definition in
+	 * Can be filtered using the following hooks:
+	 * - `img_shortcode_attrs`          Initial shortcode attributes
+	 * - `img_shortcode_img_output`     Output of the <img> tag, before wrapping in link and caption
+	 * - `img_shortcode_link_output`    The <img> tag, possibly wrapped in a link, before wrapping in caption
+	 * - `img_shortcode_caption_output` Final shortcode output: caption, link, and image
+	 *
+	 * @param array $attrs Shortcode attributes. See definitions in
 	 *                     @function `get_shortcode_ui_args()`
 	 * @return string
 	 */
@@ -128,22 +134,6 @@ class Img_Shortcode {
 		) );
 
 		$attr = apply_filters( 'img_shortcode_attrs', $attr );
-
-		/**
-		 * Filter the default shortcode output.
-		 *
-		 * If the filtered output isn't empty, it will be used instead of generating
-		 * the default image template.
-		 *
-		 * @param string $output  The image output. Default empty.
-		 * @param array  $attr    Attributes of the image shortcode.
-		 * @param string $content The image element, possibly wrapped in a hyperlink.
-		 */
-		$output = apply_filters( 'img_shortcode_output', '', $attr );
-
-		if ( $output !== '' ) {
-			return $output;
-		}
 
 		$image_html = '<img ';
 
@@ -173,10 +163,14 @@ class Img_Shortcode {
 
 		$image_html .= '/>';
 
+		$image_html = apply_filters( 'img_shortcode_img_output', $image_html, $attr );
+
 		// If a link is specified, wrap the image in a link tag
 		if ( ! empty( $attr['linkto'] ) || ! empty( $attr['url'] ) ) {
 			$image_html = self::linkify( $image_html, $attr );
 		}
+
+		$image_html = apply_filters( 'img_shortcode_link_output', $image_html, $attr );
 
 		// If a caption is specified, wrap the image in the appropriat caption markup.
 		if ( ! empty( $attr['caption'] ) ) {
@@ -189,25 +183,23 @@ class Img_Shortcode {
 			$image_html = self::captionify( $image_html, $attr );
 		}
 
-		$image_html = apply_filters( 'img_shortcode_output_rendered', $image_html, $attr );
+		$image_html = apply_filters( 'img_shortcode_caption_output', $image_html, $attr );
 
 		return $image_html;
 	}
 
 
 	/**
-	 * Wrap an image in a link.
+	 * Wrap an image in a link, if required.
 	 *
-	 * Can be short-circuited by returning a non-empty string on the
-	 * `img_shortcode_link_output` filter.
+	 * Returns either the img tag passed in, if no link is specified, or the
+	 * img wrapped in a link if we know the link to build.
 	 *
+	 * @param string $img_tag string representing an HTML <img> element
+	 * @param array $attributes Shortcode attributes from the [img] shortcode.
+	 * @return string HTML representing an `<a>` element surrounding an image.
 	 */
 	private static function linkify( $img_tag, $attributes ) {
-		$html = apply_filters( 'img_shortcode_link_output', '', $img_tag, $attributes );
-
-		if ( ! empty( $html ) ) {
-			return $html;
-		}
 
 		$_id = intval( $attributes['attachment'] );
 
@@ -243,21 +235,12 @@ class Img_Shortcode {
 	 * Uses the `img_caption_shortcode` function from WP core for compatibility
 	 * with themes and plugins that already filter caption markup through filters there.
 	 *
-	 * Can be short-circuited by returning a non-empty string on the
-	 * `img_shortcode_caption_output` filter.
-	 *
 	 * @attr string $img_tag HTML markup for the <img> tag.
 	 * @attr string $caption Caption text.
 	 * @attr array $attributes The attributes set on the shortcode.
 	 * @return string HTML `<dl>` element representing the image and caption
 	 */
 	private static function captionify( $img_tag, $attributes ) {
-
-		$html = apply_filters( 'img_shortcode_caption_output', '', $img_tag, $attributes );
-
-		if ( ! empty( $html ) ) {
-			return $html;
-		}
 
 		$attributes = wp_parse_args( $attributes,
 			array(
