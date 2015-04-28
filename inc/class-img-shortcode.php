@@ -177,7 +177,7 @@ class Img_Shortcode {
 		 * @param string HTML markup of the image tag
 		 * @param array Shortcode attributes
 		 */
-		$image_html = apply_filters( 'img_shortcode_img_output', $image_html, $attr );
+		$image_html = apply_filters( 'img_shortcode_output_img_tag', $image_html, $attr );
 
 		// If a link is specified, wrap the image in a link tag
 		if ( ! empty( $attr['linkto'] ) || ! empty( $attr['url'] ) ) {
@@ -190,7 +190,7 @@ class Img_Shortcode {
 		 * @param string HTML markup of the image tag, possibly wrapped in a link
 		 * @param array Shortcode attributes
 		 */
-		$image_html = apply_filters( 'img_shortcode_link_output', $image_html, $attr );
+		$image_html = apply_filters( 'img_shortcode_output_after_linkify', $image_html, $attr );
 
 		// If a caption is specified, wrap the image in the appropriat caption markup.
 		if ( ! empty( $attr['caption'] ) ) {
@@ -209,7 +209,7 @@ class Img_Shortcode {
 		 * @param string HTML markup of the image tag, possibly wrapped in a link and caption
 		 * @param array Shortcode attributes
 		 */
-		$image_html = apply_filters( 'img_shortcode_caption_output', $image_html, $attr );
+		$image_html = apply_filters( 'img_shortcode_output_after_captionify', $image_html, $attr );
 
 		return $image_html;
 	}
