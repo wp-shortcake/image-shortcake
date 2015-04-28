@@ -25,6 +25,7 @@ class Image_Shortcake {
 
 			self::$instance = new Image_Shortcake;
 			self::$instance->register_shortcode();
+			self::$instance->setup_filters();
 		}
 
 		return self::$instance;
@@ -53,6 +54,15 @@ class Image_Shortcake {
 		} else {
 			add_action( 'admin_notices', 'Image_Shortcake::admin_notices_warning' );
 		}
+	}
+
+
+	/**
+	 * Set up filters to integrate this shortcode with the media library output.
+	 *
+	 */
+	private function setup_filters() {
+		add_filter( 'media_send_to_editor', 'Img_Shortcode::filter_media_send_to_editor', 10, 3 );
 	}
 
 
