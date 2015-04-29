@@ -7,7 +7,6 @@
 
 class Img_Shortcode_Data_Migration {
 
-
 	/**
 	 * Find all `<img>` tags in a post that can be replaced.
 	 *
@@ -23,7 +22,9 @@ class Img_Shortcode_Data_Migration {
 		$replacements = array();
 
 		$img_shortcode_regex =
-			'(?:<a[^>](?:href="(?P<href>[^"]*)")[^>]*>)' .
+			'(?:<a[^>]+' .
+					'href="(?P<href>[^"]*)"' .
+					'[^>]*>)?' .
 				'<img[^>]*' .
 					'class="' .
 						'(?|size-(?P<size>\w+))?' . ' ?' .
@@ -35,7 +36,7 @@ class Img_Shortcode_Data_Migration {
 					'(?:width="(?P<width>[^"]*)" ?)?' .
 					'(?:height="(?P<height>[^"]*)" ?)?' .
 					'[^>]*>' .
-			'(?:<\/a>)';
+			'(?:<\/a>)?';
 
 		preg_match_all(
 			"/$img_shortcode_regex/s",
@@ -78,6 +79,24 @@ class Img_Shortcode_Data_Migration {
 		// If this isn't a WP attachment, we'll just use its existing src attribute
 		if ( empty( $shortcode_attrs['attachment'] ) ) {
 			$shortcode_attrs['src'] = esc_attr( esc_url( $attributes['src'] ) );
+		}
+
+		if ( ! empty( $attributes['href'] ) ) {
+
+			if ( ! empty( $shortcode_attrs['attachment'] ) ) {
+				$attachment_src = wp_get_attachment_image_src( $attributes['attachment'], 'full' );
+
+				if ( get_permalink( $attributes['attachment'] ) === $attributes['href'] ) {
+					$shortcode_attrs['linkto'] = 'attachment';
+				} else if ( $attachment_src[0] === $attributes['href'] ) {
+					$shortcode_attrs['linkto'] = 'file';
+				} else {
+					$shortcode_attrs['href'] = $attributes['href'];
+				}
+			} else {
+				$shortcode_attrs['href'] = $attributes['href'];
+			}
+
 		}
 
 		$shortcode_attrs = array_filter( $shortcode_attrs );
