@@ -38,6 +38,8 @@ class Image_Shortcake {
 	 */
 	private static function require_files() {
 		require_once( dirname( __FILE__ ) . '/inc/class-img-shortcode.php' );
+
+		require_once( dirname( __FILE__ ) . '/inc/class-img-shortcode-data-migration.php' );
 	}
 
 
