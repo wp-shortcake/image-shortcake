@@ -126,11 +126,23 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 		$this->assertNotContains( 'href=', $replacements[ $img_tag_link_attachment ] );
 		$this->assertContains( 'linkto="attachment"', $replacements[ $img_tag_link_attachment ] );
 	}
-		/**
-		 * Case: [caption] shortcodes containing any of the above items
-		 *
-		 */
-		/*
+
+
+	/**
+	 * Case: [caption] shortcodes containing any of the above items
+	 *
+	 */
+	public function test_replace_caption_shortcodes() {
+		$caption_no_link = '[caption]' . $this->image_tag_from_src . ' Caption of image without attachment[/caption]';
+
+		$caption_with_link = '[caption width="1024"]' .
+			'<a href="' . get_permalink( $this->attachment_id ) . '">' . $this->image_tag_from_attachment . '</a>' .
+			' Caption of image linked to attachment page' .
+			'[/caption]';
+
+	}
+
+	/*
 		 * Simplest case: An [img] shortcode with a url passed as a src argument
 		 * should just render an image with that src.
 		 */

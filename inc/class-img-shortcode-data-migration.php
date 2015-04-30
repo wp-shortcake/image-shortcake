@@ -7,20 +7,7 @@
 
 class Img_Shortcode_Data_Migration {
 
-	/**
-	 * Find all `<img>` tags in a post that can be replaced.
-	 *
-	 * @param int|object Post ID or post object
-	 * @return array Array of found <img> tags
-	 */
-	public static function find_img_tags_for_replacement( $post ) {
-
-		if ( ! $post = self::maybe_get_post_from_id( $post ) ) {
-			return false;
-		}
-
-		$replacements = array();
-
+	private static function img_shortcode_regex() {
 		$img_shortcode_regex =
 			'(?:<a[^>]+' .
 					'href="(?P<href>[^"]*)"' .
@@ -38,8 +25,77 @@ class Img_Shortcode_Data_Migration {
 					'[^>]*>' .
 			'(?:<\/a>)?';
 
+		return $img_shortcode_regex;
+	}
+
+
+	private static function caption_shortcode_regex() {
+		$caption_shortcode_regex =
+			'\[caption ' .
+				'[^\]]*' .  '\]\]?' .
+				self::img_shortcode_regex() .
+				'(?: (?P<caption>[^\]]*))' .
+			'\[\[?\/caption\]\]?';
+		return $caption_shortcode_regex;
+	}
+
+
+	/**
+	 * Find all `<img>` tags in a post that can be replaced.
+	 *
+	 * @param int|object Post ID or post object
+	 * @return array Array of found <img> tags => [img] replacements
+	 */
+	public static function find_img_tags_for_replacement( $post ) {
+
+		if ( ! $post = self::maybe_get_post_from_id( $post ) ) {
+			return false;
+		}
+
+		$replacements = array();
+
+		$img_shortcode_regex = self::img_shortcode_regex();
+
 		preg_match_all(
 			"/$img_shortcode_regex/s",
+			$post->post_content,
+			$matches,
+			PREG_SET_ORDER
+		);
+
+		if ( 0 === count( $matches ) ) {
+			return false;
+		}
+
+		foreach ( $matches as $matched_pattern ) {
+			$replacements[ $matched_pattern[0] ] = self::convert_img_tag_to_shortcode(
+				$matched_pattern[0],
+				$matched_pattern
+			);
+		}
+
+		return $replacements;
+	}
+
+
+	/**
+	 * Find all [caption] shortcodes, replace them with [img] shortcodes.
+	 *
+	 * @param int|object Post ID or post object
+	 * @return array Array of found caption shortcodes => [img] replacements
+	 */
+	public static function find_caption_shortcodes_for_replacement( $post ) {
+
+		if ( ! $post = self::maybe_get_post_from_id( $post ) ) {
+			return false;
+		}
+
+		$replacements = array();
+
+		$caption_shortcode_regex = self::caption_shortcode_regex();
+
+		preg_match_all(
+			"/$caption_shortcode_regex/s",
 			$post->post_content,
 			$matches,
 			PREG_SET_ORDER
@@ -75,6 +131,7 @@ class Img_Shortcode_Data_Migration {
 				'attachment' => null,
 				'align' => null,
 				'alt' => null,
+				'caption' => null,
 				'width' => null,
 				'height' => null,
 			)
@@ -137,4 +194,5 @@ class Img_Shortcode_Data_Migration {
 
 		return ( $post instanceof WP_Post ) ? $post : false;
 	}
+
 }
