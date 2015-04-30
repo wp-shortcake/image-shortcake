@@ -160,7 +160,6 @@ class Img_Shortcode_Data_Migration {
 			} else {
 				$shortcode_attrs['href'] = $attributes['href'];
 			}
-
 		}
 
 		$shortcode_attrs = array_filter( $shortcode_attrs );
