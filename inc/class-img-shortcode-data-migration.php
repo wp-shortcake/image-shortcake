@@ -67,20 +67,25 @@ class Img_Shortcode_Data_Migration {
 	 * @return string An `[img]` shortcode element.
 	 */
 	public static function convert_img_tag_to_shortcode( $img_tag, $attributes ) {
-		$shortcode_attrs = array(
-			'size' => esc_attr( $attributes['size'] ),
-			'attachment' => esc_attr( $attributes['attachment'] ),
-			'align' => esc_attr( $attributes['align'] ),
-			'alt' => esc_attr( $attributes['alt'] ),
-			'width' => esc_attr( $attributes['width'] ),
-			'height' => esc_attr( $attributes['height'] ),
+
+		// Whitelist a few attributes that we can take in as they are
+		$shortcode_attrs = array_intersect_key( $attributes,
+			array(
+				'size' => null,
+				'attachment' => null,
+				'align' => null,
+				'alt' => null,
+				'width' => null,
+				'height' => null,
+			)
 		);
 
 		// If this isn't a WP attachment, we'll just use its existing src attribute
 		if ( empty( $shortcode_attrs['attachment'] ) ) {
-			$shortcode_attrs['src'] = esc_attr( esc_url( $attributes['src'] ) );
+			$shortcode_attrs['src'] = esc_url( $attributes['src'] );
 		}
 
+		// If there's a link, check whether its a link to file, attachment, or custom
 		if ( ! empty( $attributes['href'] ) ) {
 
 			if ( ! empty( $shortcode_attrs['attachment'] ) ) {
@@ -91,7 +96,6 @@ class Img_Shortcode_Data_Migration {
 				} else if ( $attachment_src[0] === $attributes['href'] // link to full size image
 						|| $attributes['src'] === $attributes['href'] // link the same as image src
 						) {
-					if ( $attachment_src[0] !== $attributes['href'] ) var_dump( $attachment_src[0], $attributes['href'] );
 					$shortcode_attrs['linkto'] = 'file';
 				} else {
 					$shortcode_attrs['href'] = $attributes['href'];
@@ -107,7 +111,7 @@ class Img_Shortcode_Data_Migration {
 		$shortcode = '[img ';
 
 		foreach ( $shortcode_attrs as $attr_name => $attr_value ) {
-			$shortcode .= sanitize_key( $attr_name ) . '="' . $attr_value . '" ';
+			$shortcode .= sanitize_key( $attr_name ) . '="' . esc_attr( $attr_value ) . '" ';
 		}
 
 		$shortcode .= '/]';
