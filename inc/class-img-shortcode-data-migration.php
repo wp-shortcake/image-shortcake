@@ -31,7 +31,7 @@ class Img_Shortcode_Data_Migration {
 
 	private static function caption_shortcode_regex() {
 		$caption_shortcode_regex =
-			'\[caption ' .
+			'\[caption' .
 				'[^\]]*' .  '\]\]?' .
 				self::img_shortcode_regex() .
 				'(?: (?P<caption>[^\]]*))' .
