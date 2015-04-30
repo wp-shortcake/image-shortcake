@@ -4,6 +4,8 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 
 	private $attachment_id;
 	private $image_src;
+	private $image_tag_from_attachment;
+	private $image_tag_from_src;
 
 	public function setUp() {
 
@@ -25,6 +27,21 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 		$upload_dir = wp_upload_dir();
 
 		$this->image_src = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000a.png';
+
+		$this->image_tag_from_attachment =
+			'<img class="size-large wp-image-' . $this->attachment_id . ' aligncenter" ' .
+				'src="' . $this->image_src . '" ' .
+				'alt="This is the alt attribute." ' .
+				'width="1024" height="540" />';
+
+		$this->image_tag_from_src =
+			'<a href="http://go.to/thislink/">' .
+				'<img class="aligncenter" ' .
+				'src="' . $this->image_src . '" ' .
+				'alt="This is the alt attribute." ' .
+				'width="1024" height="540" />' .
+			'</a>';
+
 	}
 
 	public function tearDown() {
@@ -37,42 +54,16 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 	 *
 	 */
 	function test_img_tag_from_attachment() {
-		$img_tag =
-			'<img class="size-large wp-image-' . $this->attachment_id . ' aligncenter" ' .
-				'src="' . $this->image_src . '" ' .
-				'alt="This is the alt attribute." ' .
-				'width="1024" height="540" />';
-
-		$img_tag_link_custom =
-			'<a href="http://go.to/thislink/">' . $img_tag . '</a>';
-
-		$img_tag_link_file =
-			'<a href="' . $this->image_src . '">' . $img_tag . '</a>';
-
-		$img_tag_link_attachment =
-			'<a href="' . get_permalink( $this->attachment_id ) . '">' . $img_tag . '</a>';
-
-		$post_content = "$img_tag\r\n$img_tag_link_custom\r\n$img_tag_link_file\r\n$img_tag_link_attachment\r\n";
-
+		$img_tag = $this->image_tag_from_attachment;
+		$post_content = "blah blah blah\r\n\r\n{$this->image_tag_from_attachment}";
 		$post_id = wp_insert_post( array( 'post_content' => $post_content ) );
 
 		$replacements = Img_Shortcode_Data_Migration::find_img_tags_for_replacement( $post_id );
 
-		foreach ( array( $img_tag, $img_tag_link_custom, $img_tag_link_file, $img_tag_link_attachment ) as $should_be_matched ) {
-			$this->assertContains( $should_be_matched, array_keys( $replacements ) );
-		}
+		$this->assertContains( $img_tag, array_keys( $replacements ) );
 
 		$this->assertContains( 'attachment="' . $this->attachment_id .'"', $replacements[ $img_tag ] );
 		$this->assertNotContains( 'src="', $replacements[ $img_tag ] );
-
-		$this->assertContains( 'href="http://go.to/thislink/"', $replacements[ $img_tag_link_custom ] );
-		$this->assertNotContains( 'linkto=', $replacements[ $img_tag_link_custom ] );
-
-		$this->assertNotContains( 'href=', $replacements[ $img_tag_link_file ] );
-		$this->assertContains( 'linkto="file"', $replacements[ $img_tag_link_file ] );
-
-		$this->assertNotContains( 'href=', $replacements[ $img_tag_link_attachment ] );
-		$this->assertContains( 'linkto="attachment"', $replacements[ $img_tag_link_attachment ] );
 	}
 
 	/**
@@ -94,12 +85,47 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 
 		$this->assertNotContains( 'attachment="', $replacements[ $img_tag ] );
 		$this->assertContains( 'src="' . $this->image_src .'"', $replacements[ $img_tag ] );
+
 	}
 
-		/**
-		 * Case: <img> tags wrapped in links
-		 *
-		 */
+	/**
+	 * Case: <img> tags wrapped in links
+	 *
+	 */
+	public function test_img_tags_wrapped_in_links() {
+		$img_tag = $this->image_tag_from_attachment;
+
+		$img_tag_link_custom =
+			'<a href="http://go.to/thislink/">' . $img_tag . '</a>';
+
+		$img_tag_link_file =
+			'<a href="' . $this->image_src . '">' . $img_tag . '</a>';
+
+		$img_tag_link_attachment =
+			'<a href="' . get_permalink( $this->attachment_id ) . '">' . $img_tag . '</a>';
+
+		$post_content = "$img_tag\r\n$img_tag_link_custom\r\n$img_tag_link_file\r\n$img_tag_link_attachment";
+
+		$post_id = wp_insert_post( array( 'post_content' => $post_content ) );
+
+		$replacements = Img_Shortcode_Data_Migration::find_img_tags_for_replacement( $post_id );
+
+		foreach ( array( $img_tag, $img_tag_link_custom, $img_tag_link_file, $img_tag_link_attachment ) as $should_be_matched ) {
+			$this->assertContains( $should_be_matched, array_keys( $replacements ) );
+		}
+
+		$this->assertContains( 'attachment="' . $this->attachment_id .'"', $replacements[ $img_tag ] );
+		$this->assertNotContains( 'src="', $replacements[ $img_tag ] );
+
+		$this->assertContains( 'href="http://go.to/thislink/"', $replacements[ $img_tag_link_custom ] );
+		$this->assertNotContains( 'linkto=', $replacements[ $img_tag_link_custom ] );
+
+		$this->assertNotContains( 'href=', $replacements[ $img_tag_link_file ] );
+		$this->assertContains( 'linkto="file"', $replacements[ $img_tag_link_file ] );
+
+		$this->assertNotContains( 'href=', $replacements[ $img_tag_link_attachment ] );
+		$this->assertContains( 'linkto="attachment"', $replacements[ $img_tag_link_attachment ] );
+	}
 		/**
 		 * Case: [caption] shortcodes containing any of the above items
 		 *

@@ -86,9 +86,12 @@ class Img_Shortcode_Data_Migration {
 			if ( ! empty( $shortcode_attrs['attachment'] ) ) {
 				$attachment_src = wp_get_attachment_image_src( $attributes['attachment'], 'full' );
 
-				if ( get_permalink( $attributes['attachment'] ) === $attributes['href'] ) {
+				if ( get_permalink( (int) $attributes['attachment'] ) === $attributes['href'] ) {
 					$shortcode_attrs['linkto'] = 'attachment';
-				} else if ( $attachment_src[0] === $attributes['href'] ) {
+				} else if ( $attachment_src[0] === $attributes['href'] // link to full size image
+						|| $attributes['src'] === $attributes['href'] // link the same as image src
+						) {
+					if ( $attachment_src[0] !== $attributes['href'] ) var_dump( $attachment_src[0], $attributes['href'] );
 					$shortcode_attrs['linkto'] = 'file';
 				} else {
 					$shortcode_attrs['href'] = $attributes['href'];
