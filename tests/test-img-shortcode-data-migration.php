@@ -4,6 +4,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 
 	private $attachment_id;
 	private $image_src;
+	private $image_path;
 	private $image_tag_from_attachment;
 	private $image_tag_from_src;
 
@@ -27,6 +28,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 		$upload_dir = wp_upload_dir();
 
 		$this->image_src = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000a.png';
+		$this->image_path = $upload_dir['path'] . '/fusion_image_placeholder_16x9_h2000a.png';
 
 		$this->image_tag_from_attachment =
 			'<img class="size-large wp-image-' . $this->attachment_id . ' aligncenter" ' .
@@ -47,6 +49,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 	public function tearDown() {
 		parent::tearDown();
 
+		unlink( $this->image_path );
 	}
 
 
