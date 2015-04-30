@@ -46,6 +46,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 
 	public function tearDown() {
 		parent::tearDown();
+
 	}
 
 
@@ -140,12 +141,17 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 			' Caption of image linked to attachment page' .
 			'[/caption]';
 
+		$post_content = "Post content.\r\n\r\n$caption_no_link\r\n\r\n$caption_with_link";
+
+		$post_id = wp_insert_post( array( 'post_content' => $post_content ) );
+
+		$replacements = Img_Shortcode_Data_Migration::find_caption_shortcodes_for_replacement( $post_id );
+
+		$this->assertCount( 2, $replacements );
+		$this->assertContains( 'caption="Caption of image without attachment"', $replacements[ $caption_no_link ] );
+		$this->assertContains( 'caption="Caption of image linked to attachment page"', $replacements[ $caption_with_link ] );
 	}
 
-	/*
-		 * Simplest case: An [img] shortcode with a url passed as a src argument
-		 * should just render an image with that src.
-		 */
 
 	/**
 	 * Helper function: insert an attachment to test properties of.
