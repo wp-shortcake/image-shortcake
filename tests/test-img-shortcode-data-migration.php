@@ -64,7 +64,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 		$post_content = "blah blah blah\r\n\r\n{$this->image_tag_from_attachment}";
 		$post_id = wp_insert_post( array( 'post_content' => $post_content ) );
 
-		$replacements = Img_Shortcode_Data_Migration::find_img_tags_for_replacement( $post_id );
+		$replacements = Img_Shortcode_Data_Migration::find_img_tags_for_replacement_on_post( $post_id );
 
 		$this->assertContains( $img_tag, array_keys( $replacements ) );
 
@@ -87,7 +87,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 
 		$post_id = wp_insert_post( array( 'post_content' => "\r\n\r\n$img_tag\r\nblah blah blah" ) );
 
-		$replacements = Img_Shortcode_Data_Migration::find_img_tags_for_replacement( $post_id );
+		$replacements = Img_Shortcode_Data_Migration::find_img_tags_for_replacement_on_post( $post_id );
 
 		$this->assertNotContains( 'attachment="', $replacements[ $img_tag ] );
 		$this->assertContains( 'src="' . $this->image_src .'"', $replacements[ $img_tag ] );
@@ -114,7 +114,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 
 		$post_id = wp_insert_post( array( 'post_content' => $post_content ) );
 
-		$replacements = Img_Shortcode_Data_Migration::find_img_tags_for_replacement( $post_id );
+		$replacements = Img_Shortcode_Data_Migration::find_img_tags_for_replacement_on_post( $post_id );
 
 		foreach ( array( $img_tag, $img_tag_link_custom, $img_tag_link_file, $img_tag_link_attachment ) as $should_be_matched ) {
 			$this->assertContains( $should_be_matched, array_keys( $replacements ) );
@@ -150,7 +150,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 
 		$post_id = wp_insert_post( array( 'post_content' => $post_content ) );
 
-		$replacements = Img_Shortcode_Data_Migration::find_caption_shortcodes_for_replacement( $post_id );
+		$replacements = Img_Shortcode_Data_Migration::find_caption_shortcodes_for_replacement_on_post( $post_id );
 
 		$this->assertCount( 2, $replacements );
 		$this->assertContains( 'caption="Caption of image without attachment"', $replacements[ $caption_no_link ] );
