@@ -17,13 +17,6 @@ class Img_Shortcode {
 	 */
 	public static function get_shortcode_ui_args() {
 
-		$sizes = array(
-			'thumb'  => esc_attr( sprintf( __( 'Thumbnail (%s px)' ), get_option('thumbnail_size_w') ),
-			'medium' => esc_attr( sprintf( __( 'Medium (%s px)' ), get_option('medium_size_w') ),
-			'large'  => esc_attr( sprintf( __( 'Large (%s px)' ), get_option('large_size_w') ),
-			'full'   => esc_attr__( 'Full size' )
-		);
-
 		$shortcode_ui_args = array(
 
 				'label' => esc_attr__( 'Image' ),
@@ -46,9 +39,9 @@ class Img_Shortcode {
 						'attr'        => 'size',
 						'type'        => 'select',
 						'options' => array(
-							'thumb'  => esc_attr( sprintf( __( 'Thumbnail (%s px)' ), get_option('thumbnail_size_w') ),
-							'medium' => esc_attr( sprintf( __( 'Medium (%s px)' ), get_option('medium_size_w') ),
-							'large'  => esc_attr( sprintf( __( 'Large (%s px)' ), get_option('large_size_w') ),
+							'thumb'  => esc_attr( sprintf( __( 'Thumbnail (%s px)' ), get_option('thumbnail_size_w') ) ),
+							'medium' => esc_attr( sprintf( __( 'Medium (%s px)' ), get_option('medium_size_w') ) ),
+							'large'  => esc_attr( sprintf( __( 'Large (%s px)' ), get_option('large_size_w') ) ),
 							'full'   => esc_attr__( 'Full size' )
 						),
 					),
