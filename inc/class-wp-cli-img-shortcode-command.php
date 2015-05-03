@@ -2,9 +2,6 @@
 
 if ( class_exists( 'WP_CLI' ) ) :
 
-// Hack of WP-CLI's Logger because I wanted to use private methods.
-require_once dirname( __FILE__ ) . '/CLI-Logger.php';
-
 /**
  * Migrate post content to use image shortcodes.
  *
@@ -33,14 +30,8 @@ class Img_Shortcode_Command extends \WP_CLI\CommandWithDBObject {
 	 * <id>...
 	 * : One or more IDs of posts to update.
 	 *
-	 * [--log-file=<filename>]
-	 * : Specify a file to log script progress to.
-	 *
-	 * [--quiet]
-	 * : No output at all. YOLO!
-	 *
 	 * [--dry-run]
-	 * : Only show the content which is to be changed.
+	 * : Only show the content which is to be changed, don't update posts.
 	 *
 	 * ## EXAMPLES
 	 *
@@ -48,30 +39,16 @@ class Img_Shortcode_Command extends \WP_CLI\CommandWithDBObject {
 	 *     wp img-shortcode migrate `wp post list --post_type=post` --ids`
 	 *
 	 *     ## Converts images to shortcodes on one post, preserving a log to rollback in case of errors.
-	 *     wp img-shortcode migrate 123 --log-file="potential-oops.txt"
+	 *     wp img-shortcode migrate 123 > potential-oops.txt
 	 *
 	 */
 	public function update( $args, $assoc_args ) {
 
-		if ( isset( $assoc_args['log-file'] ) ) {
-			$handle = fopen( $assoc_args['log-file'], 'w+' );
-			$logger = new \WP_CLI\Loggers\Image_Shortcake( false );
-		} else {
-			$handle = STDOUT;
-			$logger = ( isset( $assoc_args['quiet'] ) ) ?
-				new \WP_CLI\Loggers\Quiet :
-				new \WP_CLI\Loggers\Image_Shortcake( true ); // in_color :: XXX :: hack
-		}
+		foreach( array_filter( $args ) as $post_ID ) {
 
-		foreach( $args as $post_ID ) {
+			$post = $this->fetcher->get_check( $post_ID );
 
-			$post = get_post( intval( $post_ID ) );
-
-			if ( ! $post ) {
-				continue;
-			}
-
-			$_content = $content_before = $post->post_content;
+			$_content = $post->post_content;
 
 			$caption_replacements = Img_Shortcode_Data_Migration::find_caption_shortcodes_for_replacement( $_content );
 
@@ -92,22 +69,38 @@ class Img_Shortcode_Command extends \WP_CLI\CommandWithDBObject {
 
 			$replacements = array_merge( (array) $caption_replacements, (array) $img_tag_replacements );
 
-			$logger->_line( 'Image shortcode replacements for post ' . $post->ID, '', null, $handle );
+			WP_CLI::log( '' );
 
-			foreach ( $replacements as $del => $ins ) {
-				$logger->_line( $del, '- ', '%C', $handle );
-				$logger->_line( $ins, '+ ', '%G', $handle );
-			}
-
-			if ( isset( $assoc_args['dry-run'] ) ) {
+			if ( 0 === count( $replacements ) ) {
+				WP_CLI::log( 'Nothing to replace on post ' . $post->ID . '. Skipping.' );
+				WP_CLI::log( '' );
 				continue;
 			}
 
-			$post->post_content = $_content;
+			$header = 'Image shortcode replacements for post ' . $post->ID;
 
-			wp_update_post( $post );
+			WP_CLI::log( $header );
+			WP_CLI::log( str_repeat( '=', strlen( $header ) ) );
+			WP_CLI::log( '' );
 
-			$logger->success( 'Updated post ' . $post->ID );
+			foreach ( $replacements as $del => $ins ) {
+				\WP_CLI::log( \cli\Colors::colorize( "%C-%n" ) . $del, true );
+				\WP_CLI::log( \cli\Colors::colorize( "%G+%n $ins" ) );
+			}
+
+			WP_CLI::log( '' );
+
+			if ( isset( $assoc_args['dry-run'] ) ) {
+				WP_CLI::log( 'Post not updated: --dry-run specifed.' );
+				WP_CLI::log( '' );
+				continue;
+			}
+
+			parent::_update( array( $post_ID ), array( 'post_content' => $_content ), function( $params ) {
+				return wp_update_post( $params );
+			});
+
+			WP_CLI::success( 'Updated post ' . $post->ID );
 		}
 
 	}
