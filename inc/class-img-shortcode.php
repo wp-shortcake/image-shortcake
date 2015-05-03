@@ -19,68 +19,68 @@ class Img_Shortcode {
 
 		$shortcode_ui_args = array(
 
-				'label' => 'Image',
+				'label' => esc_attr__( 'Image' ),
 
 				'listItemImage' => 'dashicons-format-image',
 
 				'attrs' => array(
 
 					array(
-						'label' => 'Choose Attachment',
+						'label' => esc_attr__( 'Choose Attachment' ),
 						'attr'  => 'attachment',
 						'type'  => 'attachment',
 						'libraryType' => array( 'image' ),
-						'addButton'   => 'Select Image',
-						'frameTitle'  => 'Select Image',
+						'addButton'   => esc_attr__( 'Select Image' ),
+						'frameTitle'  => esc_attr__( 'Select Image' ),
 					),
 
 					array(
-						'label'       => 'Image size',
+						'label'       => esc_attr__( 'Image size' ),
 						'attr'        => 'size',
 						'type'        => 'select',
 						'options' => array(
-							'thumbnail' => 'Thumbnail',
-							'small'     => 'Small',
-							'medium'    => 'Medium',
-							'large'     => 'Large',
+							'thumb'  => esc_attr( sprintf( __( 'Thumbnail (%s px)' ), get_option('thumbnail_size_w') ) ),
+							'medium' => esc_attr( sprintf( __( 'Medium (%s px)' ), get_option('medium_size_w') ) ),
+							'large'  => esc_attr( sprintf( __( 'Large (%s px)' ), get_option('large_size_w') ) ),
+							'full'   => esc_attr__( 'Full size' )
 						),
 					),
 
 					array(
-						'label' => 'Alt',
+						'label' => esc_attr__( 'Alt' ),
 						'attr'  => 'alt',
 						'type'  => 'text',
-						'placeholder' => 'Alt text for the image',
+						'placeholder' => esc_attr__( 'Alt text for the image' ),
 					),
 
 					array(
-						'label'       => 'Caption',
+						'label'       => esc_attr__( 'Caption' ),
 						'attr'        => 'caption',
 						'type'        => 'text',
-						'placeholder' => 'Caption for the image',
+						'placeholder' => esc_attr__( 'Caption for the image' ),
 					),
 
 					array(
-						'label'       => 'Alignment',
+						'label'       => esc_attr__( 'Alignment' ),
 						'attr'        => 'align',
 						'type'        => 'select',
 						'options' => array(
-							'alignleft'   => 'Float left',
-							'alignright'  => 'Float right',
-							'aligncenter' => 'Center',
-							'alignnone'   => 'None (inline)',
+							'alignnone'   => esc_attr__( 'None (inline)' ),
+							'alignleft'   => esc_attr__( 'Float left' ),
+							'alignright'  => esc_attr__( 'Float right' ),
+							'aligncenter' => esc_attr__( 'Center' ),
 						),
 					),
 
 					array(
-						'label'       => 'Link to',
+						'label'       => esc_attr__( 'Link to' ),
 						'attr'        => 'linkto',
 						'type'        => 'select',
 						'options' => array(
-							'none'       => 'None (no link)',
-							'attachment' => 'Link to attachment file',
-							'file'       => 'Link to file',
-							'custom'     => 'Custom link',
+							'none'       => esc_attr__( 'None (no link)' ),
+							'attachment' => esc_attr__( 'Link to attachment file' ),
+							'file'       => esc_attr__( 'Link to file' ),
+							'custom'     => esc_attr__( 'Custom link' ),
 						),
 					),
 
@@ -304,9 +304,12 @@ class Img_Shortcode {
 			$shortcode_attrs['attachment'] = $attachment_id;
 		}
 
+		if ( ! empty( $attachment['align'] ) ) {
+			$shortcode_attrs['align'] = 'align' . $attachment['align'];
+		}
+
 		$allowed_attrs = array(
-			'size' => 'size',
-			'align' => 'align',
+			'image-size' => 'size',
 			'image_alt' => 'alt',
 			'post_excerpt' => 'caption',
 		);
