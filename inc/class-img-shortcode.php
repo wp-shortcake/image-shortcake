@@ -39,7 +39,7 @@ class Img_Shortcode {
 						'attr'        => 'size',
 						'type'        => 'select',
 						'options' => array(
-							'thumb'  => esc_attr(
+							'thumbnail' => esc_attr(
 								sprintf(
 									__( 'Thumbnail (%s px)', 'image-shortcake' ),
 									get_option('thumbnail_size_w')
@@ -51,13 +51,13 @@ class Img_Shortcode {
 									get_option('medium_size_w')
 								)
 							),
-							'large'  => esc_attr(
+							'large' => esc_attr(
 								sprintf(
 									__( 'Large (%s px)', 'image-shortcake' ),
 									get_option('large_size_w')
 								)
 							),
-							'full'   => esc_attr__( 'Full size', 'image-shortcake' )
+							'full' => esc_attr__( 'Full size', 'image-shortcake' )
 						),
 					),
 
