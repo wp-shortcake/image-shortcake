@@ -1,7 +1,5 @@
 <?php
 
-if ( class_exists( 'WP_CLI' ) ) :
-
 /**
  * Migrate post content to use image shortcodes.
  *
@@ -109,5 +107,3 @@ class Img_Shortcode_Command extends \WP_CLI\CommandWithDBObject {
 
 
 WP_CLI::add_command( 'img-shortcode', 'Img_Shortcode_Command' );
-
-endif; // class_exists( 'WP_CLI' )

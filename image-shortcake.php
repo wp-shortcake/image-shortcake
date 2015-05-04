@@ -40,7 +40,10 @@ class Image_Shortcake {
 		require_once( dirname( __FILE__ ) . '/inc/class-img-shortcode.php' );
 
 		require_once( dirname( __FILE__ ) . '/inc/class-img-shortcode-data-migration.php' );
-		require_once( dirname( __FILE__ ) . '/inc/class-wp-cli-img-shortcode-command.php' );
+
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			require_once( dirname( __FILE__ ) . '/inc/class-wp-cli-img-shortcode-command.php' );
+		}
 	}
 
 
