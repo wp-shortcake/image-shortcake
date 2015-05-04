@@ -11,7 +11,7 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 		parent::setUp();
 
 		$this->attachment_id = $this->insert_attachment( null,
-			dirname( __FILE__ ) . '/data/fusion_image_placeholder_16x9_h2000b.png',
+			dirname( __FILE__ ) . '/data/fusion_image_placeholder_16x9_h2000.png',
 			array(
 				'post_title'     => 'Post',
 				'post_content'   => 'Post Content',
@@ -23,8 +23,8 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 
 		$upload_dir = wp_upload_dir();
 
-		$this->image_src = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000b.png';
-		$this->image_path = $upload_dir['path'] . '/fusion_image_placeholder_16x9_h2000b.png';
+		$this->image_src = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000.png';
+		$this->image_path = $upload_dir['path'] . '/fusion_image_placeholder_16x9_h2000.png';
 	}
 
 	public function tearDown() {
@@ -64,13 +64,13 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 		// Test image src
 		$content = apply_filters( 'the_content', '[img attachment="' . $attachment_id . '" /]' );
 
-		$expected_src_attr = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000b.png';
+		$expected_src_attr = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000.png';
 		$this->assertContains( 'src="' . $expected_src_attr . '"', $content );
 
 		// Test link href: linkto="file"
 		$content = apply_filters( 'the_content', '[img attachment="' . $attachment_id . '" linkto="file" /]' );
 
-		$expected_href_attr = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000b.png';
+		$expected_href_attr = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000.png';
 		$this->assertContains( 'href="' . $expected_href_attr . '"', $content );
 
 		// Test link href: linkto="attachment"

@@ -14,7 +14,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 		parent::setUp();
 
 		$attachment_id = $this->insert_attachment( null,
-			dirname( __FILE__ ) . '/data/fusion_image_placeholder_16x9_h2000a.png',
+			dirname( __FILE__ ) . '/data/fusion_image_placeholder_16x9_h2000.png',
 			array(
 				'post_title'     => 'Post',
 				'post_content'   => 'Post Content',
@@ -28,8 +28,8 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 
 		$upload_dir = wp_upload_dir();
 
-		$this->image_src = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000a.png';
-		$this->image_path = $upload_dir['path'] . '/fusion_image_placeholder_16x9_h2000a.png';
+		$this->image_src = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000.png';
+		$this->image_path = $upload_dir['path'] . '/fusion_image_placeholder_16x9_h2000.png';
 
 		$this->image_tag_from_attachment =
 			'<img class="size-large wp-image-' . $this->attachment_id . ' aligncenter" ' .
