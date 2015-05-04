@@ -2,6 +2,38 @@
 
 class Test_Img_Shortcode extends WP_UnitTestCase {
 
+	private $attachment_id;
+	private $image_src;
+	private $image_path;
+
+	// @codingStandardsIgnoreStart
+	public function setUp() {
+		parent::setUp();
+
+		$this->attachment_id = $this->insert_attachment( null,
+			dirname( __FILE__ ) . '/data/fusion_image_placeholder_16x9_h2000.png',
+			array(
+				'post_title'     => 'Post',
+				'post_content'   => 'Post Content',
+				'post_date'      => '2014-10-01 17:28:00',
+				'post_status'    => 'publish',
+				'post_type'      => 'attachment',
+			)
+		);
+
+		$upload_dir = wp_upload_dir();
+
+		$this->image_src = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000.png';
+		$this->image_path = $upload_dir['path'] . '/fusion_image_placeholder_16x9_h2000.png';
+	}
+
+	public function tearDown() {
+		parent::tearDown();
+
+		unlink( $this->image_path );
+	}
+	// @codingStandardsIgnoreEnd
+
 	function test_construct_ui() {
 		// replace this with some actual testing code
 		$this->assertTrue( true );
@@ -25,17 +57,7 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 	 * are implemented correctly.
 	 */
 	function test_img_shortcode_from_attachment() {
-
-		$attachment_id = $this->insert_attachment( null,
-			dirname( __FILE__ ) . '/data/fusion_image_placeholder_16x9_h2000.png',
-			array(
-				'post_title'     => 'Post',
-				'post_content'   => 'Post Content',
-				'post_date'      => '2014-10-01 17:28:00',
-				'post_status'    => 'publish',
-				'post_type'      => 'attachment',
-			)
-		);
+		$attachment_id = $this->attachment_id;
 
 		$upload_dir = wp_upload_dir();
 

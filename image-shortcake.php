@@ -38,6 +38,12 @@ class Image_Shortcake {
 	 */
 	private static function require_files() {
 		require_once( dirname( __FILE__ ) . '/inc/class-img-shortcode.php' );
+
+		require_once( dirname( __FILE__ ) . '/inc/class-img-shortcode-data-migration.php' );
+
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			require_once( dirname( __FILE__ ) . '/inc/class-wp-cli-img-shortcode-command.php' );
+		}
 	}
 
 
