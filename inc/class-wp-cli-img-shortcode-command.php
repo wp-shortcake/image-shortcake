@@ -83,7 +83,7 @@ class Img_Shortcode_Command extends \WP_CLI\CommandWithDBObject {
 
 			foreach ( $replacements as $del => $ins ) {
 				\WP_CLI::log( \cli\Colors::colorize( "%C-%n" ) . $del, true );
-				\WP_CLI::log( \cli\Colors::colorize( "%G+%n $ins" ) );
+				\WP_CLI::log( \cli\Colors::colorize( "%G+%n" ) . $ins, true );
 			}
 
 			WP_CLI::log( '' );
