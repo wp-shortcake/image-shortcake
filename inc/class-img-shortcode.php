@@ -304,9 +304,12 @@ class Img_Shortcode {
 			$shortcode_attrs['attachment'] = $attachment_id;
 		}
 
+		if ( ! empty( $attachment['align'] ) ) {
+			$shortcode_attrs['align'] = 'align' . $attachment['align'];
+		}
+
 		$allowed_attrs = array(
-			'size' => 'size',
-			'align' => 'align',
+			'image-size' => 'size',
 			'image_alt' => 'alt',
 			'post_excerpt' => 'caption',
 		);

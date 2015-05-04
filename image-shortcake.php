@@ -62,7 +62,7 @@ class Image_Shortcake {
 	 *
 	 */
 	private function setup_filters() {
-		add_filter( 'media_send_to_editor', 'Img_Shortcode::filter_media_send_to_editor', 10, 3 );
+		add_filter( 'media_send_to_editor', 'Img_Shortcode::filter_media_send_to_editor', 15, 3 );
 	}
 
 
