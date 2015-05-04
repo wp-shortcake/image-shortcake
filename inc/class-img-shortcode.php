@@ -291,9 +291,16 @@ class Img_Shortcode {
 				'align' => '',
 				'url' => '',
 				'size' => '',
+				'width' => '',
 				'alt' => '',
 			)
 		);
+
+		// Ensure the image has a width defined; caption shortcode will break otherwise.
+		if ( 0 === intval( $attributes['width'] ) ) {
+			$_attachment_src = wp_get_attachment_image_src( $_id, $attributes['size'] );
+			$attributes['width'] = $_attachment_src[1];
+		}
 
 		$html = img_caption_shortcode( $attributes, $img_tag );
 
@@ -327,6 +334,7 @@ class Img_Shortcode {
 			'image-size' => 'size',
 			'image_alt' => 'alt',
 			'post_excerpt' => 'caption',
+			'width' => 'width',
 		);
 
 		foreach ( $allowed_attrs as $attachment_attr => $shortcode_attr ) {
