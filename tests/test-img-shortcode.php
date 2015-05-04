@@ -91,6 +91,51 @@ EOL;
 
 
 	/**
+	 * Test that an image inserted from the editor is transformed into a
+	 * shortcode correctly.
+	 */
+	function test_media_send_to_editor() {
+
+		$attachment_data = array(
+			'post_title'     => 'Post',
+			'post_content'   => 'Post Content',
+			'post_date'      => '2014-10-01 17:28:00',
+			'post_status'    => 'publish',
+			'post_type'      => 'attachment',
+		);
+
+		$attachment_id = $this->insert_attachment( null,
+			dirname( __FILE__ ) . '/data/fusion_image_placeholder_16x9_h2000.png',
+			$attachment_data
+		);
+
+		/**
+		 * Fields in the media editor form
+		 */
+		$attachment_data = array_merge(
+			$attachment_data,
+			array(
+				'id'           => $attachment_id,
+				'post_content' => 'This is the description',
+				'post_excerpt' => 'This is the caption',
+				'align'        => 'right',
+				'image-size'   => 'large',
+				'image_alt'    => 'This is the alt',
+				'url'          => get_permalink( $attachment_id ),
+			)
+		);
+
+		$shortcode = apply_filters( 'media_send_to_editor', '', $attachment_id, $attachment_data );
+
+		$this->assertContains( '[img ', $shortcode );
+		$this->assertContains( 'size="large"', $shortcode );
+		$this->assertContains( 'align="alignright"', $shortcode );
+		$this->assertContains( 'caption="This is the caption"', $shortcode );
+
+	}
+
+
+	/**
 	 * Helper function: insert an attachment to test properties of.
 	 *
 	 * @param int $parent_post_id

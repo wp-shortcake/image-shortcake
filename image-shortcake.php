@@ -3,7 +3,7 @@
 Plugin Name: Image-shortcake
 Version: 0.1-alpha
 Description: Provides a shortcode for image elements. Use with the Shortcake plugin for a preview of images
-Author: goldenapples
+Author: fusionengineering, goldenapples
 Author URI: https://github.com/fusioneng
 Plugin URI: https://github.com/fusioneng/image-shortcake
 Text Domain: image-shortcake
@@ -68,7 +68,7 @@ class Image_Shortcake {
 	 *
 	 */
 	private function setup_filters() {
-		add_filter( 'media_send_to_editor', 'Img_Shortcode::filter_media_send_to_editor', 10, 3 );
+		add_filter( 'media_send_to_editor', 'Img_Shortcode::filter_media_send_to_editor', 15, 3 );
 	}
 
 
