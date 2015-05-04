@@ -4,16 +4,7 @@
  * Migrate post content to use image shortcodes.
  *
  */
-class Img_Shortcode_Command extends \WP_CLI\CommandWithDBObject {
-
-	protected $obj_type = 'post';
-	protected $obj_fields = array(
-		'ID',
-		'post_title',
-		'post_name',
-		'post_date',
-		'post_status'
-	);
+class Img_Shortcode_Command extends WP_CLI_Command {
 
 	public function __construct() {
 		$this->fetcher = new \WP_CLI\Fetchers\Post;
@@ -94,11 +85,17 @@ class Img_Shortcode_Command extends \WP_CLI\CommandWithDBObject {
 				continue;
 			}
 
-			parent::_update( array( $post_ID ), array( 'post_content' => $_content ), function( $params ) {
-				return wp_update_post( $params );
-			});
+			global $wpdb;
 
-			WP_CLI::success( 'Updated post ' . $post->ID );
+			$updated = $wpdb->update( $wpdb->posts, array( 'post_content' => $_content ), array( 'ID' => $post_ID ) );
+
+			if ( 1 === $updated ) {
+				clean_post_cache( $post );
+				WP_CLI::success( 'Updated post ' . $post->ID . '.' );
+			} else {
+				WP_CLI::warning( 'There was an unexpected error updating post ' . $post->ID . '.' );
+			}
+
 		}
 
 	}
