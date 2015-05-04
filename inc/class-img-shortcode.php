@@ -19,68 +19,83 @@ class Img_Shortcode {
 
 		$shortcode_ui_args = array(
 
-				'label' => esc_attr__( 'Image' ),
+				'label' => esc_attr__( 'Image', 'image-shortcake' ),
 
 				'listItemImage' => 'dashicons-format-image',
 
 				'attrs' => array(
 
 					array(
-						'label' => esc_attr__( 'Choose Attachment' ),
+						'label' => esc_attr__( 'Choose Attachment', 'image-shortcake' ),
 						'attr'  => 'attachment',
 						'type'  => 'attachment',
 						'libraryType' => array( 'image' ),
-						'addButton'   => esc_attr__( 'Select Image' ),
-						'frameTitle'  => esc_attr__( 'Select Image' ),
+						'addButton'   => esc_attr__( 'Select Image', 'image-shortcake' ),
+						'frameTitle'  => esc_attr__( 'Select Image', 'image-shortcake' ),
 					),
 
 					array(
-						'label'       => esc_attr__( 'Image size' ),
+						'label'       => esc_attr__( 'Image size', 'image-shortcake' ),
 						'attr'        => 'size',
 						'type'        => 'select',
 						'options' => array(
-							'thumb'  => esc_attr( sprintf( __( 'Thumbnail (%s px)' ), get_option('thumbnail_size_w') ) ),
-							'medium' => esc_attr( sprintf( __( 'Medium (%s px)' ), get_option('medium_size_w') ) ),
-							'large'  => esc_attr( sprintf( __( 'Large (%s px)' ), get_option('large_size_w') ) ),
-							'full'   => esc_attr__( 'Full size' )
+							'thumb'  => esc_attr(
+								sprintf(
+									__( 'Thumbnail (%s px)', 'image-shortcake' ),
+									get_option('thumbnail_size_w')
+								)
+							),
+							'medium' => esc_attr(
+								sprintf(
+									__( 'Medium (%s px)', 'image-shortcake' ),
+									get_option('medium_size_w')
+								)
+							),
+							'large'  => esc_attr(
+								sprintf(
+									__( 'Large (%s px)', 'image-shortcake' ),
+									get_option('large_size_w')
+								)
+							),
+							'full'   => esc_attr__( 'Full size', 'image-shortcake' )
 						),
 					),
 
 					array(
-						'label' => esc_attr__( 'Alt' ),
+						'label' => esc_attr__( 'Alt', 'image-shortcake' ),
 						'attr'  => 'alt',
 						'type'  => 'text',
-						'placeholder' => esc_attr__( 'Alt text for the image' ),
+						'placeholder' => esc_attr__( 'Alt text for the image', 'image-shortcake' ),
 					),
 
 					array(
-						'label'       => esc_attr__( 'Caption' ),
+						'label'       => esc_attr__( 'Caption', 'image-shortcake' ),
 						'attr'        => 'caption',
 						'type'        => 'text',
-						'placeholder' => esc_attr__( 'Caption for the image' ),
+						'placeholder' => esc_attr__( 'Caption for the image', 'image-shortcake' ),
 					),
 
 					array(
-						'label'       => esc_attr__( 'Alignment' ),
+						'label'       => esc_attr__( 'Alignment', 'image-shortcake' ),
 						'attr'        => 'align',
 						'type'        => 'select',
 						'options' => array(
-							'alignnone'   => esc_attr__( 'None (inline)' ),
-							'alignleft'   => esc_attr__( 'Float left' ),
-							'alignright'  => esc_attr__( 'Float right' ),
-							'aligncenter' => esc_attr__( 'Center' ),
+							'alignnone'   => esc_attr__( 'None (inline)', 'image-shortcake' ),
+							'alignleft'   => esc_attr__( 'Float left',    'image-shortcake' ),
+							'alignright'  => esc_attr__( 'Float right',   'image-shortcake' ),
+							'aligncenter' => esc_attr__( 'Center',        'image-shortcake' ),
 						),
 					),
 
 					array(
-						'label'       => esc_attr__( 'Link to' ),
+						'label'       => esc_attr__( 'Link to', 'image-shortcake' ),
 						'attr'        => 'linkto',
 						'type'        => 'select',
 						'options' => array(
-							'none'       => esc_attr__( 'None (no link)' ),
-							'attachment' => esc_attr__( 'Link to attachment file' ),
-							'file'       => esc_attr__( 'Link to file' ),
-							'custom'     => esc_attr__( 'Custom link' ),
+							'none'       => esc_attr__( 'None (no link)',          'image-shortcake' ),
+							'attachment' => esc_attr__( 'Link to attachment file', 'image-shortcake' ),
+							'file'       => esc_attr__( 'Link to file',            'image-shortcake' ),
+							'custom'     => esc_attr__( 'Custom link',             'image-shortcake' ),
 						),
 					),
 

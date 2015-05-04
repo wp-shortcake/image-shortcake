@@ -1,10 +1,10 @@
-# Copyright (C) 2015 goldenapples
+# Copyright (C) 2015 fusionengineering, goldenapples
 # This file is distributed under the same license as the Image-shortcake package.
 msgid ""
 msgstr ""
 "Project-Id-Version: Image-shortcake 0.1-alpha\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/image-shortcake\n"
-"POT-Creation-Date: 2015-05-02 23:50:34+00:00\n"
+"POT-Creation-Date: 2015-05-04 14:42:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -30,91 +30,91 @@ msgid ""
 "shortcode."
 msgstr ""
 
-#: inc/class-img-shortcode.php:21 inc/class-img-shortcode.php:49
-msgid "Thumbnail (%s px)"
-msgstr ""
-
-#: inc/class-img-shortcode.php:22 inc/class-img-shortcode.php:50
-msgid "Medium (%s px)"
-msgstr ""
-
-#: inc/class-img-shortcode.php:23 inc/class-img-shortcode.php:51
-msgid "Large (%s px)"
-msgstr ""
-
-#: inc/class-img-shortcode.php:24 inc/class-img-shortcode.php:52
-msgid "Full size"
-msgstr ""
-
-#: inc/class-img-shortcode.php:29
+#: inc/class-img-shortcode.php:22
 msgid "Image"
 msgstr ""
 
-#: inc/class-img-shortcode.php:36
+#: inc/class-img-shortcode.php:29
 msgid "Choose Attachment"
 msgstr ""
 
-#: inc/class-img-shortcode.php:40 inc/class-img-shortcode.php:41
+#: inc/class-img-shortcode.php:33 inc/class-img-shortcode.php:34
 msgid "Select Image"
 msgstr ""
 
-#: inc/class-img-shortcode.php:45
+#: inc/class-img-shortcode.php:38
 msgid "Image size"
 msgstr ""
 
-#: inc/class-img-shortcode.php:57
-msgid "Alt"
+#: inc/class-img-shortcode.php:44
+msgid "Thumbnail (%s px)"
+msgstr ""
+
+#: inc/class-img-shortcode.php:50
+msgid "Medium (%s px)"
+msgstr ""
+
+#: inc/class-img-shortcode.php:56
+msgid "Large (%s px)"
 msgstr ""
 
 #: inc/class-img-shortcode.php:60
+msgid "Full size"
+msgstr ""
+
+#: inc/class-img-shortcode.php:65
+msgid "Alt"
+msgstr ""
+
+#: inc/class-img-shortcode.php:68
 msgid "Alt text for the image"
 msgstr ""
 
-#: inc/class-img-shortcode.php:64
+#: inc/class-img-shortcode.php:72
 msgid "Caption"
 msgstr ""
 
-#: inc/class-img-shortcode.php:67
+#: inc/class-img-shortcode.php:75
 msgid "Caption for the image"
 msgstr ""
 
-#: inc/class-img-shortcode.php:71
+#: inc/class-img-shortcode.php:79
 msgid "Alignment"
 msgstr ""
 
-#: inc/class-img-shortcode.php:75
+#: inc/class-img-shortcode.php:83
 msgid "None (inline)"
 msgstr ""
 
-#: inc/class-img-shortcode.php:76
+#: inc/class-img-shortcode.php:84
 msgid "Float left"
 msgstr ""
 
-#: inc/class-img-shortcode.php:77
+#: inc/class-img-shortcode.php:85
 msgid "Float right"
 msgstr ""
 
-#: inc/class-img-shortcode.php:78
+#: inc/class-img-shortcode.php:86
 msgid "Center"
 msgstr ""
 
-#: inc/class-img-shortcode.php:83
+#: inc/class-img-shortcode.php:91
 msgid "Link to"
 msgstr ""
 
-#: inc/class-img-shortcode.php:87
+#: inc/class-img-shortcode.php:95
 msgid "None (no link)"
 msgstr ""
 
-#: inc/class-img-shortcode.php:88
+#: inc/class-img-shortcode.php:96
 msgid "Link to attachment file"
 msgstr ""
 
-#: inc/class-img-shortcode.php:89
+#: inc/class-img-shortcode.php:97
 msgid "Link to file"
 msgstr ""
 
-#: inc/class-img-shortcode.php:90
+#: inc/class-img-shortcode.php:98
 msgid "Custom link"
 msgstr ""
 
@@ -133,7 +133,7 @@ msgid ""
 msgstr ""
 
 #. Author of the plugin/theme
-msgid "goldenapples"
+msgid "fusionengineering, goldenapples"
 msgstr ""
 
 #. Author URI of the plugin/theme
