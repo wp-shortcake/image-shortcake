@@ -30,6 +30,8 @@ class Img_Shortcode_Command extends WP_CLI_Command {
 	 *     ## Converts images to shortcodes on one post, preserving a log to rollback in case of errors.
 	 *     wp img-shortcode migrate 123 > potential-oops.txt
 	 *
+	 *
+	 * @synopsis <id>... [--dry-run]
 	 */
 	public function update( $args, $assoc_args ) {
 
