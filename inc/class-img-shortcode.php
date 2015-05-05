@@ -298,8 +298,9 @@ class Img_Shortcode {
 
 		// Ensure the image has a width defined; caption shortcode will break otherwise.
 		if ( 0 === intval( $attributes['width'] ) ) {
-			$_attachment_src = wp_get_attachment_image_src( $_id, $attributes['size'] );
-			$attributes['width'] = $_attachment_src[1];
+			if ( $_attachment_src = wp_get_attachment_image_src( $attributes['id'], $attributes['size'] ) ) {
+				$attributes['width'] = $_attachment_src[1];
+			}
 		}
 
 		$html = img_caption_shortcode( $attributes, $img_tag );
