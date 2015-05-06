@@ -66,6 +66,7 @@ class Img_Shortcode {
 						'attr'  => 'alt',
 						'type'  => 'text',
 						'placeholder' => esc_attr__( 'Alt text for the image', 'image-shortcake' ),
+						'description' => esc_html__( 'Quote marks and HTML tags are not allowed', 'image-shortcake' ),
 					),
 
 					array(
@@ -73,6 +74,7 @@ class Img_Shortcode {
 						'attr'        => 'caption',
 						'type'        => 'text',
 						'placeholder' => esc_attr__( 'Caption for the image', 'image-shortcake' ),
+						'description' => esc_html__( 'Quote marks and HTML tags are not allowed', 'image-shortcake' )
 					),
 
 					array(
