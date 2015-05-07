@@ -16,6 +16,30 @@ class Img_Shortcode {
 	 * filter.
 	 */
 	public static function get_shortcode_ui_args() {
+		global $_wp_additional_image_sizes;
+
+		$default_sizes = array(
+			'thumbnail' => esc_html__( 'Thumbnail', 'image-shortcake' ),
+			'medium'    => esc_html__( 'Medium',    'image-shortcake' ),
+			'large'     => esc_html__( 'Large',     'image-shortcake' ),
+			'full'      => esc_html__( 'Full size', 'image-shortcake' ),
+		);
+		$sizes_available = array();
+
+		foreach ( apply_filters( 'image_size_names_choose', $default_sizes ) as $key => $name ) {
+
+			$size = get_option( "${key}_size_w" );
+
+			if ( false === $size ) {
+				if ( array_key_exists( $key, $_wp_additional_image_sizes ) ) {
+					$size = $_wp_additional_image_sizes[ $key ]['width'];
+				}
+			}
+
+			$size_str = $size ? " ({$size}px)" : '';
+
+			$sizes_available[$key] = esc_attr( "{$name}{$size_str}" );
+		}
 
 		$shortcode_ui_args = array(
 
@@ -38,33 +62,13 @@ class Img_Shortcode {
 						'label'       => esc_attr__( 'Image size', 'image-shortcake' ),
 						'attr'        => 'size',
 						'type'        => 'select',
-						'options' => array(
-							'thumbnail' => esc_attr(
-								sprintf(
-									__( 'Thumbnail (%s px)', 'image-shortcake' ),
-									get_option('thumbnail_size_w')
-								)
-							),
-							'medium' => esc_attr(
-								sprintf(
-									__( 'Medium (%s px)', 'image-shortcake' ),
-									get_option('medium_size_w')
-								)
-							),
-							'large' => esc_attr(
-								sprintf(
-									__( 'Large (%s px)', 'image-shortcake' ),
-									get_option('large_size_w')
-								)
-							),
-							'full' => esc_attr__( 'Full size', 'image-shortcake' )
-						),
+						'options'     => $sizes_available,
 					),
 
 					array(
-						'label' => esc_attr__( 'Alt', 'image-shortcake' ),
-						'attr'  => 'alt',
-						'type'  => 'text',
+						'label'       => esc_attr__( 'Alt', 'image-shortcake' ),
+						'attr'        => 'alt',
+						'type'        => 'text',
 						'placeholder' => esc_attr__( 'Alt text for the image', 'image-shortcake' ),
 					),
 
