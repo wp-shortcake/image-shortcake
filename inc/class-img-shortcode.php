@@ -80,10 +80,10 @@ class Img_Shortcode {
 						'attr'        => 'align',
 						'type'        => 'select',
 						'options' => array(
-							'alignnone'   => esc_attr__( 'None (inline)', 'image-shortcake' ),
-							'alignleft'   => esc_attr__( 'Float left',    'image-shortcake' ),
-							'alignright'  => esc_attr__( 'Float right',   'image-shortcake' ),
-							'aligncenter' => esc_attr__( 'Center',        'image-shortcake' ),
+							'alignleft'   => esc_attr__( 'Left',   'image-shortcake' ),
+							'aligncenter' => esc_attr__( 'Center', 'image-shortcake' ),
+							'alignright'  => esc_attr__( 'Right',  'image-shortcake' ),
+							'alignnone'   => esc_attr__( 'None',   'image-shortcake' ),
 						),
 					),
 
