@@ -19,10 +19,10 @@ class Img_Shortcode {
 		global $_wp_additional_image_sizes;
 
 		$default_sizes = array(
-			'thumbnail' => __( 'Thumbnail', 'image-shortcake' ),
-			'medium'    => __( 'Medium',    'image-shortcake' ),
-			'large'     => __( 'Large',     'image-shortcake' ),
-			'full'      => __( 'Full size', 'image-shortcake' ),
+			'thumbnail' => esc_html__( 'Thumbnail', 'image-shortcake' ),
+			'medium'    => esc_html__( 'Medium',    'image-shortcake' ),
+			'large'     => esc_html__( 'Large',     'image-shortcake' ),
+			'full'      => esc_html__( 'Full size', 'image-shortcake' ),
 		);
 		$sizes_available = array();
 
@@ -36,9 +36,9 @@ class Img_Shortcode {
 				}
 			}
 
-			$size_str = $size ? " (${size}px)" : '';
+			$size_str = $size ? " ({$size}px)" : '';
 
-			$sizes_available[$key] = esc_attr( "${name}${size_str}" );
+			$sizes_available[$key] = esc_attr( "{$name}{$size_str}" );
 		}
 
 		$shortcode_ui_args = array(
