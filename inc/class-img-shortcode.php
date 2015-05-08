@@ -62,6 +62,7 @@ class Img_Shortcode {
 						'label'       => esc_attr__( 'Image size', 'image-shortcake' ),
 						'attr'        => 'size',
 						'type'        => 'select',
+						'value'       => 'large',
 						'options'     => $sizes_available,
 					),
 
@@ -83,6 +84,7 @@ class Img_Shortcode {
 						'label'       => esc_attr__( 'Alignment', 'image-shortcake' ),
 						'attr'        => 'align',
 						'type'        => 'select',
+						'value'       => 'aligncenter',
 						'options' => array(
 							'alignleft'   => esc_attr__( 'Left',   'image-shortcake' ),
 							'aligncenter' => esc_attr__( 'Center', 'image-shortcake' ),
@@ -95,6 +97,7 @@ class Img_Shortcode {
 						'label'       => esc_attr__( 'Link to', 'image-shortcake' ),
 						'attr'        => 'linkto',
 						'type'        => 'select',
+						'value'       => get_option( 'image_default_link_type' ),
 						'options' => array(
 							'none'       => esc_attr__( 'None (no link)',          'image-shortcake' ),
 							'attachment' => esc_attr__( 'Link to attachment file', 'image-shortcake' ),
