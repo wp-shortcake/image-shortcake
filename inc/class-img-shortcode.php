@@ -43,14 +43,14 @@ class Img_Shortcode {
 
 		$shortcode_ui_args = array(
 
-				'label' => esc_attr__( 'Image', 'image-shortcake' ),
+				'label' => esc_html__( 'Image', 'image-shortcake' ),
 
 				'listItemImage' => 'dashicons-format-image',
 
 				'attrs' => array(
 
 					array(
-						'label' => esc_attr__( 'Choose Attachment', 'image-shortcake' ),
+						'label' => esc_html__( 'Choose Attachment', 'image-shortcake' ),
 						'attr'  => 'attachment',
 						'type'  => 'attachment',
 						'libraryType' => array( 'image' ),
@@ -59,7 +59,7 @@ class Img_Shortcode {
 					),
 
 					array(
-						'label'       => esc_attr__( 'Image size', 'image-shortcake' ),
+						'label'       => esc_html__( 'Image size', 'image-shortcake' ),
 						'attr'        => 'size',
 						'type'        => 'select',
 						'value'       => 'large',
@@ -67,7 +67,7 @@ class Img_Shortcode {
 					),
 
 					array(
-						'label'       => esc_attr__( 'Alt', 'image-shortcake' ),
+						'label'       => esc_html__( 'Alt', 'image-shortcake' ),
 						'attr'        => 'alt',
 						'type'        => 'text',
 						'placeholder' => esc_attr__( 'Alt text for the image', 'image-shortcake' ),
@@ -75,7 +75,7 @@ class Img_Shortcode {
 					),
 
 					array(
-						'label'       => esc_attr__( 'Caption', 'image-shortcake' ),
+						'label'       => esc_html__( 'Caption', 'image-shortcake' ),
 						'attr'        => 'caption',
 						'type'        => 'text',
 						'placeholder' => esc_attr__( 'Caption for the image', 'image-shortcake' ),
@@ -83,7 +83,7 @@ class Img_Shortcode {
 					),
 
 					array(
-						'label'       => esc_attr__( 'Alignment', 'image-shortcake' ),
+						'label'       => esc_html__( 'Alignment', 'image-shortcake' ),
 						'attr'        => 'align',
 						'type'        => 'select',
 						'value'       => 'aligncenter',
@@ -96,7 +96,7 @@ class Img_Shortcode {
 					),
 
 					array(
-						'label'       => esc_attr__( 'Link to', 'image-shortcake' ),
+						'label'       => esc_html__( 'Link to', 'image-shortcake' ),
 						'attr'        => 'linkto',
 						'type'        => 'select',
 						'value'       => get_option( 'image_default_link_type' ),
@@ -109,7 +109,7 @@ class Img_Shortcode {
 					),
 
 					array(
-						'label'       => esc_attr__( 'Custom link', 'image-shortcake' ),
+						'label'       => esc_html__( 'Custom link', 'image-shortcake' ),
 						'attr'        => 'url',
 						'type'        => 'text',
 						'placeholder' => esc_attr__( 'URL to link to (if above link is "custom")', 'image-shortcake' ),
