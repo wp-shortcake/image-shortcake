@@ -210,8 +210,9 @@ class Img_Shortcode {
 		$image_html = apply_filters( 'img_shortcode_output_img_tag', $image_html, $attr );
 
 		// If a link is specified, wrap the image in a link tag
-		if ( in_array( $attr['linkto'], array( 'file', 'attachment' ) ) ||
-				( 'custom' === $attr['linkto'] && ! empty( $attr['url'] ) ) ) {
+		if ( ! empty( $attr['linkto'] ) &&
+				( in_array( $attr['linkto'], array( 'file', 'attachment' ) ) ||
+				( 'custom' === $attr['linkto'] && ! empty( $attr['url'] ) ) ) ) {
 			$image_html = self::linkify( $image_html, $attr );
 		}
 
