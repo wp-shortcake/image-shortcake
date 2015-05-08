@@ -102,6 +102,64 @@ class Img_Shortcode_Command extends WP_CLI_Command {
 
 	}
 
+
+	public function downdate( $args, $assoc_args ) {
+
+		foreach( array_filter( $args ) as $post_ID ) {
+
+			$post = $this->fetcher->get_check( $post_ID );
+
+			$_content = $post->post_content;
+
+			$replacements = Img_Shortcode_Data_Migration::find_img_shortcodes_for_replacement( $_content );
+
+			$_content = str_replace(
+				array_keys( $replacements ),
+				array_values( $replacements ),
+				$_content
+			);
+
+			WP_CLI::log( '' );
+
+			if ( 0 === count( $replacements ) ) {
+				WP_CLI::log( 'Nothing to replace on post ' . $post->ID . '. Skipping.' );
+				WP_CLI::log( '' );
+				continue;
+			}
+
+			$header = 'Image shortcode replacements for post ' . $post->ID;
+
+			WP_CLI::log( $header );
+			WP_CLI::log( str_repeat( '=', strlen( $header ) ) );
+			WP_CLI::log( '' );
+
+			foreach ( $replacements as $del => $ins ) {
+				\WP_CLI::log( \cli\Colors::colorize( "%C-%n" ) . $del, true );
+				\WP_CLI::log( \cli\Colors::colorize( "%G+%n" ) . $ins, true );
+			}
+
+			WP_CLI::log( '' );
+
+			if ( isset( $assoc_args['dry-run'] ) ) {
+				WP_CLI::log( 'Post not updated: --dry-run specifed.' );
+				WP_CLI::log( '' );
+				continue;
+			}
+
+			global $wpdb;
+
+			$updated = $wpdb->update( $wpdb->posts, array( 'post_content' => $_content ), array( 'ID' => $post_ID ) );
+
+			if ( 1 === $updated ) {
+				clean_post_cache( $post );
+				WP_CLI::success( 'Updated post ' . $post->ID . '.' );
+			} else {
+				WP_CLI::warning( 'There was an unexpected error updating post ' . $post->ID . '.' );
+			}
+
+		}
+	}
+
 }
 
 
