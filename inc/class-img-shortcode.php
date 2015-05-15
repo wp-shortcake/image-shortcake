@@ -340,7 +340,7 @@ class Img_Shortcode {
 
 		$media_post = get_post( $attachment_id );
 
-		if ( ! $media_post || 'image' !== substr( $media_post->post_mime_type, 0, 5 ) ) {
+		if ( ! $media_post || 'image' !== strtolower( substr( $media_post->post_mime_type, 0, 5 ) ) ) {
 			return $html;
 		}
 
