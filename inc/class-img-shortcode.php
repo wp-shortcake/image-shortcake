@@ -338,11 +338,15 @@ class Img_Shortcode {
 	 */
 	public static function filter_media_send_to_editor( $html, $attachment_id, $attachment ) {
 
-		$shortcode_attrs = array();
+		$media_post = get_post( $attachment_id );
 
-		if ( $attachment_id = intval( $attachment_id ) ) {
-			$shortcode_attrs['attachment'] = $attachment_id;
+		if ( ! $media_post || 'image' !== strtolower( substr( $media_post->post_mime_type, 0, 5 ) ) ) {
+			return $html;
 		}
+
+		$shortcode_attrs = array(
+			'attachment' => $media_post->ID
+		);
 
 		if ( ! empty( $attachment['align'] ) ) {
 			$shortcode_attrs['align'] = 'align' . $attachment['align'];
