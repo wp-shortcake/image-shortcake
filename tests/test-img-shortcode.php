@@ -94,7 +94,7 @@ EOL;
 	 * Test that an image inserted from the editor is transformed into a
 	 * shortcode correctly.
 	 */
-	function test_media_send_to_editor() {
+	function test_image_send_to_editor() {
 
 		$attachment_data = array(
 			'post_title'     => 'Post',
@@ -131,6 +131,32 @@ EOL;
 		$this->assertContains( 'size="large"', $shortcode );
 		$this->assertContains( 'align="alignright"', $shortcode );
 		$this->assertContains( 'caption="This is the caption"', $shortcode );
+
+	}
+
+
+	/**
+	 * Test that an audio or video file inserted from the editor is NOT
+	 * transformed into the img shortcode.
+	 */
+	function test_other_media_send_to_editor() {
+
+		$attachment_data = array(
+			'post_title'     => 'Audio',
+			'post_content'   => 'Audio Content',
+			'post_date'      => '2014-10-01 17:28:00',
+			'post_status'    => 'publish',
+			'post_type'      => 'attachment',
+		);
+
+		$attachment_id = $this->insert_attachment( null,
+			dirname( __FILE__ ) . '/data/gin_joints.wav',
+			$attachment_data
+		);
+
+		$sent_to_editor = apply_filters( 'media_send_to_editor', 'This should be the original audio element.', $attachment_id, $attachment_data );
+
+		$this->assertNotContains( '[img ', $sent_to_editor );
 
 	}
 

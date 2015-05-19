@@ -4,7 +4,7 @@
  * Migrate post content to use image shortcodes.
  *
  */
-class Img_Shortcode_Command extends WP_CLI_Command {
+class Image_Shortcake_Command extends WP_CLI_Command {
 
 	public function __construct() {
 		$this->fetcher = new \WP_CLI\Fetchers\Post;
@@ -25,15 +25,15 @@ class Img_Shortcode_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     ## Migrate all Posts to the Image Shortcake syntax
-	 *     wp img-shortcode migrate `wp post list --post_type=post` --ids`
+	 *     wp image-shortcake-shortcode migrate `wp post list --post_type=post` --ids`
 	 *
 	 *     ## Converts images to shortcodes on one post, preserving a log to rollback in case of errors.
-	 *     wp img-shortcode migrate 123 > potential-oops.txt
+	 *     wp image-shortcake migrate 123 > potential-oops.txt
 	 *
 	 *
 	 * @synopsis <id>... [--dry-run]
 	 */
-	public function update( $args, $assoc_args ) {
+	public function migrate( $args, $assoc_args ) {
 
 		foreach( array_filter( $args ) as $post_ID ) {
 
@@ -163,4 +163,4 @@ class Img_Shortcode_Command extends WP_CLI_Command {
 }
 
 
-WP_CLI::add_command( 'img-shortcode', 'Img_Shortcode_Command' );
+WP_CLI::add_command( 'image-shortcake', 'Image_Shortcake_Command' );
