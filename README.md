@@ -141,6 +141,26 @@ theme, so that if you have filtered the output of the shortcodes at any
 output, those filters will be reflected in the coverted post content.
 
 
+## Screenshots ##
+
+### Shortcode UI form as accessed from Insert Media > Insert Post Element ###
+![Shortcode UI form as accessed from Insert Media > Insert Post
+Element](http://s.wordpress.org/extend/plugins/image-shortcake/screenshot-1.png)
+
+This is the Shortcode UI form as accessed from Insert Media > Insert Post
+Element.  (Note that you can also insert images as usual, by inserting them in
+the Media Library - they will be transparently converted into shortcodes behind
+the scenes for you.)
+
+### Image preview renders in the editor just as usual ###
+
+![Image preview in editor](http://s.wordpress.org/extend/plugins/image-shortcake/screenshot-2.png)
+
+Image preview renders in the editor just as it normally would. The Shortcake
+plugin's edit/delete buttons are available to modify the shortcode through the
+provided UI.
+
+
 ## Changelog ##
 
 ### 0.1 ###
