@@ -1,12 +1,11 @@
 # Image-shortcake #
-**Contributors:** fusionengineering  
-**Donate link:** http://example.com/  
-**Tags:** comments, spam  
-**Requires at least:** 3.0.1  
-**Tested up to:** 3.4  
-**Stable tag:** 4.3  
-**License:** GPLv2 or later  
-**License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
+**Contributors:** fusionengineering
+**Tags:** shortcodes, images
+**Requires at least:** 3.0.1
+**Tested up to:** 4.2
+**Stable tag:** 0.1
+**License:** GPLv2 or later
+**License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
 Image Shortcake adds a shortcode for images, so that themes can template and
 filter images displayed in posts. It is designed to work with the UI provided
@@ -114,7 +113,7 @@ use this shortcode for:
 
 The plugin comes with two [WP-CLI](http://wp-cli.org) commands to migrate
 images in your existing content into the `[img]` shortcode format used by this
-plugin. _Note: if it isn't clear, this is an early release -- use at your own
+plugin. _Note: if it isn't clear, this is an early release -- use  at your own
 risk, and make sure you've backed up your posts before migrating!_
 
 `wp image-shortcode migrate <ids> [--dry-run]`
