@@ -25,7 +25,7 @@ class Image_Shortcake_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     ## Migrate all Posts to the Image Shortcake syntax
-	 *     wp image-shortcake-shortcode migrate `wp post list --post_type=post` --ids`
+	 *     wp image-shortcake migrate `wp post list --post_type=post` --ids`
 	 *
 	 *     ## Converts images to shortcodes on one post, preserving a log to rollback in case of errors.
 	 *     wp image-shortcake migrate 123 > potential-oops.txt
@@ -103,7 +103,28 @@ class Image_Shortcake_Command extends WP_CLI_Command {
 	}
 
 
-	public function downdate( $args, $assoc_args ) {
+	/**
+	 * Revert post content from image shortcodes back to <img> tags and [caption] shortcodes
+	 *
+	 * ## OPTIONS
+	 *
+	 * <id>...
+	 * : One or more IDs of posts to update.
+	 *
+	 * [--dry-run]
+	 * : Only show the content which is to be changed, don't update posts.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     ## Revert all Posts from the Image Shortcake syntax
+	 *     wp image-shortcake migrate `wp post list --post_type=post` --ids`
+	 *
+	 *     ## Converts shortcodes back to images on one post, preserving a log to rollback in case of errors.
+	 *     wp image-shortcake migrate 123 > potential-oops.txt
+	 *
+	 * @synopsis <id>... [--dry-run]
+	 */
+	public function revert( $args, $assoc_args ) {
 
 		foreach( array_filter( $args ) as $post_ID ) {
 
