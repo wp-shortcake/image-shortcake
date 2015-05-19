@@ -121,7 +121,7 @@ this plugin. _Note: if it isn't clear, this is an early release -- use
 at your own risk, and make sure you've backed up your posts before
 migrating!_
 
-`wp image-shortcode migrate <ids> [--dry-run]`
+`wp image-shortcake migrate <ids> [--dry-run]`
 
 This command searches the post content of the posts specified in `<ids>`,
 and replaces any `<img>` tags or `[caption]` shortcodes with `[img]`
@@ -132,7 +132,7 @@ If you add the `--dry-run` flag, no replacements will actually be
 performed, just a summary report of the changes which would have been
 made.
 
-`wp image-shortcode revert <ids> [--dry-run]`
+`wp image-shortcake revert <ids> [--dry-run]`
 
 This command finds all `[img]` shortcodes in the content of any of the
 posts specified in `<ids>`, and replaces them with the markup that would
