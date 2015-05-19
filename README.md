@@ -29,8 +29,30 @@ For best results, use this with the [Shortcake (Shortcode
 UI)](https://github.com/fusioneng/Shortcake) plugin. Shortcake offers an
 easy to use interface to manage shortcodes in post content.
 
+What could you use this for? Well, at [Fusion](http://fusion.net) we use this
+shortcode for:
 
-## Customizing Output ##
+* **Responsive Images**. By filtering the output of the `[img]` shortcode
+  image tag, we're able to insert the `srcset` attribute, so that all of
+  the images on our site are served responsively to browsers that support
+  that.
+
+* **Inline sharing buttons**. We've added share links to each of the
+  images on our site. Because these are inserted through a filter on
+  a shortcode and not in the post content, it's easy to modify them on the
+  fly. And having this logic in template files rather in on-page javascript
+  that runs after page load makes it quicker for users.
+
+* **Photo credits**. We've added "credit" as an image meta field, and we
+  use a filter on 'img_shortcode_output_after_linkify' to display it on all
+  images.
+
+See the [Installation](#Installation) section for more ideas and tips for
+custom image templates.
+
+## Installation ##
+
+### Customizing Output ###
 
 The whole point of using shortcodes rather than HTML tags for images is
 that you can customize the markup of images in your theme. This plugin
@@ -90,31 +112,14 @@ in a template file called `inline-image.php`:
 	}
 	```
 
-What else could you use this for? Well, at [Fusion](http://fusion.net) we
-use this shortcode for:
 
-* **Responsive Images**. By filtering the output of the `[img]` shortcode
-  image tag, we're able to insert the `srcset` attribute, so that all of
-  the images on our site are served responsively to browsers that support
-  that.
-
-* **Inline sharing buttons**. We've added share links to each of the
-  images on our site. Because these are inserted through a ilter on
-  a shortcode and not in the post content, it's easy to modify them on the
-  fly. And having this logic in template files rather in on-page javascript
-  that runs after page load makes it quicker for users.
-
-* **Photo credits**. We've added "credit" as an image meta field, and we
-  use a filter on 'img_shortcode_output_after_linkify' to display it on all
-  images.
-
-
-## Data Migration ##
+### Data Migration ###
 
 The plugin comes with two [WP-CLI](http://wp-cli.org) commands to migrate
-images in your existing content into the `[img]` shortcode format used by this
-plugin. _Note: if it isn't clear, this is an early release -- use  at your own
-risk, and make sure you've backed up your posts before migrating!_
+images in your existing content into the `[img]` shortcode format used by
+this plugin. _Note: if it isn't clear, this is an early release -- use
+at your own risk, and make sure you've backed up your posts before
+migrating!_
 
 `wp image-shortcode migrate <ids> [--dry-run]`
 
