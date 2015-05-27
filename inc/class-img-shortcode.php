@@ -106,6 +106,7 @@ class Img_Shortcode {
 							'file'       => esc_attr__( 'Link to file',            'image-shortcake' ),
 							'custom'     => esc_attr__( 'Custom link',             'image-shortcake' ),
 						),
+						'callback'    => 'imgShortcakeLinktoListener',
 					),
 
 					array(

@@ -26,6 +26,7 @@ class Image_Shortcake {
 			self::$instance = new Image_Shortcake;
 			self::$instance->register_shortcode();
 			self::$instance->setup_filters();
+			self::$instance->enqueue_assets();
 		}
 
 		return self::$instance;
@@ -69,6 +70,32 @@ class Image_Shortcake {
 	 */
 	private function setup_filters() {
 		add_filter( 'media_send_to_editor', 'Img_Shortcode::filter_media_send_to_editor', 15, 3 );
+	}
+
+
+	/**
+	 * Enqueue scripts and styles for editor admin area
+	 *
+	 * Defines the callback function which is run on chanes to any of the
+	 * shortcode attributes through the UI.
+	 */
+	public function enqueue_assets() {
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_shortcode_callback_js' ) );
+	}
+
+
+	/**
+	 * Enqueues the shortcode callback function on edit page
+	 *
+	 *
+	 * @action admin_enqueue_scripts
+	 */
+	public function enqueue_shortcode_callback_js( $hook ) {
+		if ( 'post.php' !== $hook ) {
+			return;
+		}
+
+		wp_enqueue_script( 'image-shortcake-admin', plugin_dir_url( __FILE__ ) . 'assets/js/image-shortcake-admin.js' );
 	}
 
 
