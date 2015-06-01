@@ -80,21 +80,17 @@ class Image_Shortcake {
 	 * shortcode attributes through the UI.
 	 */
 	public function enqueue_assets() {
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_shortcode_callback_js' ) );
+		add_action( 'enqueue_shortcode_ui', array( $this, 'enqueue_shortcode_js' ) );
 	}
 
 
 	/**
-	 * Enqueues the shortcode callback function on edit page
+	 * Enqueues the shortcode function on edit page
 	 *
 	 *
 	 * @action admin_enqueue_scripts
 	 */
-	public function enqueue_shortcode_callback_js( $hook ) {
-		if ( 'post.php' !== $hook ) {
-			return;
-		}
-
+	public function enqueue_shortcode_js() {
 		wp_enqueue_script( 'image-shortcake-admin', plugin_dir_url( __FILE__ ) . 'assets/js/image-shortcake-admin.js' );
 	}
 

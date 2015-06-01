@@ -4,8 +4,8 @@
  *
  * Display the "Custom Link" field if and only if the "linkto" field is "custom"
  */
-function imgShortcakeLinktoListener( changed, collection ) {
-	var customLinkField = _.find( this, function( viewModel ) { return 'url' === viewModel.model.get('attr'); } );
+function imgShortcakeLinktoListener( changed, collection, shortcode ) {
+	var customLinkField = _.find( collection, function( viewModel ) { return 'url' === viewModel.model.get('attr'); } );
 
 	if ( changed.value === 'custom' ) {
 		customLinkField.$el.show()
@@ -13,3 +13,5 @@ function imgShortcakeLinktoListener( changed, collection ) {
 		customLinkField.$el.val('').hide();
 	}
 }
+
+wp.shortcodeUi.hooks.addAction( 'img.linkto', imgShortcakeLinktoListener );
