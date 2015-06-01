@@ -14,4 +14,4 @@ function imgShortcakeLinktoListener( changed, collection, shortcode ) {
 	}
 }
 
-wp.shortcodeUi.hooks.addAction( 'img.linkto', imgShortcakeLinktoListener );
+wp.shortcake.hooks.addAction( 'img.linkto', imgShortcakeLinktoListener );
