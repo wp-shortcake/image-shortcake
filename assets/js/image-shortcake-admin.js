@@ -20,4 +20,13 @@ var ImageShortcake = {
 
 }
 
-wp.shortcake.hooks.addAction( 'img.linkto', ImageShortcake.listeners.linkto );
+/**
+ * If using a recent enough version of Shortcake (0.4.0 and up),
+ * attach these listeners to the attributes.
+ *
+ */
+if ( typeof wp.shortcake !== 'undefined' && typeof wp.shortcake.hooks !== 'undefined' ) {
+
+	wp.shortcake.hooks.addAction( 'img.linkto', ImageShortcake.listeners.linkto );
+
+}
