@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Image-shortcake
-Version: 0.1-alpha
+Version: 0.1.0
 Description: Provides a shortcode for image elements. Use with the Shortcake plugin for a preview of images
 Author: fusionengineering, goldenapples
 Author URI: https://github.com/fusioneng

@@ -1,9 +1,9 @@
 === Image-shortcake ===
-Contributors: fusionengineering
+Contributors: fusionengineering, goldenapples, danielbachhuber
 Tags: shortcodes, images
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 0.1
+Stable tag: 0.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -153,6 +153,6 @@ output, those filters will be reflected in the coverted post content.
 
 == Changelog ==
 
-= 0.1 =
-Initial release (May 1, 2015)
+= 0.1.0 (May 1, 2015) =
+* Initial release
 

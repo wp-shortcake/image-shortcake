@@ -1,11 +1,11 @@
 # Image-shortcake #
-**Contributors:** fusionengineering
-**Tags:** shortcodes, images
-**Requires at least:** 3.0.1
-**Tested up to:** 4.2
-**Stable tag:** 0.1
-**License:** GPLv2 or later
-**License URI:** http://www.gnu.org/licenses/gpl-2.0.html
+**Contributors:** fusionengineering, goldenapples, danielbachhuber  
+**Tags:** shortcodes, images  
+**Requires at least:** 3.0.1  
+**Tested up to:** 4.2  
+**Stable tag:** 0.1.0  
+**License:** GPLv2 or later  
+**License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
 Image Shortcake adds a shortcode for images, so that themes can template and
 filter images displayed in posts. It is designed to work with the UI provided
@@ -106,7 +106,7 @@ in a template file called `inline-image.php`:
 	if ( is_array( $exif_data ) ) {
 		echo '<ul class="image-meta">';
 		foreach ( $exif_data as $field => $value ) {
-			echo '<li>' . $field . ': ' . $value . '</li>';
+**			echo '<li>' . $field . ':** ' . $value . '</li>';  
 		}
 		echo '</ul>';
 	}
@@ -117,7 +117,7 @@ in a template file called `inline-image.php`:
 
 The plugin comes with two [WP-CLI](http://wp-cli.org) commands to migrate
 images in your existing content into the `[img]` shortcode format used by
-this plugin. _Note: if it isn't clear, this is an early release -- use
+**this plugin. _Note:** if it isn't clear, this is an early release -- use  
 at your own risk, and make sure you've backed up your posts before
 migrating!_
 
@@ -143,26 +143,20 @@ output, those filters will be reflected in the coverted post content.
 
 ## Screenshots ##
 
-### Shortcode UI form as accessed from Insert Media > Insert Post Element ###
-![Shortcode UI form as accessed from Insert Media > Insert Post
-Element](http://s.wordpress.org/extend/plugins/image-shortcake/screenshot-1.png)
+### 1. This is the shortcode UI form as accessed from **Insert Media > Insert post ###
+![This is the shortcode UI form as accessed from **Insert Media > Insert post](http://s.wordpress.org/extend/plugins/image-shortcake/screenshot-1.png)
 
-This is the Shortcode UI form as accessed from Insert Media > Insert Post
-Element.  (Note that you can also insert images as usual, by inserting them in
-the Media Library - they will be transparently converted into shortcodes behind
-the scenes for you.)
+   Element**. (Note that you can also insert images as usual, by inserting them
+   in the Media Library - they will be transparently converted into shortcodes
+   behind the scenes for you.)
+### 2. Once inserted into a post, the image preview renders in the editor just as ###
+![Once inserted into a post, the image preview renders in the editor just as](http://s.wordpress.org/extend/plugins/image-shortcake/screenshot-2.png)
 
-### Image preview renders in the editor just as usual ###
-
-![Image preview in editor](http://s.wordpress.org/extend/plugins/image-shortcake/screenshot-2.png)
-
-Image preview renders in the editor just as it normally would. The Shortcake
-plugin's edit/delete buttons are available to modify the shortcode through the
-provided UI.
-
+   it normally would. The Shortcake plugin's edit/delete buttons are available
+   to modify the shortcode through the provided UI.
 
 ## Changelog ##
 
-### 0.1 ###
-Initial release (May 1, 2015)
+### 0.1.0 (May 1, 2015) ###
+* Initial release
 
