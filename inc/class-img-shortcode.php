@@ -38,7 +38,7 @@ class Img_Shortcode {
 
 			$size_str = $size ? " ({$size}px)" : '';
 
-			$sizes_available[$key] = esc_attr( "{$name}{$size_str}" );
+			$sizes_available[ $key ] = esc_attr( "{$name}{$size_str}" );
 		}
 
 		$shortcode_ui_args = array(
@@ -79,7 +79,7 @@ class Img_Shortcode {
 						'attr'        => 'caption',
 						'type'        => 'text',
 						'placeholder' => esc_attr__( 'Caption for the image', 'image-shortcake' ),
-						'description' => esc_html__( 'Quote marks and HTML tags are not allowed', 'image-shortcake' )
+						'description' => esc_html__( 'Quote marks and HTML tags are not allowed', 'image-shortcake' ),
 					),
 
 					array(
@@ -345,7 +345,7 @@ class Img_Shortcode {
 		}
 
 		$shortcode_attrs = array(
-			'attachment' => $media_post->ID
+			'attachment' => $media_post->ID,
 		);
 
 		if ( ! empty( $attachment['align'] ) ) {
