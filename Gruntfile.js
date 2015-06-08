@@ -33,7 +33,7 @@ module.exports = function( grunt ) {
 			},
 			options: {
 				bin: "vendor/bin/phpcs --extensions=php --ignore=\"*/vendor/*,*/node_modules/*\"",
-				standard: "WordPress"
+				standard: "phpcs.ruleset.xml"
 			}
 		},
 

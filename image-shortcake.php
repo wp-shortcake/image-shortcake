@@ -1,14 +1,14 @@
 <?php
-/*
-Plugin Name: Image-shortcake
-Version: 0.1.0
-Description: Provides a shortcode for image elements. Use with the Shortcake plugin for a preview of images
-Author: fusionengineering, goldenapples
-Author URI: https://github.com/fusioneng
-Plugin URI: https://github.com/fusioneng/image-shortcake
-Text Domain: image-shortcake
-Domain Path: /languages
-*/
+/**
+ * Plugin Name: Image-shortcake
+ * Version: 0.1.0
+ * Description: Provides a shortcode for image elements. Use with the Shortcake plugin for a preview of images
+ * Author: fusionengineering, goldenapples
+ * Author URI: https://github.com/fusioneng
+ * Plugin URI: https://github.com/fusioneng/image-shortcake
+ * Text Domain: image-shortcake
+ * Domain Path: /languages
+ */
 
 class Image_Shortcake {
 
