@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Image-shortcake
- * Version: 0.1.0
+ * Version: 0.2.0-alpha
  * Description: Provides a shortcode for image elements. Use with the Shortcake plugin for a preview of images
  * Author: fusionengineering, goldenapples
  * Author URI: https://github.com/fusioneng
@@ -9,6 +9,8 @@
  * Text Domain: image-shortcake
  * Domain Path: /languages
  */
+
+define( 'IMAGE_SHORTCAKE_VERSION', '0.2.0-alpha' );
 
 class Image_Shortcake {
 
@@ -89,7 +91,7 @@ class Image_Shortcake {
 	 *
 	 */
 	public function action_enqueue_shortcode_ui() {
-		wp_enqueue_script( 'image-shortcake-admin', plugin_dir_url( __FILE__ ) . 'assets/js/image-shortcake-admin.js' );
+		wp_enqueue_script( 'image-shortcake-admin', plugin_dir_url( __FILE__ ) . 'assets/js/image-shortcake-admin.js', false, IMAGE_SHORTCAKE_VERSION );
 	}
 
 
@@ -112,4 +114,3 @@ class Image_Shortcake {
 }
 
 add_action( 'init', 'Image_Shortcake::get_instance' );
-
