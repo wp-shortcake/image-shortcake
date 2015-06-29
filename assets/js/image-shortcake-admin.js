@@ -10,22 +10,23 @@ var ImageShortcake = {
 		 * the attachment data.
 		 */
 		attachment: function( changed, collection, shortcode ) {
-			if ( typeof changed.value === 'undefined' || typeof window.sui.data.idCache[ changed.value ] === 'undefined' ) {
+			if ( typeof changed.value === 'undefined' ) {
 				return;
 			}
-			var attachment = window.sui.data.idCache[ changed.value ];
+			var attachment = sui.views.editAttributeFieldAttachment.getFromCache( changed.value );
 
-			var altField = _.find( collection, function( viewModel ) { return 'alt' === viewModel.model.get('attr'); } );
-			var captionField = _.find( collection, function( viewModel ) { return 'caption' === viewModel.model.get('attr'); } );
+			if ( attachment ) {
+				var altField = _.find( collection, function( viewModel ) { return 'alt' === viewModel.model.get('attr'); } );
+				var captionField = _.find( collection, function( viewModel ) { return 'caption' === viewModel.model.get('attr'); } );
 
-			if ( ! altField.model.get('value') && attachment.alt ) {
-				altField.$el.find('[name="alt"]').val( attachment.alt );
+				if ( ! altField.model.get('value') && attachment.alt ) {
+					altField.$el.find('[name="alt"]').val( attachment.alt );
+				}
+
+				if ( ! captionField.model.get('value') && attachment.caption ) {
+					captionField.$el.find('[name="caption"]').val( attachment.caption );
+				}
 			}
-
-			if ( ! captionField.model.get('value') && attachment.caption ) {
-				captionField.$el.find('[name="caption"]').val( attachment.caption );
-			}
-
 		},
 
 		/**
