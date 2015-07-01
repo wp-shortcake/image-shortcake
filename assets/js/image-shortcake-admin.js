@@ -17,14 +17,16 @@ var ImageShortcake = {
 			var attachment = sui.views.editAttributeFieldAttachment.getFromCache( changed.value );
 
 			if ( attachment ) {
-				var altField = sui.views.editAttributeField.getField( collection, 'alt' );
-				var captionField = sui.views.editAttributeField.getField( collection, 'caption' );
 
-				if ( ! altField.model.get('value') && attachment.alt ) {
+				var attrView = sui.views.editAttributeField,
+					altField = attrView.getField( collection, 'alt' ),
+					captionField = attrView.getField( collection, 'caption' );
+
+				if ( ! altField.getValue() && attachment.alt ) {
 					altField.$el.find('[name="alt"]').val( attachment.alt );
 				}
 
-				if ( ! captionField.model.get('value') && attachment.caption ) {
+				if ( ! captionField.getValue() && attachment.caption ) {
 					captionField.$el.find('[name="caption"]').val( attachment.caption );
 				}
 			}
