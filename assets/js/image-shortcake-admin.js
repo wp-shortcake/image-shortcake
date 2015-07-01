@@ -13,11 +13,12 @@ var ImageShortcake = {
 			if ( typeof changed.value === 'undefined' ) {
 				return;
 			}
+
 			var attachment = sui.views.editAttributeFieldAttachment.getFromCache( changed.value );
 
 			if ( attachment ) {
-				var altField = _.find( collection, function( viewModel ) { return 'alt' === viewModel.model.get('attr'); } );
-				var captionField = _.find( collection, function( viewModel ) { return 'caption' === viewModel.model.get('attr'); } );
+				var altField = sui.views.editAttributeField.getField( collection, 'alt' );
+				var captionField = sui.views.editAttributeField.getField( collection, 'caption' );
 
 				if ( ! altField.model.get('value') && attachment.alt ) {
 					altField.$el.find('[name="alt"]').val( attachment.alt );
@@ -35,7 +36,7 @@ var ImageShortcake = {
 		 * Display the "Custom Link" field if and only if the "linkto" field is "custom"
 		 */
 		linkto: function( changed, collection, shortcode ) {
-			var customLinkField = _.find( collection, function( viewModel ) { return 'url' === viewModel.model.get('attr'); } );
+			var customLinkField = sui.views.editAttributeField.getField( collection, 'url' );
 
 			if ( changed.value === 'custom' ) {
 				customLinkField.$el.show()
