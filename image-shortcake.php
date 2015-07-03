@@ -26,6 +26,7 @@ class Image_Shortcake {
 			self::require_files();
 
 			self::$instance = new Image_Shortcake;
+			self::$instance->load_textdomain();
 			self::$instance->register_shortcode();
 			self::$instance->setup_filters();
 			self::$instance->enqueue_assets();
@@ -34,6 +35,16 @@ class Image_Shortcake {
 		return self::$instance;
 	}
 
+	/**
+	 * Load translations
+	 *
+	 * @return void
+	 */
+	private static function load_textdomain() {
+		load_plugin_textdomain( 'image-shortcake', false, 
+			dirname( plugin_basename( __FILE__ ) ) . '/languages/' 
+		);
+	}
 
 	/**
 	 * Require the plugin's shortcode class file.
