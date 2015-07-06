@@ -41,8 +41,8 @@ class Image_Shortcake {
 	 * @return void
 	 */
 	private static function load_textdomain() {
-		load_plugin_textdomain( 'image-shortcake', false, 
-			dirname( plugin_basename( __FILE__ ) ) . '/languages/' 
+		load_plugin_textdomain( 'image-shortcake', false,
+			dirname( plugin_basename( __FILE__ ) ) . '/languages/'
 		);
 	}
 
