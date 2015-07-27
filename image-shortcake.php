@@ -72,7 +72,7 @@ class Image_Shortcake {
 		if ( function_exists( 'shortcode_ui_register_for_shortcode' ) ) {
 			shortcode_ui_register_for_shortcode( 'img', Img_Shortcode::get_shortcode_ui_args() );
 		} else {
-			add_action( 'admin_notices', 'Image_Shortcake::admin_notices_warning' );
+			add_action( 'admin_notices', array( $this, 'action_admin_notices_warning' ) );
 		}
 	}
 
@@ -114,7 +114,7 @@ class Image_Shortcake {
 	 *
 	 * @action admin_notices
 	 */
-	public function admin_notices_warning() {
+	public function action_admin_notices_warning() {
 		if ( current_user_can( 'activate_plugins' ) ) {
 			echo '<div class="error message"><p>' .
 				esc_html__( 'Shortcode UI plugin is not active. No UI will be available for the image shortcode.', 'image-shortcake' ) .
