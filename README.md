@@ -19,8 +19,7 @@ For best results, use this with the [Shortcake (Shortcode UI)](https://github.co
 
 What could you use this for? Well, at [Fusion](http://fusion.net) we use this shortcode for:
 
-* **Responsive Images**. By filtering the output of the `[img]` shortcode image tag, we're able to insert the `srcset` attribute, so that all of
-  the images on our site are served responsively to browsers that support that.
+* **Responsive Images**. By filtering the output of the `[img]` shortcode image tag, we're able to insert the `srcset` attribute, so that all of the images on our site are served responsively to browsers that support that.
 
 * **Inline sharing buttons**. We've added share links to each of the images on our site. Because these are inserted through a filter on a shortcode and not in the post content, it's easy to modify them on the fly. And having this logic in template files rather in on-page javascript that runs after page load makes it quicker for users.
 
