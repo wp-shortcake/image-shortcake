@@ -1,38 +1,41 @@
-var ImageShortcakeMedia = {};
-(function( $ ){
-	 /*
-	  * Callback to manipulate the attachment details and two column template, onReady. 
-	  */
-	 ImageShortcakeMedia.wpMediaViewAttachmentDetails = function() {
-		var attachmentDetailsTemplate = $("#tmpl-attachment-details"),
-		 	attachmentDetailsHtml = attachmentDetailsTemplate.html(),
-			attachmentDetailsTwoColumnTemplate = $("#tmpl-attachment-details-two-column"),
-			attachmentDetailsTwoColumnHtml = attachmentDetailsTwoColumnTemplate.html(),
+/*
+ * Callback to manipulate the attachment details and two column template, onReady. 
+ */
+function updateStringsForImageShortcake() {
+	var attachmentDetailsTemplate = jQuery("#tmpl-attachment-details");
 
-			customCaption = '<# if( "image" === data.type ) { #>' +
-							'<span class="name">Caption</span>' +
-							'<# } #>' +
-							'<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>' +
-							'<div class="image-shortcake-warning">Quote marks and HTML tags are not allowed in captions.</div>' +
-							'<style scoped>.image-shortcake-warning { display: block;float: right;width: 65%;margin-bottom: 5px;font-style: italic; }@media (max-width: 900px) { .image-shortcake-warning { width: 100%;} } </style>';
+	if ( ! attachmentDetailsTemplate ) {
+		return;
+	}
 
-		/** 
-		 * Use string methods hack.
-		 */
-		var newHtml = attachmentDetailsHtml.replace(/(<label class="setting" data-setting="caption">)[\w\W]*?(<\/label>)/,"$1 " + customCaption + " $2");
-		newHtml = newHtml.replace(/(<label class="setting" data-setting="description">[\w\W]*?<\/label>)/,"<# if( 'image' === data.type ) { #>$1<# } #>");
-		attachmentDetailsTemplate.text( newHtml );
-		
-		newHtml = attachmentDetailsTwoColumnHtml.replace(/(<label class="setting" data-setting="caption">)[\w\W]*?(<\/label>)/,"$1 " + customCaption + " $2");
-		newHtml = newHtml.replace(/(<label class="setting" data-setting="description">[\w\W]*?<\/label>)/,"<# if( 'image' === data.type ) { #>$1<# } #>");
-		attachmentDetailsTwoColumnTemplate.text( newHtml );
-	};
+	var attachmentDetailsHtml = attachmentDetailsTemplate.html(),
+		attachmentDetailsTwoColumnTemplate = jQuery("#tmpl-attachment-details-two-column"),
+		attachmentDetailsTwoColumnHtml = attachmentDetailsTwoColumnTemplate.html(),
 
-	$(document).ready(function(){
-		ImageShortcakeMedia.wpMediaViewAttachmentDetails();
-	});
+		customCaption = '<# if( "image" === data.type ) { #>' +
+						'<span class="name">' +
+						image_shortcake_strings.caption +
+						'</span>' +
+						'<# } #>' +
+						'<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>' +
+						'<div class="image-shortcake-warning">Quote marks and HTML tags are not allowed in captions.</div>' +
+						'<style scoped>.image-shortcake-warning { display: block;float: right;width: 65%;margin-bottom: 5px;font-style: italic; }@media (max-width: 900px) { .image-shortcake-warning { width: 100%;} } </style>';
 
-}( jQuery ) );
+	/** 
+	 * Use string methods hack.
+	 */
+	var newHtml = attachmentDetailsHtml.replace(/(<label class="setting" data-setting="caption">)[\w\W]*?(<\/label>)/,"$1 " + customCaption + " $2");
+	newHtml = newHtml.replace(/(<label class="setting" data-setting="description">[\w\W]*?<\/label>)/,"<# if( 'image' === data.type ) { #>$1<# } #>");
+	attachmentDetailsTemplate.text( newHtml );
+	
+	newHtml = attachmentDetailsTwoColumnHtml.replace(/(<label class="setting" data-setting="caption">)[\w\W]*?(<\/label>)/,"$1 " + customCaption + " $2");
+	newHtml = newHtml.replace(/(<label class="setting" data-setting="description">[\w\W]*?<\/label>)/,"<# if( 'image' === data.type ) { #>$1<# } #>");
+	attachmentDetailsTwoColumnTemplate.text( newHtml );
+};
+
+jQuery(document).ready(function(){
+	updateStringsForImageShortcake();
+});
 
 var ImageShortcake = {
 
