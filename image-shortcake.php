@@ -1,14 +1,16 @@
 <?php
-/*
-Plugin Name: Image-shortcake
-Version: 0.1-alpha
-Description: Provides a shortcode for image elements. Use with the Shortcake plugin for a preview of images
-Author: fusionengineering, goldenapples
-Author URI: https://github.com/fusioneng
-Plugin URI: https://github.com/fusioneng/image-shortcake
-Text Domain: image-shortcake
-Domain Path: /languages
-*/
+/**
+ * Plugin Name: Image-shortcake
+ * Version: 0.2.0-alpha
+ * Description: Provides a shortcode for image elements. Use with the Shortcake plugin for a preview of images
+ * Author: fusionengineering, goldenapples
+ * Author URI: https://github.com/fusioneng
+ * Plugin URI: https://github.com/fusioneng/image-shortcake
+ * Text Domain: image-shortcake
+ * Domain Path: /languages
+ */
+
+define( 'IMAGE_SHORTCAKE_VERSION', '0.2.0-alpha' );
 
 class Image_Shortcake {
 
@@ -24,13 +26,25 @@ class Image_Shortcake {
 			self::require_files();
 
 			self::$instance = new Image_Shortcake;
+			self::$instance->load_textdomain();
 			self::$instance->register_shortcode();
 			self::$instance->setup_filters();
+			self::$instance->enqueue_assets();
 		}
 
 		return self::$instance;
 	}
 
+	/**
+	 * Load translations
+	 *
+	 * @return void
+	 */
+	private static function load_textdomain() {
+		load_plugin_textdomain( 'image-shortcake', false,
+			dirname( plugin_basename( __FILE__ ) ) . '/languages/'
+		);
+	}
 
 	/**
 	 * Require the plugin's shortcode class file.
@@ -58,7 +72,7 @@ class Image_Shortcake {
 		if ( function_exists( 'shortcode_ui_register_for_shortcode' ) ) {
 			shortcode_ui_register_for_shortcode( 'img', Img_Shortcode::get_shortcode_ui_args() );
 		} else {
-			add_action( 'admin_notices', 'Image_Shortcake::admin_notices_warning' );
+			add_action( 'admin_notices', array( $this, 'action_admin_notices_warning' ) );
 		}
 	}
 
@@ -73,6 +87,26 @@ class Image_Shortcake {
 
 
 	/**
+	 * Enqueue scripts and styles for editor admin area
+	 *
+	 * Defines the callback function which is run on chanes to any of the
+	 * shortcode attributes through the UI.
+	 */
+	public function enqueue_assets() {
+		add_action( 'enqueue_shortcode_ui', array( $this, 'action_enqueue_shortcode_ui' ) );
+	}
+
+
+	/**
+	 * Enqueues the attribute event handler functions on edit page
+	 *
+	 */
+	public function action_enqueue_shortcode_ui() {
+		wp_enqueue_script( 'image-shortcake-admin', plugin_dir_url( __FILE__ ) . 'assets/js/image-shortcake-admin.js', false, IMAGE_SHORTCAKE_VERSION );
+	}
+
+
+	/**
 	 * Output a warning notice to authorized users if shortcake is not active.
 	 *
 	 * if Shortcode UI plugin is not active, the UI for the [img] shortcode
@@ -80,7 +114,7 @@ class Image_Shortcake {
 	 *
 	 * @action admin_notices
 	 */
-	public function admin_notices_warning() {
+	public function action_admin_notices_warning() {
 		if ( current_user_can( 'activate_plugins' ) ) {
 			echo '<div class="error message"><p>' .
 				esc_html__( 'Shortcode UI plugin is not active. No UI will be available for the image shortcode.', 'image-shortcake' ) .
@@ -91,4 +125,3 @@ class Image_Shortcake {
 }
 
 add_action( 'init', 'Image_Shortcake::get_instance' );
-
