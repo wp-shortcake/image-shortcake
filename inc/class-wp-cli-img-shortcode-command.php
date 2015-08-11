@@ -126,7 +126,7 @@ class Image_Shortcake_Command extends WP_CLI_Command {
 	 */
 	public function revert( $args, $assoc_args ) {
 
-		foreach( array_filter( $args ) as $post_ID ) {
+		foreach ( array_filter( $args ) as $post_ID ) {
 
 			$post = $this->fetcher->get_check( $post_ID );
 
@@ -155,8 +155,8 @@ class Image_Shortcake_Command extends WP_CLI_Command {
 			WP_CLI::log( '' );
 
 			foreach ( $replacements as $del => $ins ) {
-				\WP_CLI::log( \cli\Colors::colorize( "%C-%n" ) . $del, true );
-				\WP_CLI::log( \cli\Colors::colorize( "%G+%n" ) . $ins, true );
+				\WP_CLI::log( \cli\Colors::colorize( '%C-%n' ) . $del, true );
+				\WP_CLI::log( \cli\Colors::colorize( '%G+%n' ) . $ins, true );
 			}
 
 			WP_CLI::log( '' );
@@ -169,7 +169,9 @@ class Image_Shortcake_Command extends WP_CLI_Command {
 
 			global $wpdb;
 
+			// @codingStandardsIgnoreStart
 			$updated = $wpdb->update( $wpdb->posts, array( 'post_content' => $_content ), array( 'ID' => $post_ID ) );
+			// @codingStandardsIgnoreEnd
 
 			if ( 1 === $updated ) {
 				clean_post_cache( $post );
@@ -177,7 +179,6 @@ class Image_Shortcake_Command extends WP_CLI_Command {
 			} else {
 				WP_CLI::warning( 'There was an unexpected error updating post ' . $post->ID . '.' );
 			}
-
 		}
 	}
 
