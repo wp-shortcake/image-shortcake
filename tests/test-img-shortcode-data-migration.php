@@ -73,6 +73,43 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Case: [img] shortcode conversion to <img>
+	 *
+	 */
+	function test_img_shortcode_conversion_to_img() {
+
+		$attachment_id = $this->attachment_id;
+		$upload_dir = wp_upload_dir();
+		$expected_src_attr = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000.png';
+
+		// Test vanilla shortcode
+		$shortcode = '[img attachment="' . $attachment_id . '" /]';
+		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
+		$this->assertContains( '<img class="size-full alignnone" src="' . $expected_src_attr . '" width="2000" height="1125" />' , $conversion );
+
+// 		// Test link href: linkto="file"
+// 		$content = apply_filters( 'the_content', '[img attachment="' . $attachment_id . '" linkto="file" /]' );
+
+// 		$expected_href_attr = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000.png';
+// 		$this->assertContains( 'href="' . $expected_href_attr . '"', $content );
+
+// 		// Test link href: linkto="attachment"
+// 		$content = apply_filters( 'the_content', '[img attachment="' . $attachment_id . '" linkto="attachment" /]' );
+
+// 		$expected_href_attr = get_permalink( $attachment_id );
+// 		$this->assertContains( 'href="' . $expected_href_attr . '"', $content );
+
+// 		// Test caption attribute
+// 		$caption = <<<EOL
+// This is a "<em>caption</em>". It should contain <abbr>HTML</abbr> and <span class="icon">markup</span>.
+// EOL;
+// 		$content = apply_filters( 'the_content', '[img attachment="' . $attachment_id . '" caption="' . esc_attr( $caption ) . '" /]' );
+
+// 		$expected_caption = esc_html( $caption );
+
+	}
+
+	/**
 	 * Case: <img> tags with an external src
 	 *
 	 */
