@@ -98,7 +98,7 @@ class Image_Shortcake {
 
 
 	/**
-	 * Enqueues the attribute event handler functions on edit page 
+	 * Enqueues the attribute event handler functions on edit page
 	 * Adds some localized text
 	 *
 	 */
