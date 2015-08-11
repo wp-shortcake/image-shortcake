@@ -18,7 +18,9 @@ function updateStringsForImageShortcake() {
 						'</span>' +
 						'<# } #>' +
 						'<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>' +
-						'<div class="image-shortcake-warning">Quote marks and HTML tags are not allowed in captions.</div>' +
+						'<div class="image-shortcake-warning">' +
+						image_shortcake_strings.warning +
+						'.</div>' +
 						'<style scoped>.image-shortcake-warning { display: block;float: right;width: 65%;margin-bottom: 5px;font-style: italic; }@media (max-width: 900px) { .image-shortcake-warning { width: 100%;} } </style>';
 
 	/** 
