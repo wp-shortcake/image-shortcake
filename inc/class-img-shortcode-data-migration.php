@@ -32,7 +32,7 @@ class Img_Shortcode_Data_Migration {
 		$caption_shortcode_regex =
 			'\[caption' .
 				'[^\]]*' .  '\]\]?' .
-				self::img_shortcode_regex() .
+				self::img_tag_regex() .
 				'(?: (?P<caption>[^\]]*))' .
 			'\[\[?\/caption\]\]?';
 		return $caption_shortcode_regex;
