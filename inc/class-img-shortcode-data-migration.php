@@ -235,13 +235,17 @@ class Img_Shortcode_Data_Migration {
 		$caption = isset( $atts['caption'] ) ? $atts['caption'] : '';
 		unset( $atts['caption'] );
 
-		$width = isset( $atts['width'] ) ? $atts['width'] : '';
+		$width = isset( $atts['width'] ) ? $atts['width'] : null;
+
+		$align = isset( $atts['align'] ) ? $atts['align'] : 'alignnone';
+
+		$size = isset( $atts['size'] ) ? $atts['size'] : 'medium';
 
 		$content = Img_Shortcode::callback( $atts );
 
 		if ( ! isset( $width ) && isset( $atts['attachment'] ) ) {
 			$attachment = wp_get_attachment_image_src(
-				(int) $attr['attachment'], $attr['size']
+				(int) $atts['attachment'], $size
 			);
 			$width = intval( $attachment[1] );
 		}
@@ -249,11 +253,12 @@ class Img_Shortcode_Data_Migration {
 		if ( $caption ) {
 			$content =
 				'[caption ' .
-					'width ="' . $width . '" ' .
-					'caption="' . $caption . '" ' .
-					'align="' . $atts['align'] . '" ' .
+					'id="attachment_' . $atts['attachment'] . '" ' .
+					'width="' . $width . '" ' .
+					'align="' . $align . '"' .
 					']' .
 				$content .
+				$caption .
 				'[/caption]';
 		}
 

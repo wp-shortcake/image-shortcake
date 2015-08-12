@@ -87,6 +87,32 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
 		$this->assertContains( '<img class="size-full alignnone" src="' . $expected_src_attr . '" width="2000" height="1125" />' , $conversion );
 
+		// Test link href: linkto="file"
+		$shortcode = '[img attachment="' . $attachment_id . '" linkto="file" /]';
+		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
+		$this->assertContains( 'href="' . $expected_src_attr . '"', $conversion );
+
+		// Test link href: linkto="attachment"
+		$shortcode = '[img attachment="' . $attachment_id . '" linkto="attachment" /]';
+		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
+		$expected_href_attr = get_permalink( $attachment_id );
+		$this->assertContains( 'href="' . $expected_href_attr . '"', $conversion );
+
+		// Test caption attribute
+		$caption = <<<EOL
+This is a "<em>caption</em>". It should contain <abbr>HTML</abbr> and <span class="icon">markup</span>.
+EOL;
+		$shortcode = '[img attachment="' . $attachment_id . '" caption="' . esc_attr( $caption ) . '" /]';
+		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
+		$expected_caption = esc_html( $caption );
+		$this->assertContains( '[caption id="attachment_' . $attachment_id . '" width="300" align="alignnone"]', $conversion );
+		$this->assertContains( $expected_caption . '[/caption]', $conversion );
+
+		// Test no attachment
+		// @todo Determine ideal behavior here
+		// $shortcode = '[img caption="' . esc_attr( $caption ) . '" /]';
+		// $conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
+
 	}
 
 	/**
