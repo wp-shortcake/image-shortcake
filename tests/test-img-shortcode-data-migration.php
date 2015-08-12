@@ -113,6 +113,21 @@ EOL;
 		// $shortcode = '[img caption="' . esc_attr( $caption ) . '" /]';
 		// $conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
 
+		// Test cadillac 1 
+		$shortcode = '[img attachment="' . $attachment_id . '" linkto="attachment" size="full" caption="' . esc_attr( $caption ) . '" align="alignright" /]';
+		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
+		$expected = '[caption id="attachment_' .
+			$attachment_id .
+			'" width="2000" align="alignright"]<a href="' .
+			$expected_href_attr .
+			'" ><img class="size-full alignright" src="' .
+			$expected_src_attr .
+			'" width="2000" height="1125" /></a>' .
+			$expected_caption .
+			'[/caption]';
+
+		$this->assertContains( $expected, $conversion );
+
 	}
 
 	/**
