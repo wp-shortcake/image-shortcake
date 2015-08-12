@@ -113,7 +113,7 @@ EOL;
 		// $shortcode = '[img caption="' . esc_attr( $caption ) . '" /]';
 		// $conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
 
-		// Test cadillac 1 
+		// Test cadillac 1
 		$shortcode = '[img attachment="' . $attachment_id . '" linkto="attachment" size="full" caption="' . esc_attr( $caption ) . '" align="alignright" /]';
 		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
 		$expected = '[caption id="attachment_' .
