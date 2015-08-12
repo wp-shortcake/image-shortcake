@@ -99,10 +99,16 @@ class Image_Shortcake {
 
 	/**
 	 * Enqueues the attribute event handler functions on edit page
+	 * Adds some localized text
 	 *
 	 */
 	public function action_enqueue_shortcode_ui() {
 		wp_enqueue_script( 'image-shortcake-admin', plugin_dir_url( __FILE__ ) . 'assets/js/image-shortcake-admin.js', false, IMAGE_SHORTCAKE_VERSION );
+		$translation_array = array(
+			'caption' => __( 'Caption', 'image-shortcake' ),
+			'warning' => __( 'Quote marks and HTML tags are not allowed in captions', 'image-shortcake' ),
+		);
+		wp_localize_script( 'image-shortcake-admin', 'image_shortcake_strings', $translation_array );
 	}
 
 
