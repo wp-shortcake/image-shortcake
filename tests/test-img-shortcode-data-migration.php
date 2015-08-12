@@ -128,6 +128,23 @@ EOL;
 
 		$this->assertContains( $expected, $conversion );
 
+		// Test cadillac 2
+		$shortcode = '[img attachment="' . $attachment_id . '" linkto="attachment" size="medium" caption="' . esc_attr( $caption ) . '" align="alignnone" /]';
+		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
+		$expected_src = wp_get_attachment_image_src( $attachment_id, 'medium' );
+		$expected_src_attr = $expected_src[0];
+		$expected = '[caption id="attachment_' .
+			$attachment_id .
+			'" width="300" align="alignnone"]<a href="' .
+			$expected_href_attr .
+			'" ><img class="size-medium alignnone" src="' .
+			$expected_src_attr .
+			'" width="300" height="169" /></a>' .
+			$expected_caption .
+			'[/caption]';
+
+		$this->assertContains( $expected, $conversion );
+
 	}
 
 	/**
