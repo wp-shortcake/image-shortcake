@@ -239,21 +239,42 @@ class Img_Shortcode_Data_Migration {
 
 		$align = isset( $atts['align'] ) ? $atts['align'] : 'alignnone';
 
-		$size = isset( $atts['size'] ) ? $atts['size'] : 'medium';
+
+		// Use a size if set.
+		// If valid attachment, full is ok
+		// If not valid, use medium so we can provide width
+		if ( isset( $atts['size'] ) ) {
+			$size = $atts['size'];
+		} else {
+			if ( isset( $atts['attachment'] ) && get_permalink( $atts['attachment'] ) ){
+				$size = $atts['size'] = 'full';
+			} else {
+				$size = $atts['size'] = 'large';
+			}
+		}
 
 		$content = Img_Shortcode::callback( $atts );
 
-		if ( ! isset( $width ) && isset( $atts['attachment'] ) ) {
+		if ( ! isset( $width ) && isset( $atts['attachment'] ) && get_permalink( $atts['attachment'] ) ) {
 			$attachment = wp_get_attachment_image_src(
 				(int) $atts['attachment'], $size
 			);
 			$width = intval( $attachment[1] );
+		} else {
+			/* If there's no width set and no valid attachment to get full/custom size dimensions from, fallback to large width */
+			$width = '600';
+		}
+
+		if ( isset( $atts['attachment'] ) && $caption ) {
+			$id_string = 'id="attachment_' . esc_attr( sanitize_html_class( $atts['attachment'] ) ). '" ';
+		} else {
+			$id_string = '';
 		}
 
 		if ( $caption ) {
 			$content =
 				'[caption ' .
-					'id="attachment_' . $atts['attachment'] . '" ' .
+					$id_string .
 					'width="' . $width . '" ' .
 					'align="' . $align . '"' .
 					']' .
