@@ -150,6 +150,7 @@ class Img_Shortcode {
 	 *
 	 * @param array $attrs Shortcode attributes. See definitions in
 	 *                     @function `get_shortcode_ui_args()`
+	 *
 	 * @return string
 	 */
 	public static function callback( $attr ) {
@@ -191,6 +192,11 @@ class Img_Shortcode {
 			$image_attr['src'] = esc_url( $attr['src'] );
 		} else {
 			$image_attr['src'] = '';
+		}
+
+		// If the attachment is invalid, store it in an `data-shortcode-attachment` attr for posterity
+		if ( $image_attr['src'] == '' && isset( $attr['attachment'] ) ) {
+			$image_attr['data-shortcode-attachment'] = $attr['attachment'];
 		}
 
 		foreach ( $image_attr as $attr_name => $attr_value ) {

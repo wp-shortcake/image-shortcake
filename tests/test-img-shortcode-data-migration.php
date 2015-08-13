@@ -131,7 +131,7 @@ EOL;
 		$shortcode = '[img attachment="9999999" caption="' . esc_attr( $caption ) . '" /]';
 		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
 		$expected = '[caption id="attachment_9999999" ' .
-			'width="600" align="alignnone"]<img class="size-large alignnone" />' .
+			'width="600" align="alignnone"]<img class="size-large alignnone" data-shortcode-attachment="9999999" />' .
 			$expected_caption .
 			'[/caption]';
 		$this->assertContains( $expected, $conversion );
