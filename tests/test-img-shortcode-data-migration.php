@@ -105,7 +105,7 @@ EOL;
 		$shortcode = '[img attachment="' . $attachment_id . '" caption="' . esc_attr( $caption ) . '" /]';
 		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
 		$expected_caption = esc_html( $caption );
-		$this->assertContains( '[caption id="attachment_' . $attachment_id . '" width="300" align="alignnone"]', $conversion );
+		$this->assertContains( '[caption id="attachment_' . $attachment_id . '" width="2000" align="alignnone"]', $conversion );
 		$this->assertContains( $expected_caption . '[/caption]', $conversion );
 
 		// Test caption width with a different size image
@@ -119,9 +119,22 @@ EOL;
 		$this->assertContains( $expected_caption . '[/caption]', $conversion );
 
 		// Test no attachment
-		// @todo Determine ideal behavior here
-		// $shortcode = '[img caption="' . esc_attr( $caption ) . '" /]';
-		// $conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
+		$shortcode = '[img caption="' . esc_attr( $caption ) . '" /]';
+		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
+		$expected = '[caption ' .
+			'width="600" align="alignnone"]<img class="size-large alignnone" />' .
+			$expected_caption .
+			'[/caption]';
+		$this->assertContains( $expected, $conversion );
+
+		// Test invalid attachment
+		$shortcode = '[img attachment="9999999" caption="' . esc_attr( $caption ) . '" /]';
+		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
+		$expected = '[caption id="attachment_9999999" ' .
+			'width="600" align="alignnone"]<img class="size-large alignnone" />' .
+			$expected_caption .
+			'[/caption]';
+		$this->assertContains( $expected, $conversion );
 
 		// Test cadillac 1
 		$shortcode = '[img attachment="' . $attachment_id . '" linkto="attachment" size="full" caption="' . esc_attr( $caption ) . '" align="alignright" /]';
