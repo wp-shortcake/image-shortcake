@@ -98,7 +98,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 		$expected_href_attr = get_permalink( $attachment_id );
 		$this->assertContains( 'href="' . $expected_href_attr . '"', $conversion );
 
-		// Test caption attribute
+		// Test caption attribute (it should always get a width)
 		$caption = <<<EOL
 This is a "<em>caption</em>". It should contain <abbr>HTML</abbr> and <span class="icon">markup</span>.
 EOL;
@@ -106,6 +106,16 @@ EOL;
 		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
 		$expected_caption = esc_html( $caption );
 		$this->assertContains( '[caption id="attachment_' . $attachment_id . '" width="300" align="alignnone"]', $conversion );
+		$this->assertContains( $expected_caption . '[/caption]', $conversion );
+
+		// Test caption width with a different size image
+		$caption = <<<EOL
+This is a "<em>caption</em>". It should contain <abbr>HTML</abbr> and <span class="icon">markup</span>.
+EOL;
+		$shortcode = '[img attachment="' . $attachment_id . '" caption="' . esc_attr( $caption ) . '" size="full" /]';
+		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
+		$expected_caption = esc_html( $caption );
+		$this->assertContains( '[caption id="attachment_' . $attachment_id . '" width="2000" align="alignnone"]', $conversion );
 		$this->assertContains( $expected_caption . '[/caption]', $conversion );
 
 		// Test no attachment
