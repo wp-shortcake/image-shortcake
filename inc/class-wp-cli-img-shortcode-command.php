@@ -117,10 +117,10 @@ class Image_Shortcake_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     ## Revert all Posts from the Image Shortcake syntax
-	 *     wp image-shortcake migrate `wp post list --post_type=post` --ids`
+	 *     wp image-shortcake revert `wp post list --post_type=post` --ids`
 	 *
 	 *     ## Converts shortcodes back to images on one post, preserving a log to rollback in case of errors.
-	 *     wp image-shortcake migrate 123 > potential-oops.txt
+	 *     wp image-shortcake revert 123 > potential-oops.txt
 	 *
 	 * @synopsis <id>... [--dry-run]
 	 */
