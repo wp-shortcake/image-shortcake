@@ -7,7 +7,7 @@
 
 class Img_Shortcode_Data_Migration {
 
-	private static function img_tag_regex() {
+	public static function img_tag_regex() {
 		$img_tag_regex =
 			'(?:<a[^>]+' .
 					'href="(?P<href>[^"]*)"' .
@@ -28,7 +28,7 @@ class Img_Shortcode_Data_Migration {
 		return $img_tag_regex;
 	}
 
-	private static function caption_shortcode_regex() {
+	public static function caption_shortcode_regex() {
 		$caption_shortcode_regex =
 			'\[caption' .
 				'[^\]]*' .  '\]\]?' .

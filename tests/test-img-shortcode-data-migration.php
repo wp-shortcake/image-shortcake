@@ -45,6 +45,36 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 				'width="1024" height="540" />' .
 			'</a>';
 
+		$this->regex_test_1 =
+			'[caption id="attachment_9" align="alignnone" width="2448"]'.
+			'<a href="http://vip.local/wp-content/uploads/sites/3/2015/08/IMG_1664.jpg">' .
+			'<img src="http://vip.local/wp-content/uploads/sites/3/2015/08/IMG_1664.jpg"' .
+			' alt="Alt text" width="2448" height="2448" class="size-full wp-image-9" />' .
+			'</a> Caption text[/caption]';
+
+		$this->regex_test_2 =
+			'[caption id="attachment_9" align="alignleft" width="300"]' .
+			'<a href="http://vip.local/wp-content/uploads/sites/3/2015/08/IMG_1664.jpg">' .
+			'<img src="http://vip.local/wp-content/uploads/sites/3/2015/08/IMG_1664-300x300.jpg" ' .
+			'alt="Alt text" width="300" height="300" class="size-medium wp-image-9" /></a> Caption text[/caption]';
+
+		$this->regex_test_3 =
+			'[caption id="attachment_9" align="alignright" width="660"]' .
+			'<a href="http://vip.local/wp-content/uploads/sites/3/2015/08/IMG_1664.jpg">' .
+			'<img src="http://vip.local/wp-content/uploads/sites/3/2015/08/IMG_1664-1024x1024.jpg" ' .
+			'alt="Alt text" width="660" height="660" class="size-large wp-image-9" /></a> Caption text[/caption]';
+
+		$this->regex_test_4 =
+			'<a href="http://vip.local/wp-content/uploads/sites/3/2015/08/IMG_1664.jpg">' .
+			'<img src="http://vip.local/wp-content/uploads/sites/3/2015/08/IMG_1664-1024x1024.jpg" ' .
+			'alt="Alt text" width="660" height="660" class="size-large wp-image-9" /></a>';
+
+		$this->regex_test_5 =
+			'<img src="http://vip.local/wp-content/uploads/sites/3/2015/08/IMG_1664-1024x1024.jpg" ' .
+			'alt="Alt text" width="660" height="660" class="size-large wp-image-9" />';
+
+		$this->caption_regex = Img_Shortcode_Data_Migration::caption_shortcode_regex();
+		$this->img_regex = Img_Shortcode_Data_Migration::img_tag_regex();
 	}
 
 	public function tearDown() {
@@ -54,6 +84,54 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 	}
 	// @codingStandardsIgnoreEnd
 
+
+	/**
+	 * Test our regex functions directly
+	 *
+	 */
+	function test_img_caption_regexes() {
+		preg_match_all(
+			"/$this->caption_regex/s",
+			$this->regex_test_1 ,
+			$matches,
+			PREG_SET_ORDER
+		);
+		$this->assertCount( 1, $matches );
+
+
+		preg_match_all(
+			"/$this->caption_regex/s",
+			$this->regex_test_2 ,
+			$matches,
+			PREG_SET_ORDER
+		);
+		$this->assertCount( 1, $matches );
+
+		preg_match_all(
+			"/$this->img_regex/s",
+			$this->regex_test_3 ,
+			$matches,
+			PREG_SET_ORDER
+		);
+		$this->assertCount( 1, $matches );
+
+		preg_match_all(
+			"/$this->img_regex/s",
+			$this->regex_test_4 ,
+			$matches,
+			PREG_SET_ORDER
+		);
+		$this->assertCount( 1, $matches );
+
+
+		preg_match_all(
+			"/$this->img_regex/s",
+			$this->regex_test_5 ,
+			$matches,
+			PREG_SET_ORDER
+		);
+		$this->assertCount( 1, $matches );
+	}
 
 	/**
 	 * Case: <img> tags where the src is an attachment
