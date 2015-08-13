@@ -195,7 +195,7 @@ class Img_Shortcode {
 		}
 
 		// If the attachment is invalid, store it in an `data-shortcode-attachment` attr for posterity
-		if ( $image_attr['src'] == '' && isset( $attr['attachment'] ) ) {
+		if ( '' === $image_attr['src'] && isset( $attr['attachment'] ) ) {
 			$image_attr['data-shortcode-attachment'] = $attr['attachment'];
 		}
 
