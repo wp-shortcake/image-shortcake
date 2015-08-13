@@ -239,14 +239,13 @@ class Img_Shortcode_Data_Migration {
 
 		$align = isset( $atts['align'] ) ? $atts['align'] : 'alignnone';
 
-
 		// Use a size if set.
 		// If valid attachment, full is ok
 		// If not valid, use medium so we can provide width
 		if ( isset( $atts['size'] ) ) {
 			$size = $atts['size'];
 		} else {
-			if ( isset( $atts['attachment'] ) && get_permalink( $atts['attachment'] ) ){
+			if ( isset( $atts['attachment'] ) && get_permalink( $atts['attachment'] ) ) {
 				$size = $atts['size'] = 'full';
 			} else {
 				$size = $atts['size'] = 'large';
