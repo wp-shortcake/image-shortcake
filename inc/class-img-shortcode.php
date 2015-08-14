@@ -176,7 +176,12 @@ class Img_Shortcode {
 
 		$image_classes = explode( ' ', $attr['classes'] );
 		$image_classes[] = 'size-' . $attr['size'];
-		$image_classes[] = $attr['align'];
+
+		/* Modeled after core */
+		/* If there's a caption, it carries alignment */
+		if ( empty( $attr['caption'] ) ) {
+			$image_classes[] = $attr['align'];
+		}
 
 		$image_attr = array(
 			'alt' => $attr['alt'],
