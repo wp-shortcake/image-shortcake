@@ -8,33 +8,40 @@
 class Img_Shortcode_Data_Migration {
 
 	public static function img_tag_regex() {
-		$img_tag_regex =
-			'(?:<a[^>]+' .
-					'href="(?P<href>[^"]*)"' .
-					'[^>]*>)?' .
-				'<img[^>]*' .
-					'class="' .
-						'(?|size-(?P<size>\w+))?' . ' ?' .
-						'(?|wp-image-(?P<attachment>\d+))?' . ' ?' .
-						'(?|(?P<align>align[\w-]+))?' . ' ?' .
-						'[^"]*" ' . // end of class attribute
-					'src="(?P<src>[^"]*)" ?' .
-					'(?:alt="(?P<alt>[^"]*)" ?)?' .
-					'(?:width="(?P<width>[^"]*)" ?)?' .
-					'(?:height="(?P<height>[^"]*)" ?)?' .
-					'[^>]*>' .
-			'(?:<\/a>)?';
-
+		/* Raw regex: (?:<a href="([^"]*)">)?<img src="([^"]*)" (?:alt="([^"]*)" )?(?:width="([^"]*)" )?(?:height="([^"]*)" )?(?:class="size-([^"]*)+wp-image-(\d*)(?: )?([^"]*)?" )?\/>(?:<\/a>)? */
+		$img_tag_regex = 
+		'(?:<a href="' .
+				'(?P<href>[^"]*)">)?' .
+			'<img ' .
+				'src="' .
+					'(?P<src>[^"]*)?' .
+				'" (?:alt="' .
+					'(?P<alt>[^"]*)' .
+				'" )?' .
+				'(?:width="' .
+					'(?P<width>[^"]*)' .
+				'" )?' .
+				'(?:height="' .
+					'(?P<height>[^"]*)' .
+				'" )?' .
+				'(?:class="size-' .
+					'(?P<size>[^"]*)' .
+				'+wp-image-' .
+					'(?P<attachment>\d*)' .
+				'(?: )?' .
+				'(?P<align>[^"]*)?' .
+				'" )?' .
+			'\/>' .
+		'(?:<\/a>)?';
 		return $img_tag_regex;
 	}
 
 	public static function caption_shortcode_regex() {
 		$caption_shortcode_regex =
-			'\[caption' .
-				'[^\]]*' .  '\]\]?' .
-				self::img_tag_regex() .
-				'(?: (?P<caption>[^\]]*))' .
-			'\[\[?\/caption\]\]?';
+			'\[caption[^\]].*\]' .
+			self::img_tag_regex() .
+			'([^\[]*)' .
+			'\[\/caption]';
 		return $caption_shortcode_regex;
 	}
 
