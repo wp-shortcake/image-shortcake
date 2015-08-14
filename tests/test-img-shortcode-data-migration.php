@@ -112,7 +112,6 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 		);
 		$this->assertEquals( 1, $regex_test_3_matches );
 
-
 		$regex_test_4_matches = preg_match(
 			"/$this->img_regex/s",
 			$this->regex_test_4,
@@ -196,7 +195,7 @@ EOL;
 		$shortcode = '[img caption="' . esc_attr( $caption ) . '" /]';
 		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
 		$expected = '[caption ' .
-			'width="600" align="alignnone"]<img class="size-large" />' .
+			'width="600" align="alignnone"]<img class="size-large alignnone" />' .
 			$expected_caption .
 			'[/caption]';
 		$this->assertContains( $expected, $conversion );
@@ -205,7 +204,7 @@ EOL;
 		$shortcode = '[img attachment="9999999" caption="' . esc_attr( $caption ) . '" /]';
 		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
 		$expected = '[caption id="attachment_9999999" ' .
-			'width="600" align="alignnone"]<img class="size-large" data-shortcode-attachment="9999999" />' .
+			'width="600" align="alignnone"]<img class="size-large alignnone" data-shortcode-attachment="9999999" />' .
 			$expected_caption .
 			'[/caption]';
 		$this->assertContains( $expected, $conversion );
@@ -217,7 +216,7 @@ EOL;
 			$attachment_id .
 			'" width="2000" align="alignright"]<a href="' .
 			$expected_href_attr .
-			'" ><img class="size-full" src="' .
+			'" ><img class="size-full alignright" src="' .
 			$expected_src_attr .
 			'" width="2000" height="1125" /></a>' .
 			$expected_caption .
@@ -234,7 +233,7 @@ EOL;
 			$attachment_id .
 			'" width="300" align="alignnone"]<a href="' .
 			$expected_href_attr .
-			'" ><img class="size-medium" src="' .
+			'" ><img class="size-medium alignnone" src="' .
 			$expected_src_attr .
 			'" width="300" height="169" /></a>' .
 			$expected_caption .
