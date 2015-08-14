@@ -8,8 +8,7 @@
 class Img_Shortcode_Data_Migration {
 
 	public static function img_tag_regex() {
-		$img_tag_regex = 
-		'(?:<a href="' .
+		$img_tag_regex = '(?:<a href="' .
 				'(?P<href>[^"]*)">)?' .
 			'<img ' .
 				'src="' .

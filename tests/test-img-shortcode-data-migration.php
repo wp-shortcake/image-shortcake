@@ -251,7 +251,7 @@ EOL;
 			'<a href="http://go.to/thislink/">' .
 				'<img src="' . $this->image_src . '" ' .
 				'alt="This is the alt attribute." ' .
-				'width="1024" height="540" ' . 
+				'width="1024" height="540" ' .
 				'class="aligncenter" />' .
 			'</a>';
 
