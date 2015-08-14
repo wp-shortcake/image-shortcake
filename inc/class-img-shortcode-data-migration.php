@@ -24,16 +24,17 @@ class Img_Shortcode_Data_Migration {
 				'" )?' .
 				'(?:class="' .
 					'((?:size-)' .
-					'(?P<size>[^ "]*)' .
-				')?' .
-				'(?:(\s)?wp-image-' .
-					'(?P<attachment>\d*)' .
-				')?' .
-				'(?: ' .
-					'(\s)?' .
-					'(?P<align>[^"]*)' .
-				')?' .
-			'")? \/>' .
+						'(?P<size>[^ "]*)' .
+					')?' .
+					'(?:(\s)?wp-image-' .
+						'(?P<attachment>\d*)' .
+					')?' .
+					'(?: ' .
+						'(\s)?' .
+						'(?P<align>[^"]*)' .
+					')?' .
+				'")?' .
+			' \/>' .
 		'(?:<\/a>)?';
 		return $img_tag_regex;
 	}
