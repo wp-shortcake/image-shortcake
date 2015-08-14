@@ -32,10 +32,10 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 		$this->image_path = $upload_dir['path'] . '/fusion_image_placeholder_16x9_h2000.png';
 
 		$this->image_tag_from_attachment =
-			'<img class="size-large wp-image-' . $this->attachment_id . ' aligncenter" ' .
-				'src="' . $this->image_src . '" ' .
+			'<img src="' . $this->image_src . '" ' .
 				'alt="This is the alt attribute." ' .
-				'width="1024" height="540" />';
+				'width="1024" height="540" ' .
+				'class="size-large wp-image-' . $this->attachment_id . ' aligncenter" />';
 
 		$this->image_tag_from_src =
 			'<a href="http://go.to/thislink/">' .
@@ -67,11 +67,11 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 		$this->regex_test_4 =
 			'<a href="http://vip.local/wp-content/uploads/sites/3/2015/08/IMG_1664.jpg">' .
 			'<img src="http://vip.local/wp-content/uploads/sites/3/2015/08/IMG_1664-1024x1024.jpg" ' .
-			'alt="Alt text" width="660" height="660" class="size-large wp-image-9" /></a>';
+			'alt="Alt text" width="660" height="660" class="size-large wp-image-9 alignright" /></a>';
 
 		$this->regex_test_5 =
 			'<img src="http://vip.local/wp-content/uploads/sites/3/2015/08/IMG_1664-1024x1024.jpg" ' .
-			'alt="Alt text" width="660" height="660" class="size-large wp-image-9" />';
+			'alt="Alt text" width="660" height="660" class="size-large wp-image-9 alignleft" />';
 
 		$this->caption_regex = Img_Shortcode_Data_Migration::caption_shortcode_regex();
 		$this->img_regex = Img_Shortcode_Data_Migration::img_tag_regex();
@@ -90,47 +90,43 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 	 *
 	 */
 	function test_img_caption_regexes() {
-		preg_match_all(
+
+		$regex_test_1_matches = preg_match(
 			"/$this->caption_regex/s",
-			$this->regex_test_1 ,
-			$matches,
-			PREG_SET_ORDER
+			$this->regex_test_1,
+			$matches
 		);
-		$this->assertCount( 1, $matches );
+		$this->assertEquals( 1, $regex_test_1_matches );
 
-
-		preg_match_all(
+		$regex_test_2_matches = preg_match(
 			"/$this->caption_regex/s",
-			$this->regex_test_2 ,
-			$matches,
-			PREG_SET_ORDER
+			$this->regex_test_2,
+			$matches
 		);
-		$this->assertCount( 1, $matches );
+		$this->assertEquals( 1, $regex_test_2_matches );
 
-		preg_match_all(
+		$regex_test_3_matches = preg_match(
+			"/$this->caption_regex/s",
+			$this->regex_test_3,
+			$matches
+		);
+		$this->assertEquals( 1, $regex_test_3_matches );
+
+
+		$regex_test_4_matches = preg_match(
 			"/$this->img_regex/s",
-			$this->regex_test_3 ,
-			$matches,
-			PREG_SET_ORDER
+			$this->regex_test_4,
+			$matches
 		);
-		$this->assertCount( 1, $matches );
+		$this->assertEquals( 1, $regex_test_4_matches );
 
-		preg_match_all(
+		$regex_test_5_matches = preg_match(
 			"/$this->img_regex/s",
-			$this->regex_test_4 ,
-			$matches,
-			PREG_SET_ORDER
+			$this->regex_test_5,
+			$matches
 		);
-		$this->assertCount( 1, $matches );
+		$this->assertEquals( 1, $regex_test_5_matches );
 
-
-		preg_match_all(
-			"/$this->img_regex/s",
-			$this->regex_test_5 ,
-			$matches,
-			PREG_SET_ORDER
-		);
-		$this->assertCount( 1, $matches );
 	}
 
 	/**
@@ -200,7 +196,7 @@ EOL;
 		$shortcode = '[img caption="' . esc_attr( $caption ) . '" /]';
 		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
 		$expected = '[caption ' .
-			'width="600" align="alignnone"]<img class="size-large alignnone" />' .
+			'width="600" align="alignnone"]<img class="size-large" />' .
 			$expected_caption .
 			'[/caption]';
 		$this->assertContains( $expected, $conversion );
@@ -209,7 +205,7 @@ EOL;
 		$shortcode = '[img attachment="9999999" caption="' . esc_attr( $caption ) . '" /]';
 		$conversion = Img_Shortcode_Data_Migration::convert_img_shortcode_to_tag( $shortcode );
 		$expected = '[caption id="attachment_9999999" ' .
-			'width="600" align="alignnone"]<img class="size-large alignnone" data-shortcode-attachment="9999999" />' .
+			'width="600" align="alignnone"]<img class="size-large" data-shortcode-attachment="9999999" />' .
 			$expected_caption .
 			'[/caption]';
 		$this->assertContains( $expected, $conversion );
@@ -221,7 +217,7 @@ EOL;
 			$attachment_id .
 			'" width="2000" align="alignright"]<a href="' .
 			$expected_href_attr .
-			'" ><img class="size-full alignright" src="' .
+			'" ><img class="size-full" src="' .
 			$expected_src_attr .
 			'" width="2000" height="1125" /></a>' .
 			$expected_caption .
@@ -238,7 +234,7 @@ EOL;
 			$attachment_id .
 			'" width="300" align="alignnone"]<a href="' .
 			$expected_href_attr .
-			'" ><img class="size-medium alignnone" src="' .
+			'" ><img class="size-medium" src="' .
 			$expected_src_attr .
 			'" width="300" height="169" /></a>' .
 			$expected_caption .
@@ -255,10 +251,10 @@ EOL;
 	function test_img_tag_from_src() {
 		$img_tag =
 			'<a href="http://go.to/thislink/">' .
-				'<img class="aligncenter" ' .
-				'src="' . $this->image_src . '" ' .
+				'<img src="' . $this->image_src . '" ' .
 				'alt="This is the alt attribute." ' .
-				'width="1024" height="540" />' .
+				'width="1024" height="540" ' . 
+				'class="aligncenter" />' .
 			'</a>';
 
 		$post_id = wp_insert_post( array( 'post_content' => "\r\n\r\n$img_tag\r\nblah blah blah" ) );
