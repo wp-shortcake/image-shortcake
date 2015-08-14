@@ -29,7 +29,7 @@ class Img_Shortcode_Data_Migration {
 					'(?:(\s)?wp-image-' .
 						'(?P<attachment>\d*)' .
 					')?' .
-					'(?: ' .
+					'(?:' .
 						'(\s)?' .
 						'(?P<align>[^"]*)' .
 					')?' .
