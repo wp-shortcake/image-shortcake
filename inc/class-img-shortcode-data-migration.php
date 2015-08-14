@@ -8,7 +8,6 @@
 class Img_Shortcode_Data_Migration {
 
 	public static function img_tag_regex() {
-		/* Raw regex: (?:<a href="([^"]*)">)?<img src="([^"]*)" (?:alt="([^"]*)" )?(?:width="([^"]*)" )?(?:height="([^"]*)" )?(?:class="size-([^"]*)+wp-image-(\d*)(?: )?([^"]*)?" )?\/>(?:<\/a>)? */
 		$img_tag_regex = 
 		'(?:<a href="' .
 				'(?P<href>[^"]*)">)?' .
@@ -24,14 +23,18 @@ class Img_Shortcode_Data_Migration {
 				'(?:height="' .
 					'(?P<height>[^"]*)' .
 				'" )?' .
-				'(?:class="size-' .
-					'(?P<size>[^"]*)' .
-				'+wp-image-' .
+				'(?:class="' .
+					'((?:size-)' .
+					'(?P<size>[^ "]*)' .
+				')?' .
+				'(?:(\s)?wp-image-' .
 					'(?P<attachment>\d*)' .
-				'(?: )?' .
-				'(?P<align>[^"]*)?' .
-				'" )?' .
-			'\/>' .
+				')?' .
+				'(?: ' .
+					'(\s)?' .
+					'(?P<align>[^"]*)' .
+				')?' .
+			'")? \/>' .
 		'(?:<\/a>)?';
 		return $img_tag_regex;
 	}

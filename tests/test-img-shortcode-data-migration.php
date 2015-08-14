@@ -125,7 +125,6 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 			$matches
 		);
 		$this->assertEquals( 1, $regex_test_5_matches );
-
 	}
 
 	/**
