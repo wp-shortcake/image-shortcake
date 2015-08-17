@@ -39,10 +39,10 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 
 		$this->image_tag_from_src =
 			'<a href="http://go.to/thislink/">' .
-				'<img class="aligncenter" ' .
-				'src="' . $this->image_src . '" ' .
+				'<img src="' . $this->image_src . '" ' .
 				'alt="This is the alt attribute." ' .
-				'width="1024" height="540" />' .
+				'width="1024" height="540" ' .
+				'class="aligncenter" />' .
 			'</a>';
 
 		$this->regex_test_1 =
@@ -309,11 +309,11 @@ EOL;
 	 *
 	 */
 	public function test_replace_caption_shortcodes() {
-		$caption_no_link = '[caption]' . $this->image_tag_from_src . ' Caption of image without attachment[/caption]';
+		$caption_no_link = '[caption]' . $this->image_tag_from_src . 'Caption of image without attachment[/caption]';
 
 		$caption_with_link = '[caption width="1024"]' .
 			'<a href="' . get_permalink( $this->attachment_id ) . '">' . $this->image_tag_from_attachment . '</a>' .
-			' Caption of image linked to attachment page' .
+			'Caption of image linked to attachment page' .
 			'[/caption]';
 
 		$post_content = "Post content.\r\n\r\n$caption_no_link\r\n\r\n$caption_with_link";
