@@ -106,7 +106,7 @@ class Image_Shortcake {
 		wp_enqueue_script( 'image-shortcake-admin', plugin_dir_url( __FILE__ ) . 'assets/js/image-shortcake-admin.js', false, IMAGE_SHORTCAKE_VERSION );
 		$translation_array = array(
 			'caption' => __( 'Caption', 'image-shortcake' ),
-			'warning' => __( 'Quote marks and HTML tags are not allowed in captions', 'image-shortcake' ),
+			'warning' => __( 'Double quotes and HTML tags are not allowed in captions', 'image-shortcake' ),
 		);
 		wp_localize_script( 'image-shortcake-admin', 'image_shortcake_strings', $translation_array );
 	}
