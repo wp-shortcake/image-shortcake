@@ -1,10 +1,10 @@
 /*
- * Callback to manipulate the attachment details and two column template, onReady. 
+ * Callback to manipulate the attachment details and two column template, onReady.
  */
 function updateStringsForImageShortcake() {
 	var attachmentDetailsTemplate = jQuery("#tmpl-attachment-details");
 
-	if ( ! attachmentDetailsTemplate ) {
+	if ( 0 === attachmentDetailsTemplate.length ) {
 		return;
 	}
 
@@ -23,16 +23,16 @@ function updateStringsForImageShortcake() {
 						'.</div>' +
 						'<style scoped>.image-shortcake-warning { display: block;float: right;width: 65%;margin-bottom: 5px;font-style: italic; }@media (max-width: 900px) { .image-shortcake-warning { width: 100%;} } </style>';
 
-	/** 
+	/**
 	 * Use string methods hack.
 	 */
-	var newHtml = attachmentDetailsHtml.replace(/(<label class="setting" data-setting="caption">)[\w\W]*?(<\/label>)/,"$1 " + customCaption + " $2");
-	newHtml = newHtml.replace(/(<label class="setting" data-setting="description">[\w\W]*?<\/label>)/,"<# if( 'image' === data.type ) { #>$1<# } #>");
-	attachmentDetailsTemplate.text( newHtml );
-	
-	newHtml = attachmentDetailsTwoColumnHtml.replace(/(<label class="setting" data-setting="caption">)[\w\W]*?(<\/label>)/,"$1 " + customCaption + " $2");
-	newHtml = newHtml.replace(/(<label class="setting" data-setting="description">[\w\W]*?<\/label>)/,"<# if( 'image' === data.type ) { #>$1<# } #>");
-	attachmentDetailsTwoColumnTemplate.text( newHtml );
+		var newHtml = attachmentDetailsHtml.replace(/(<label class="setting" data-setting="caption">)[\w\W]*?(<\/label>)/,"$1 " + customCaption + " $2");
+		newHtml = newHtml.replace(/(<label class="setting" data-setting="description">[\w\W]*?<\/label>)/,"<# if( 'image' === data.type ) { #>$1<# } #>");
+		attachmentDetailsTemplate.text( newHtml );
+
+		newHtml = attachmentDetailsTwoColumnHtml.replace(/(<label class="setting" data-setting="caption">)[\w\W]*?(<\/label>)/,"$1 " + customCaption + " $2");
+		newHtml = newHtml.replace(/(<label class="setting" data-setting="description">[\w\W]*?<\/label>)/,"<# if( 'image' === data.type ) { #>$1<# } #>");
+		attachmentDetailsTwoColumnTemplate.text( newHtml );
 };
 
 jQuery(document).ready(function(){
