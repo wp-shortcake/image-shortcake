@@ -102,10 +102,10 @@ This command finds all `[img]` shortcodes in the content of any of the posts spe
 ## Screenshots ##
 
 ### 1. This is the shortcode UI form as accessed from **Insert Media > Insert Post Element**. (Note that you can also insert images as usual, by inserting them in the Media Library - they will be transparently converted into shortcodes behind the scenes for you.) ###
-![This is the shortcode UI form as accessed from **Insert Media > Insert Post Element**. (Note that you can also insert images as usual, by inserting them in the Media Library - they will be transparently converted into shortcodes behind the scenes for you.)](http://ps.w.org/image-shortcake/assets/screenshot-1.png)
+![This is the shortcode UI form as accessed from **Insert Media > Insert Post Element**. (Note that you can also insert images as usual, by inserting them in the Media Library - they will be transparently converted into shortcodes behind the scenes for you.)](https://s.w.org/plugins/image-shortcake/screenshot-1.png)
 
 ### 2. Once inserted into a post, the image preview renders in the editor just as it normally would. The Shortcake plugin's edit/delete buttons are available to modify the shortcode through the provided UI. ###
-![Once inserted into a post, the image preview renders in the editor just as it normally would. The Shortcake plugin's edit/delete buttons are available to modify the shortcode through the provided UI.](http://ps.w.org/image-shortcake/assets/screenshot-2.png)
+![Once inserted into a post, the image preview renders in the editor just as it normally would. The Shortcake plugin's edit/delete buttons are available to modify the shortcode through the provided UI.](https://s.w.org/plugins/image-shortcake/screenshot-2.png)
 
 
 ## Changelog ##
