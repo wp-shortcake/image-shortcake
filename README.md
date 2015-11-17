@@ -53,34 +53,34 @@ in the theme's `functions.php`:
 
 in a template file called `inline-image.php`:
 
-	```
-	<?php
+```
+<?php
 
-	$attachment = $attributes['attachment'];
-	$size       = $attributes['size'];
-	$class      = $attributes['classes'];
-	$align      = $attributes['align']
-	$alt        = $attributes['alt']
-	$linkto     = $attributes['linkto']
+$attachment = $attributes['attachment'];
+$size       = $attributes['size'];
+$class      = $attributes['classes'];
+$align      = $attributes['align']
+$alt        = $attributes['alt']
+$linkto     = $attributes['linkto']
 
-	$attachment_meta = wp_get_attachment_metadata( intval( $attachment ) );
-	$exif_data = ( $attachment_meta['image_meta']['camera'];
+$attachment_meta = wp_get_attachment_metadata( intval( $attachment ) );
+$exif_data = ( $attachment_meta['image_meta']['camera'];
 
-	echo wp_get_attachment_image( $attachment, $size, null,
-		array(
-			'class' => "$class $align attachment-$size",
-			'alt'   => $alt,
-		)
-	);
+echo wp_get_attachment_image( $attachment, $size, null,
+	array(
+		'class' => "$class $align attachment-$size",
+		'alt'   => $alt,
+	)
+);
 
-	if ( is_array( $exif_data ) ) {
-		echo '<ul class="image-meta">';
-		foreach ( $exif_data as $field => $value ) {
-**			echo '<li>' . $field . ':** ' . $value . '</li>';  
-		}
-		echo '</ul>';
+if ( is_array( $exif_data ) ) {
+	echo '<ul class="image-meta">';
+	foreach ( $exif_data as $field => $value ) {
+		echo '<li>' . $field . ':** ' . $value . '</li>';
 	}
-	```
+	echo '</ul>';
+}
+```
 
 
 ### Data Migration ###
