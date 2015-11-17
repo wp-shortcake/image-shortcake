@@ -53,40 +53,40 @@ in the theme's `functions.php`:
 
 in a template file called `inline-image.php`:
 
-```
-<?php
+	```
+	<?php
 
-$attachment = $attributes['attachment'];
-$size       = $attributes['size'];
-$class      = $attributes['classes'];
-$align      = $attributes['align']
-$alt        = $attributes['alt']
-$linkto     = $attributes['linkto']
+	$attachment = $attributes['attachment'];
+	$size       = $attributes['size'];
+	$class      = $attributes['classes'];
+	$align      = $attributes['align']
+	$alt        = $attributes['alt']
+	$linkto     = $attributes['linkto']
 
-$attachment_meta = wp_get_attachment_metadata( intval( $attachment ) );
-$exif_data = ( $attachment_meta['image_meta']['camera'];
+	$attachment_meta = wp_get_attachment_metadata( intval( $attachment ) );
+	$exif_data = ( $attachment_meta['image_meta']['camera'];
 
-echo wp_get_attachment_image( $attachment, $size, null,
-	array(
-		'class' => "$class $align attachment-$size",
-		'alt'   => $alt,
-	)
-);
+	echo wp_get_attachment_image( $attachment, $size, null,
+		array(
+			'class' => "$class $align attachment-$size",
+			'alt'   => $alt,
+		)
+	);
 
-if ( is_array( $exif_data ) ) {
-	echo '<ul class="image-meta">';
-	foreach ( $exif_data as $field => $value ) {
-		echo '<li>' . $field . ':** ' . $value . '</li>';
+	if ( is_array( $exif_data ) ) {
+		echo '<ul class="image-meta">';
+		foreach ( $exif_data as $field => $value ) {
+			echo '<li>' . $field . ': ' . $value . '</li>';
+		}
+		echo '</ul>';
 	}
-	echo '</ul>';
-}
-```
+	```
 
 
 ### Data Migration ###
 
 The plugin comes with two [WP-CLI](http://wp-cli.org) commands to migrate images in your existing content into the `[img]` shortcode format used by
-**this plugin. _Note:** if it isn't clear, this is an early release -- use at your own risk, and make sure you've backed up your posts before migrating!_  
+this plugin. _Note: if it isn't clear, this is an early release -- use at your own risk, and make sure you've backed up your posts before migrating!_
 
 `wp image-shortcake migrate <ids> [--dry-run]`
 
@@ -102,10 +102,10 @@ This command finds all `[img]` shortcodes in the content of any of the posts spe
 ## Screenshots ##
 
 ### 1. This is the shortcode UI form as accessed from **Insert Media > Insert Post Element**. (Note that you can also insert images as usual, by inserting them in the Media Library - they will be transparently converted into shortcodes behind the scenes for you.) ###
-![This is the shortcode UI form as accessed from **Insert Media > Insert Post Element**. (Note that you can also insert images as usual, by inserting them in the Media Library - they will be transparently converted into shortcodes behind the scenes for you.)](http://s.wordpress.org/extend/plugins/image-shortcake/screenshot-1.png)
+![This is the shortcode UI form as accessed from **Insert Media > Insert Post Element**. (Note that you can also insert images as usual, by inserting them in the Media Library - they will be transparently converted into shortcodes behind the scenes for you.)](http://ps.w.org/image-shortcake/assets/screenshot-1.png)
 
 ### 2. Once inserted into a post, the image preview renders in the editor just as it normally would. The Shortcake plugin's edit/delete buttons are available to modify the shortcode through the provided UI. ###
-![Once inserted into a post, the image preview renders in the editor just as it normally would. The Shortcake plugin's edit/delete buttons are available to modify the shortcode through the provided UI.](http://s.wordpress.org/extend/plugins/image-shortcake/screenshot-2.png)
+![Once inserted into a post, the image preview renders in the editor just as it normally would. The Shortcake plugin's edit/delete buttons are available to modify the shortcode through the provided UI.](http://ps.w.org/image-shortcake/assets/screenshot-2.png)
 
 
 ## Changelog ##
