@@ -114,6 +114,12 @@ class Img_Shortcode {
 						'type'        => 'text',
 						'placeholder' => esc_attr__( 'URL to link to (if above link is "custom")', 'image-shortcake' ),
 					),
+
+					array(
+						'label'       => esc_html__( 'Force display captionified HTML?', 'image-shortcake' ),
+						'attr'        => 'forcecaptionify',
+						'type'        => 'checkbox',
+					),
 				),
 			);
 
@@ -155,19 +161,18 @@ class Img_Shortcode {
 	public static function callback( $attr ) {
 
 		$attr = wp_parse_args( $attr, array(
-			'attachment' => 0,
-			'size'       => 'full',
-			'alt'        => '',
-			'classes'    => '',
-			'caption'    => '',
-			'align'      => 'alignnone',
-			'linkto'     => '',
+			'attachment'      => 0,
+			'size'            => 'full',
+			'alt'             => '',
+			'classes'         => '',
+			'caption'         => '',
+			'align'           => 'alignnone',
+			'linkto'          => '',
+			'forcecaptionify' => true,
 		) );
 
 		/**
-		 *
-		 *
-		 * @param
+		 * Filter default attributes
 		 */
 		$attr = apply_filters( 'img_shortcode_attrs', $attr );
 
@@ -224,8 +229,9 @@ class Img_Shortcode {
 		 */
 		$image_html = apply_filters( 'img_shortcode_output_after_linkify', $image_html, $attr );
 
-		// If a caption is specified, wrap the image in the appropriat caption markup.
-		if ( ! empty( $attr['caption'] ) ) {
+		// If a caption is specified, or if `forcecaptionify` is true, wrap the
+		// image in the appropriate caption markup.
+		if ( ! empty( $attr['caption'] ) || $attr['forcecaptionify'] ) {
 
 			// The WP caption element requires a width defined
 			if ( empty( $attr['width'] ) ) {
