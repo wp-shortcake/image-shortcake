@@ -7,36 +7,50 @@
 
 class Img_Shortcode_Data_Migration {
 
-	private static function img_shortcode_regex() {
-		$img_shortcode_regex =
-			'(?:<a[^>]+' .
-					'href="(?P<href>[^"]*)"' .
-					'[^>]*>)?' .
-				'<img[^>]*' .
-					'class="' .
-						'(?|size-(?P<size>\w+))?' . ' ?' .
-						'(?|wp-image-(?P<attachment>\d+))?' . ' ?' .
-						'(?|(?P<align>align[\w-]+))?' . ' ?' .
-						'[^"]*" ' . // end of class attribute
-					'src="(?P<src>[^"]*)" ?' .
-					'(?:alt="(?P<alt>[^"]*)" ?)?' .
-					'(?:width="(?P<width>[^"]*)" ?)?' .
-					'(?:height="(?P<height>[^"]*)" ?)?' .
-					'[^>]*>' .
-			'(?:<\/a>)?';
-
-		return $img_shortcode_regex;
+	public static function img_tag_regex() {
+		$img_tag_regex = '(?:<a href="' .
+				'(?P<href>[^"]*)">)?' .
+			'<img ' .
+				'src="' .
+					'(?P<src>[^"]*)?' .
+				'" (?:alt="' .
+					'(?P<alt>[^"]*)' .
+				'" )?' .
+				'(?:width="' .
+					'(?P<width>[^"]*)' .
+				'" )?' .
+				'(?:height="' .
+					'(?P<height>[^"]*)' .
+				'" )?' .
+				'(?:class="' .
+					'((?:size-)' .
+						'(?P<size>[^ "]*)' .
+					')?' .
+					'(?:(\s)?wp-image-' .
+						'(?P<attachment>\d*)' .
+					')?' .
+					'(?:' .
+						'(\s)?' .
+						'(?P<align>[^"]*)' .
+					')?' .
+				'")?' .
+			' \/>' .
+		'(?:<\/a>)?';
+		return $img_tag_regex;
 	}
 
-
-	private static function caption_shortcode_regex() {
+	public static function caption_shortcode_regex() {
 		$caption_shortcode_regex =
-			'\[caption' .
-				'[^\]]*' .  '\]\]?' .
-				self::img_shortcode_regex() .
-				'(?: (?P<caption>[^\]]*))' .
-			'\[\[?\/caption\]\]?';
+			'\[caption[^\]]*\]' .
+			self::img_tag_regex() .
+			'(?P<caption>[^\[]*)' .
+			'\[\/caption]';
 		return $caption_shortcode_regex;
+	}
+
+	private static function img_shortcode_regex() {
+		$img_shortcode_regex = '\[img ' .  '[^\]]*]';
+		return $img_shortcode_regex;
 	}
 
 	public static function find_img_tags_for_replacement_on_post( $post ) {
@@ -57,10 +71,10 @@ class Img_Shortcode_Data_Migration {
 
 		$replacements = array();
 
-		$img_shortcode_regex = self::img_shortcode_regex();
+		$img_tag_regex = self::img_tag_regex();
 
 		preg_match_all(
-			"/$img_shortcode_regex/s",
+			"/$img_tag_regex/s",
 			$post_content,
 			$matches,
 			PREG_SET_ORDER
@@ -182,6 +196,104 @@ class Img_Shortcode_Data_Migration {
 		return $shortcode;
 	}
 
+
+	/**
+	 * Get all [img] shortcodes in a string for replacement.
+	 *
+	 * Used in converting data added by this plugin back to the default format
+	 * of <img> tags and [caption] shortcodes.
+	 *
+	 */
+	public static function find_img_shortcodes_for_replacement( $post_content ) {
+
+		$replacements = array();
+
+		$img_shortcode_regex = self::img_shortcode_regex();
+
+		preg_match_all(
+			"/$img_shortcode_regex/s",
+			$post_content,
+			$matches,
+			PREG_SET_ORDER
+		);
+
+		if ( 0 === count( $matches ) ) {
+			return array();
+		}
+
+		foreach ( $matches as $matched_pattern ) {
+			$replacements[ $matched_pattern[0] ] = self::convert_img_shortcode_to_tag(
+				$matched_pattern[0]
+			);
+		}
+
+		return $replacements;
+
+	}
+
+
+	/**
+	 * Convert an [img] shortcode as inserted by this plugin to the WP default
+	 * representation.
+	 *
+	 * @param string `[img]` shortcode element
+	 * @return string A `[caption]` shortcode element, or an <img> tag
+	 */
+	public static function convert_img_shortcode_to_tag( $img_shortcode ) {
+		$atts = shortcode_parse_atts( $img_shortcode );
+
+		$caption = isset( $atts['caption'] ) ? $atts['caption'] : '';
+		unset( $atts['caption'] );
+
+		$width = isset( $atts['width'] ) ? $atts['width'] : null;
+
+		$align = isset( $atts['align'] ) ? $atts['align'] : 'alignnone';
+
+		// Use a size if set.
+		// If valid attachment, full is ok
+		// If not valid, use medium so we can provide width
+		if ( isset( $atts['size'] ) ) {
+			$size = $atts['size'];
+		} else {
+			if ( isset( $atts['attachment'] ) && get_permalink( $atts['attachment'] ) ) {
+				$size = $atts['size'] = 'full';
+			} else {
+				$size = $atts['size'] = 'large';
+			}
+		}
+
+		$content = Img_Shortcode::callback( $atts );
+
+		if ( ! isset( $width ) && isset( $atts['attachment'] ) && get_permalink( $atts['attachment'] ) ) {
+			$attachment = wp_get_attachment_image_src(
+				(int) $atts['attachment'], $size
+			);
+			$width = intval( $attachment[1] );
+		} else {
+			/* If there's no width set and no valid attachment to get full/custom size dimensions from, fallback to large width */
+			$width = '600';
+		}
+
+		if ( isset( $atts['attachment'] ) && $caption ) {
+			$id_string = 'id="attachment_' . esc_attr( sanitize_html_class( $atts['attachment'] ) ). '" ';
+		} else {
+			$id_string = '';
+		}
+
+		if ( $caption ) {
+			$content =
+				'[caption ' .
+					$id_string .
+					'width="' . $width . '" ' .
+					'align="' . $align . '"' .
+					']' .
+				$content .
+				$caption .
+				'[/caption]';
+		}
+
+		return $content;
+	}
 
 	/**
 	 * Get a post from a Post ID or post object.

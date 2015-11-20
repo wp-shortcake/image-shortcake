@@ -150,6 +150,7 @@ class Img_Shortcode {
 	 *
 	 * @param array $attrs Shortcode attributes. See definitions in
 	 *                     @function `get_shortcode_ui_args()`
+	 *
 	 * @return string
 	 */
 	public static function callback( $attr ) {
@@ -190,7 +191,12 @@ class Img_Shortcode {
 		} else if ( ! empty( $attr['src'] ) ) {
 			$image_attr['src'] = esc_url( $attr['src'] );
 		} else {
-			return; // An image without a src isn't much of an image
+			$image_attr['src'] = '';
+		}
+
+		// If the attachment is invalid, store it in an `data-shortcode-attachment` attr for posterity
+		if ( '' === $image_attr['src'] && isset( $attr['attachment'] ) ) {
+			$image_attr['data-shortcode-attachment'] = $attr['attachment'];
 		}
 
 		foreach ( $image_attr as $attr_name => $attr_value ) {
@@ -225,6 +231,7 @@ class Img_Shortcode {
 		$image_html = apply_filters( 'img_shortcode_output_after_linkify', $image_html, $attr );
 
 		// If a caption is specified, wrap the image in the appropriat caption markup.
+		// When migrating, captioning is handled in the migration script
 		if ( ! empty( $attr['caption'] ) ) {
 
 			// The WP caption element requires a width defined
@@ -259,15 +266,19 @@ class Img_Shortcode {
 	 */
 	private static function linkify( $img_tag, $attributes ) {
 
-		$_id = intval( $attributes['attachment'] );
+		if ( isset( $attributes['attachment'] ) && get_permalink( $attributes['attachment'] ) ) {
+			$_id = intval( $attributes['attachment'] );
+		} else {
+			$_id = false;
+		}
 
 		$link_attrs = array();
 
 		if ( isset( $attributes['url'] ) ) {
 			$link_attrs['href'] = esc_url( $attributes['url'] );
-		} else if ( ! empty( $attributes['linkto'] ) && 'attachment' === $attributes['linkto'] ) {
+		} else if ( ! empty( $attributes['linkto'] ) && 'attachment' === $attributes['linkto'] && $_id ) {
 			$link_attrs['href'] = get_permalink( $_id );
-		} elseif ( ! empty( $attributes['linkto'] ) && 'file' === $attributes['linkto'] ) {
+		} elseif ( ! empty( $attributes['linkto'] ) && 'file' === $attributes['linkto'] && $_id ) {
 			$attachment_src = wp_get_attachment_image_src( $_id, 'full', false, $attributes );
 			$link_attrs['href'] = $attachment_src[0];
 		} else {
