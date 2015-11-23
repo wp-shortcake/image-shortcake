@@ -72,7 +72,6 @@ class Img_Shortcode {
 						'type'        => 'text',
 						'encode'      => true,
 						'placeholder' => esc_attr__( 'Alt text for the image', 'image-shortcake' ),
-						'description' => esc_html__( 'Double quotes and HTML tags are not allowed', 'image-shortcake' ),
 					),
 
 					array(
