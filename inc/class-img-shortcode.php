@@ -150,24 +150,28 @@ class Img_Shortcode {
 	 *
 	 * @param array $attrs Shortcode attributes. See definitions in
 	 *                     @function `get_shortcode_ui_args()`
+	 * @param (not used)   Inner content argument
+	 * @param string $shortcode_tag
 	 * @return string
 	 */
-	public static function callback( $attr ) {
+	public static function callback( $attr, $_null, $shortcode_tag ) {
 
-		$attr = wp_parse_args( $attr, array(
-			'attachment' => 0,
-			'size'       => 'full',
-			'alt'        => '',
-			'classes'    => '',
-			'caption'    => '',
-			'align'      => 'alignnone',
-			'linkto'     => '',
-		) );
+		$attr = shortcode_atts(
+			array(
+				'attachment' => 0,
+				'size'       => 'full',
+				'alt'        => '',
+				'classes'    => '',
+				'caption'    => '',
+				'align'      => 'alignnone',
+				'linkto'     => '',
+			), $attr, $shortcode_tag
+		);
 
 		/**
+		 * Filter the shortcode attributes before rendering
 		 *
-		 *
-		 * @param
+		 * @param array Shortcode attributes, decoded and merged with defaults.
 		 */
 		$attr = apply_filters( 'img_shortcode_attrs', $attr );
 
