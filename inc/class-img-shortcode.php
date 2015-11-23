@@ -70,6 +70,7 @@ class Img_Shortcode {
 						'label'       => esc_html__( 'Alt', 'image-shortcake' ),
 						'attr'        => 'alt',
 						'type'        => 'text',
+						'encode'      => true,
 						'placeholder' => esc_attr__( 'Alt text for the image', 'image-shortcake' ),
 						'description' => esc_html__( 'Double quotes and HTML tags are not allowed', 'image-shortcake' ),
 					),
@@ -78,8 +79,8 @@ class Img_Shortcode {
 						'label'       => esc_html__( 'Caption', 'image-shortcake' ),
 						'attr'        => 'caption',
 						'type'        => 'text',
+						'encode'      => true,
 						'placeholder' => esc_attr__( 'Caption for the image', 'image-shortcake' ),
-						'description' => esc_html__( 'Double quotes and HTML tags are not allowed', 'image-shortcake' ),
 					),
 
 					array(
