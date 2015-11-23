@@ -215,8 +215,8 @@ class Img_Shortcode {
 
 		// If a link is specified, wrap the image in a link tag
 		if ( ! empty( $attr['linkto'] ) &&
-				( in_array( $attr['linkto'], array( 'file', 'attachment' ), true ) ||
-				( 'custom' === $attr['linkto'] && ! empty( $attr['url'] ) ) ) ) {
+			( in_array( $attr['linkto'], array( 'file', 'attachment' ), true ) ||
+			( 'custom' === $attr['linkto'] && ! empty( $attr['url'] ) ) ) ) {
 			$image_html = self::linkify( $image_html, $attr );
 		}
 
