@@ -156,17 +156,19 @@ class Img_Shortcode {
 	 */
 	public static function callback( $attr, $_null, $shortcode_tag ) {
 
-		$attr = shortcode_atts(
+		// Get all registered args; shortcode_atts() needs a whitelist of args
+		$shortcode_args = static::get_shortcode_ui_args();
+		$registered_atts = array_fill_keys( wp_list_pluck( $shortcode_args['attrs'], 'attr' ), null );
+		$args_with_defaults = array_merge( $registered_atts,
 			array(
-				'attachment' => 0,
+				'src'        => null,
 				'size'       => 'full',
-				'alt'        => '',
 				'classes'    => '',
-				'caption'    => '',
 				'align'      => 'alignnone',
-				'linkto'     => '',
-			), $attr, $shortcode_tag
+			)
 		);
+
+		$attr = shortcode_atts( $args_with_defaults, $attr, $shortcode_tag );
 
 		/**
 		 * Filter the shortcode attributes before rendering
