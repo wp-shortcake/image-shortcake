@@ -70,16 +70,16 @@ class Img_Shortcode {
 						'label'       => esc_html__( 'Alt', 'image-shortcake' ),
 						'attr'        => 'alt',
 						'type'        => 'text',
+						'encode'      => true,
 						'placeholder' => esc_attr__( 'Alt text for the image', 'image-shortcake' ),
-						'description' => esc_html__( 'Double quotes and HTML tags are not allowed', 'image-shortcake' ),
 					),
 
 					array(
 						'label'       => esc_html__( 'Caption', 'image-shortcake' ),
 						'attr'        => 'caption',
 						'type'        => 'text',
+						'encode'      => true,
 						'placeholder' => esc_attr__( 'Caption for the image', 'image-shortcake' ),
-						'description' => esc_html__( 'Double quotes and HTML tags are not allowed', 'image-shortcake' ),
 					),
 
 					array(
@@ -150,24 +150,30 @@ class Img_Shortcode {
 	 *
 	 * @param array $attrs Shortcode attributes. See definitions in
 	 *                     @function `get_shortcode_ui_args()`
+	 * @param (not used)   Inner content argument
+	 * @param string $shortcode_tag
 	 * @return string
 	 */
-	public static function callback( $attr ) {
+	public static function callback( $attr, $_null, $shortcode_tag ) {
 
-		$attr = wp_parse_args( $attr, array(
-			'attachment' => 0,
-			'size'       => 'full',
-			'alt'        => '',
-			'classes'    => '',
-			'caption'    => '',
-			'align'      => 'alignnone',
-			'linkto'     => '',
-		) );
+		// Get all registered args; shortcode_atts() needs a whitelist of args
+		$shortcode_args = static::get_shortcode_ui_args();
+		$registered_atts = array_fill_keys( wp_list_pluck( $shortcode_args['attrs'], 'attr' ), null );
+		$args_with_defaults = array_merge( $registered_atts,
+			array(
+				'src'        => null,
+				'size'       => 'full',
+				'classes'    => '',
+				'align'      => 'alignnone',
+			)
+		);
+
+		$attr = shortcode_atts( $args_with_defaults, $attr, $shortcode_tag );
 
 		/**
+		 * Filter the shortcode attributes before rendering
 		 *
-		 *
-		 * @param
+		 * @param array Shortcode attributes, decoded and merged with defaults.
 		 */
 		$attr = apply_filters( 'img_shortcode_attrs', $attr );
 
@@ -211,9 +217,9 @@ class Img_Shortcode {
 
 		// If a link is specified, wrap the image in a link tag
 		if ( ! empty( $attr['linkto'] ) &&
-				( in_array( $attr['linkto'], array( 'file', 'attachment' ), true ) ||
-				( 'custom' === $attr['linkto'] && ! empty( $attr['url'] ) ) ) ) {
-			$image_html = self::linkify( $image_html, $attr );
+			( in_array( $attr['linkto'], array( 'file', 'attachment' ), true ) ||
+			( 'custom' === $attr['linkto'] && ! empty( $attr['url'] ) ) ) ) {
+				$image_html = self::linkify( $image_html, $attr );
 		}
 
 		/**
