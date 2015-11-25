@@ -376,7 +376,7 @@ class Img_Shortcode {
 		foreach ( $allowed_attrs as $attachment_attr => $shortcode_attr ) {
 			if ( ! empty( $attachment[ $attachment_attr ] ) ) {
 				$shortcode_attrs[ $shortcode_attr ] = in_array( $shortcode_attr, $encoded_attributes, true ) ?
-					urlencode( $attachment[ $attachment_attr ] ) : $attachment[ $attachment_attr ];
+					rawurlencode( $attachment[ $attachment_attr ] ) : $attachment[ $attachment_attr ];
 			}
 		}
 

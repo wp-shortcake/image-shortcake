@@ -130,8 +130,8 @@ EOL;
 		$this->assertContains( '[img ', $shortcode );
 		$this->assertContains( 'size="large"', $shortcode );
 		$this->assertContains( 'align="alignright"', $shortcode );
-		$this->assertContains( 'alt="This+is+the+%27alt%27"', $shortcode );
-		$this->assertContains( 'caption="This+is+the+%5Bcaption%5D"', $shortcode );
+		$this->assertContains( 'alt="This%20is%20the%20%27alt%27"', $shortcode );
+		$this->assertContains( 'caption="This%20is%20the%20%5Bcaption%5D"', $shortcode );
 
 	}
 
