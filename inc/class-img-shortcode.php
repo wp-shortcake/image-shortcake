@@ -365,9 +365,17 @@ class Img_Shortcode {
 			'width' => 'width',
 		);
 
+		$encoded_attributes = wp_list_pluck(
+			array_filter( self::get_shortcode_ui_args()['attrs'], function( $attr ) {
+				return ! empty( $attr['encode'] ) && $attr['encode'];
+			} ),
+			'attr'
+		);
+
 		foreach ( $allowed_attrs as $attachment_attr => $shortcode_attr ) {
 			if ( ! empty( $attachment[ $attachment_attr ] ) ) {
-				$shortcode_attrs[ $shortcode_attr ] = $attachment[ $attachment_attr ];
+				$shortcode_attrs[ $shortcode_attr ] = in_array( $shortcode_attr, $encoded_attributes ) ?
+					urlencode( $attachment[ $attachment_attr ] ) : $attachment[ $attachment_attr ];
 			}
 		}
 
