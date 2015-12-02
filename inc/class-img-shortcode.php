@@ -363,7 +363,7 @@ class Img_Shortcode {
 			'image_alt' => 'alt',
 			'post_excerpt' => 'caption',
 			'linkto' => 'linkto',
-			'url' => 'url'
+			'url' => 'url',
 		);
 
 		$shortcode_ui_def = self::get_shortcode_ui_args();
