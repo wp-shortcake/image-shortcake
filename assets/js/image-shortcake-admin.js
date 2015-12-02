@@ -35,8 +35,51 @@ function updateStringsForImageShortcake() {
 		attachmentDetailsTwoColumnTemplate.text( newHtml );
 };
 
+
+function overloadMediaSendToEditor() {
+
+	if ( 'undefined' === typeof wp ||
+		 'undefined' === typeof wp.media ||
+		 'undefined' === typeof wp.media.editor ||
+		 'undefined' === typeof wp.media.editor.send ||
+		 'undefined' === typeof wp.media.editor.send.attachment ) {
+		return;
+	}
+
+	// Back up the default function
+	var defaultSend = wp.media.editor.send.attachment;
+
+	// Replace it with this new send function
+	wp.media.editor.send.attachment = function( props, attachment ) {
+
+		// If not image, return default function
+		if ( 'image' !== attachment.type ) {
+			return defaultSend( props, attachment);
+		}
+
+		// Back up old wp.media.post and redefine it so as to modify the
+		// attachment data before sending it.
+		var oldMediaPost = wp.media.post;
+
+		wp.media.post = function( endpoint, postData ) {
+			wp.media.post = oldMediaPost;
+
+			postData.attachment.linkto = props.link;
+
+			if ( props.linkUrl && 'custom' === props.link ) {
+				postData.attachment.url = props.linkUrl;
+			}
+
+			return wp.media.post( endpoint, postData );
+		};
+
+		return defaultSend( props, attachment );
+	};
+};
+
 jQuery(document).ready(function(){
 	updateStringsForImageShortcake();
+	overloadMediaSendToEditor();
 });
 
 var ImageShortcake = {
@@ -101,3 +144,4 @@ if ( typeof wp.shortcake !== 'undefined' && typeof wp.shortcake.hooks !== 'undef
 	wp.shortcake.hooks.addAction( 'img.linkto',     ImageShortcake.listeners.linkto     );
 
 }
+
