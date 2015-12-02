@@ -381,6 +381,10 @@ class Img_Shortcode {
 			}
 		}
 
+		if ( ! empty( $shortcode_attrs['linkto'] ) && 'post' === $shortcode_attrs['linkto'] ) {
+			$shortcode_attrs['linkto'] = 'attachment';
+		}
+
 		/**
 		 * Filter the shortcode attributes when inserting image from the media library.
 		 *
