@@ -62,7 +62,6 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 	 */
 	function test_img_shortcode_from_attachment() {
 		$attachment_id = $this->attachment_id;
-		switch_theme('twentyfifteen');
 
 		$upload_dir = wp_upload_dir();
 
