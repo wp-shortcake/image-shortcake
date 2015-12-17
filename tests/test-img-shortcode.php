@@ -9,6 +9,8 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 	// @codingStandardsIgnoreStart
 	public function setUp() {
 		parent::setUp();
+		switch_theme('twentyfifteen');
+
 		$this->attachment_id = $this->insert_attachment( null,
 			dirname( __FILE__ ) . '/data/fusion_image_placeholder_16x9_h2000.png',
 			array(
@@ -21,7 +23,6 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 		);
 
 		$upload_dir = wp_upload_dir();
-		remove_filter( 'wp_calculate_image_sizes', 'twentysixteen_content_image_sizes_attr', 11 );
 		$this->image_src = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000.png';
 		$this->image_path = $upload_dir['path'] . '/fusion_image_placeholder_16x9_h2000.png';
 	}
@@ -36,6 +37,10 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 	function test_construct_ui() {
 		// replace this with some actual testing code
 		$this->assertTrue( true );
+	}
+	function test_theme() {
+		// replace this with some actual testing code
+		$this->assertContains( 'Twenty Fifteen', get_current_theme() );
 	}
 
 
