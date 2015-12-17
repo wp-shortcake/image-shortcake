@@ -191,18 +191,16 @@ class Img_Shortcode {
 			unset( $attr_for_responsive['size'] );
 			unset( $attr_for_responsive['align'] );
 			unset( $attr_for_responsive['src'] );
-
 			$attr_for_responsive['class'] = $image_classes_string;
 			$image_html = wp_get_attachment_image( $attr['attachment'], $attr['size'], false, $attr_for_responsive );
 		} else if ( ! empty( $attr['src'] ) ) {
 			$image_html = '<img ';
 
 			$image_attr = array(
-				'alt' => $attr['alt'],
+				'alt'   => $attr['alt'],
 				'class' => $image_classes_string,
+				'src'   => esc_url( $attr['src'] ),
 			);
-
-			$image_attr['src'] = esc_url( $attr['src'] );
 
 			foreach ( $image_attr as $attr_name => $attr_value ) {
 				if ( ! empty( $attr_value ) ) {
@@ -238,15 +236,12 @@ class Img_Shortcode {
 		// If a caption is specified, wrap the image in the appropriat caption markup.
 		if ( ! empty( $attr['caption'] ) ) {
 
-			// We need to generate width for WP captions
-			if ( isset( $attr['attachment'] ) &&
-				$attachment = wp_get_attachment_image_src( (int) $attr['attachment'], $attr['size'] ) ) {
-					$image_attr['width'] = intval( $attachment[1] );
-			}
 			// The WP caption element requires a width defined
-			if ( empty( $attr['width'] ) ) {
-				$attr['width'] = $image_attr['width'];
-			}
+			if ( empty( $attr['width'] ) && isset( $attr['attachment'] ) &&
+				$attachment = wp_get_attachment_image_src( (int) $attr['attachment'], $attr['size'] )
+				) {
+					$attr['width'] = intval( $attachment[1] );
+				}
 
 			$image_html = self::captionify( $image_html, $attr );
 		}
