@@ -79,6 +79,10 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 		$expected_href_attr = get_permalink( $attachment_id );
 		$this->assertContains( 'href="' . $expected_href_attr . '"', $content );
 
+		// Test srcset
+		$content = apply_filters( 'the_content', '[img attachment="' . $attachment_id . '" linkto="attachment" /]' );
+		$this->assertContains( 'srcset="http://example.org/wp-content/uploads/2015/12/fusion_image_placeholder_16x9_h2000-300x169.png 300w, http://example.org/wp-content/uploads/2015/12/fusion_image_placeholder_16x9_h2000-768x432.png 768w, http://example.org/wp-content/uploads/2015/12/fusion_image_placeholder_16x9_h2000-1024x576.png 1024w" sizes="(max-width: 2000px) 100vw, 2000px', $content );
+
 		// Test caption attribute
 		$caption = <<<EOL
 This is a "<em>caption</em>". It should contain <abbr>HTML</abbr> and <span class="icon">markup</span>.
