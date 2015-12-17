@@ -209,6 +209,8 @@ class Img_Shortcode {
 			}
 
 			$image_html .= '/>';
+		} else {
+			return; // An image without a src isn't much of an image
 		}
 		/**
 		 * Filter the output of the <img> tag before wrapping it in link or caption
