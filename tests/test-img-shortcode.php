@@ -9,7 +9,6 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 	// @codingStandardsIgnoreStart
 	public function setUp() {
 		parent::setUp();
-
 		$this->attachment_id = $this->insert_attachment( null,
 			dirname( __FILE__ ) . '/data/fusion_image_placeholder_16x9_h2000.png',
 			array(
@@ -22,7 +21,7 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 		);
 
 		$upload_dir = wp_upload_dir();
-
+		remove_filter( 'wp_calculate_image_sizes', 'twentysixteen_content_image_sizes_attr', 11 );
 		$this->image_src = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000.png';
 		$this->image_path = $upload_dir['path'] . '/fusion_image_placeholder_16x9_h2000.png';
 	}
@@ -81,7 +80,8 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 
 		// Test srcset
 		$content = apply_filters( 'the_content', '[img attachment="' . $attachment_id . '" linkto="attachment" /]' );
-		$this->assertContains( 'srcset="http://example.org/wp-content/uploads/2015/12/fusion_image_placeholder_16x9_h2000-300x169.png 300w, http://example.org/wp-content/uploads/2015/12/fusion_image_placeholder_16x9_h2000-768x432.png 768w, http://example.org/wp-content/uploads/2015/12/fusion_image_placeholder_16x9_h2000-1024x576.png 1024w" sizes="(max-width: 2000px) 100vw, 2000px', $content );
+		$srcset = 'srcset="http://example.org/wp-content/uploads/2015/12/fusion_image_placeholder_16x9_h2000-300x169.png 300w, http://example.org/wp-content/uploads/2015/12/fusion_image_placeholder_16x9_h2000-768x432.png 768w, http://example.org/wp-content/uploads/2015/12/fusion_image_placeholder_16x9_h2000-1024x576.png 1024w" sizes="(max-width: 2000px) 100vw, 2000px"';
+		$this->assertContains( $srcset, $content );
 
 		// Test caption attribute
 		$caption = <<<EOL

@@ -243,7 +243,7 @@ class Img_Shortcode {
 				$attachment = wp_get_attachment_image_src( (int) $attr['attachment'], $attr['size'] )
 				) {
 					$attr['width'] = intval( $attachment[1] );
-				}
+			}
 
 			$image_html = self::captionify( $image_html, $attr );
 		}
