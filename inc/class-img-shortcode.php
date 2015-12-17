@@ -176,37 +176,44 @@ class Img_Shortcode {
 		 * @param array Shortcode attributes, decoded and merged with defaults.
 		 */
 		$attr = apply_filters( 'img_shortcode_attrs', $attr );
-
-		$image_html = '<img ';
-
 		$image_classes = explode( ' ', $attr['classes'] );
 		$image_classes[] = 'size-' . $attr['size'];
 		$image_classes[] = $attr['align'];
+		$image_classes_string = trim( implode( ' ', $image_classes ) );
 
-		$image_attr = array(
-			'alt' => $attr['alt'],
-			'class' => trim( implode( ' ', $image_classes ) ),
-		);
-
-		if ( isset( $attr['attachment'] ) &&
-				$attachment = wp_get_attachment_image_src( (int) $attr['attachment'], $attr['size'] ) ) {
-			$image_attr['src'] = esc_url( $attachment[0] );
-			$image_attr['width'] = intval( $attachment[1] );
-			$image_attr['height'] = intval( $attachment[2] );
+		if ( isset( $attr['attachment'] ) ) {
+			$attrs_for_removal = array(
+				'caption' => null,
+				'attachment' => null,
+				'linkto' => null,
+				'url' => null,
+				'size' => null,
+				'align' => null,
+				'src' => null,
+				'classes' => null,
+			);
+			$attr_for_responsive = array_diff_key( $attr, $attrs_for_removal );
+			$attr_for_responsive['class'] = $image_classes_string;
+			$image_html = wp_get_attachment_image( $attr['attachment'], $attr['size'], false, $attr_for_responsive );
 		} else if ( ! empty( $attr['src'] ) ) {
-			$image_attr['src'] = esc_url( $attr['src'] );
+			$image_html = '<img ';
+
+			$image_attr = array(
+				'alt'   => $attr['alt'],
+				'class' => $image_classes_string,
+				'src'   => esc_url( $attr['src'] ),
+			);
+
+			foreach ( $image_attr as $attr_name => $attr_value ) {
+				if ( ! empty( $attr_value ) ) {
+					$image_html .= sanitize_key( $attr_name ) . '="' . esc_attr( $attr_value ) . '" ';
+				}
+			}
+
+			$image_html .= '/>';
 		} else {
 			return; // An image without a src isn't much of an image
 		}
-
-		foreach ( $image_attr as $attr_name => $attr_value ) {
-			if ( ! empty( $attr_value ) ) {
-				$image_html .= sanitize_key( $attr_name ) . '="' . esc_attr( $attr_value ) . '" ';
-			}
-		}
-
-		$image_html .= '/>';
-
 		/**
 		 * Filter the output of the <img> tag before wrapping it in link or caption
 		 *
@@ -234,8 +241,10 @@ class Img_Shortcode {
 		if ( ! empty( $attr['caption'] ) ) {
 
 			// The WP caption element requires a width defined
-			if ( empty( $attr['width'] ) ) {
-				$attr['width'] = $image_attr['width'];
+			if ( empty( $attr['width'] ) && isset( $attr['attachment'] ) &&
+				$attachment = wp_get_attachment_image_src( (int) $attr['attachment'], $attr['size'] )
+				) {
+					$attr['width'] = intval( $attachment[1] );
 			}
 
 			$image_html = self::captionify( $image_html, $attr );
