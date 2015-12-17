@@ -40,7 +40,7 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 	}
 	function test_theme() {
 		// replace this with some actual testing code
-		$this->assertContains( 'Twenty Fifteen', get_current_theme() );
+		$this->assertContains( 'Twenty Fifteen', wp_get_theme()->name );
 	}
 
 
