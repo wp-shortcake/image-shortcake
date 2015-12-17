@@ -179,7 +179,7 @@ class Img_Shortcode {
 		$image_classes = explode( ' ', $attr['classes'] );
 		$image_classes[] = 'size-' . $attr['size'];
 		$image_classes[] = $attr['align'];
-		$image_classes_string =	trim( implode( ' ', $image_classes ) );
+		$image_classes_string = trim( implode( ' ', $image_classes ) );
 		unset( $attr['classes'] );
 
 		if ( isset( $attr['attachment'] ) ) {
@@ -210,7 +210,7 @@ class Img_Shortcode {
 				}
 			}
 
-			$image_html .= '/>';		
+			$image_html .= '/>';
 		}
 		/**
 		 * Filter the output of the <img> tag before wrapping it in link or caption
@@ -237,7 +237,7 @@ class Img_Shortcode {
 
 		// If a caption is specified, wrap the image in the appropriat caption markup.
 		if ( ! empty( $attr['caption'] ) ) {
-			
+
 			// We need to generate width for WP captions
 			if ( isset( $attr['attachment'] ) &&
 				$attachment = wp_get_attachment_image_src( (int) $attr['attachment'], $attr['size'] ) ) {
