@@ -180,17 +180,19 @@ class Img_Shortcode {
 		$image_classes[] = 'size-' . $attr['size'];
 		$image_classes[] = $attr['align'];
 		$image_classes_string = trim( implode( ' ', $image_classes ) );
-		unset( $attr['classes'] );
 
 		if ( isset( $attr['attachment'] ) ) {
-			$attr_for_responsive = $attr;
-			unset( $attr_for_responsive['caption'] );
-			unset( $attr_for_responsive['attachment'] );
-			unset( $attr_for_responsive['linkto'] );
-			unset( $attr_for_responsive['url'] );
-			unset( $attr_for_responsive['size'] );
-			unset( $attr_for_responsive['align'] );
-			unset( $attr_for_responsive['src'] );
+			$attrs_for_removal = array(
+				'caption' => null, 
+				'attachment' => null,
+				'linkto' => null,
+				'url' => null,
+				'size' => null,
+				'align' => null,
+				'src' => null,
+				'classes' => null
+			);
+			$attr_for_responsive = array_diff_key( $attr, $attrs_for_removal );
 			$attr_for_responsive['class'] = $image_classes_string;
 			$image_html = wp_get_attachment_image( $attr['attachment'], $attr['size'], false, $attr_for_responsive );
 		} else if ( ! empty( $attr['src'] ) ) {
