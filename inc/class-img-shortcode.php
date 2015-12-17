@@ -183,14 +183,14 @@ class Img_Shortcode {
 
 		if ( isset( $attr['attachment'] ) ) {
 			$attrs_for_removal = array(
-				'caption' => null, 
+				'caption' => null,
 				'attachment' => null,
 				'linkto' => null,
 				'url' => null,
 				'size' => null,
 				'align' => null,
 				'src' => null,
-				'classes' => null
+				'classes' => null,
 			);
 			$attr_for_responsive = array_diff_key( $attr, $attrs_for_removal );
 			$attr_for_responsive['class'] = $image_classes_string;
