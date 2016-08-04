@@ -6,6 +6,7 @@
       "email": "tech@fusion.net"
     }
   ],
+  "type": "wordpress-plugin",
   "require-dev": {
     "wp-coding-standards/wpcs": "dev-develop"
   },
