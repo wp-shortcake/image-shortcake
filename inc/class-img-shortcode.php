@@ -31,7 +31,7 @@ class Img_Shortcode {
 			$size = get_option( "${key}_size_w" );
 
 			if ( false === $size ) {
-				if ( array_key_exists( $key, $_wp_additional_image_sizes ) ) {
+				if ( isset( $_wp_additional_image_sizes ) && array_key_exists( $key, $_wp_additional_image_sizes ) ) {
 					$size = $_wp_additional_image_sizes[ $key ]['width'];
 				}
 			}
