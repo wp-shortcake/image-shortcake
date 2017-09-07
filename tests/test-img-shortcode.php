@@ -18,6 +18,7 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 				'post_date'      => '2014-10-01 17:28:00',
 				'post_status'    => 'publish',
 				'post_type'      => 'attachment',
+				'post_excerpt'   => 'Attachment Caption',
 			)
 		);
 
@@ -58,34 +59,43 @@ class Test_Img_Shortcode extends WP_UnitTestCase {
 	 */
 	function test_img_shortcode_from_attachment() {
 		$attachment_id = $this->attachment_id;
-
 		$upload_dir = wp_upload_dir();
 
 		// Test image src
 		$content = apply_filters( 'the_content', '[img attachment="' . $attachment_id . '" /]' );
-
 		$expected_src_attr = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000.png';
 		$this->assertContains( 'src="' . $expected_src_attr . '"', $content );
 
+		// Test image alt text attribute
+		$alt_text = 'This is the alt text. It should describe an image.';
+		$content = apply_filters( 'the_content', '[img attachment="' . $attachment_id . '" alt="' . esc_attr( $alt_text ) . '" /]' );
+		$expected_alt_attr = $alt_text;
+		$this->assertContains( 'alt="' . $expected_alt_attr . '"', $content );
+		// Test attachment alt text
+		$content = apply_filters( 'the_content', '[img attachment="' . $attachment_id . '" alt="' . esc_attr( $alt_text ) . '" attachment_alt="true" /]' );
+		$expected_alt_attr = get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
+		$this->assertContains( 'alt="' . $expected_alt_attr . '"', $content );
+
 		// Test link href: linkto="file"
 		$content = apply_filters( 'the_content', '[img attachment="' . $attachment_id . '" linkto="file" /]' );
-
 		$expected_href_attr = $upload_dir['url'] . '/fusion_image_placeholder_16x9_h2000.png';
 		$this->assertContains( 'href="' . $expected_href_attr . '"', $content );
 
 		// Test link href: linkto="attachment"
 		$content = apply_filters( 'the_content', '[img attachment="' . $attachment_id . '" linkto="attachment" /]' );
-
 		$expected_href_attr = get_permalink( $attachment_id );
 		$this->assertContains( 'href="' . $expected_href_attr . '"', $content );
 
-		// Test caption attribute
+		// Test custom caption attribute
 		$caption = <<<EOL
-This is a "<em>caption</em>". It should contain <abbr>HTML</abbr> and <span class="icon">markup</span>.
+This is a custom "<em>caption</em>". It should contain <abbr>HTML</abbr> and <span class="icon">markup</span>.
 EOL;
 		$content = apply_filters( 'the_content', '[img attachment="' . $attachment_id . '" caption="' . esc_attr( $caption ) . '" /]' );
-
 		$expected_caption = esc_html( $caption );
+		$this->assertContains( $expected_caption , $content );
+		// Test attachment caption
+		$content = apply_filters( 'the_content', '[img attachment="' . $attachment_id . '" caption="' . esc_attr( $caption ) . '" attachment_caption="true" /]' );
+		$expected_caption = get_the_excerpt( $attachment_id );
 		$this->assertContains( $expected_caption , $content );
 	}
 
@@ -208,10 +218,10 @@ EOL;
 
 		// Save the data
 		$id = wp_insert_attachment( $attachment, $upload['file'], $parent_post_id );
+		update_post_meta( $id, '_wp_attachment_image_alt', 'Attachment Alt Text' );
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $upload['file'] ) );
 
 		return $id;
 	}
 
 }
-
