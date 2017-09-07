@@ -54,7 +54,7 @@ var ImageShortcake = {
 				return;
 			}
 
-			var attachment = sui.views.editAttributeFieldAttachment.getFromCache( changed.value );
+			var attachment = wp.media.attachment( changed.value ).attributes;
 
 			if ( attachment ) {
 
@@ -97,7 +97,7 @@ var ImageShortcake = {
  */
 if ( typeof wp.shortcake !== 'undefined' && typeof wp.shortcake.hooks !== 'undefined' ) {
 
-	wp.shortcake.hooks.addAction( 'img.attachment', ImageShortcake.listeners.attachment );
+	//wp.shortcake.hooks.addAction( 'img.attachment', ImageShortcake.listeners.attachment );
 	wp.shortcake.hooks.addAction( 'img.linkto',     ImageShortcake.listeners.linkto     );
 
 }
