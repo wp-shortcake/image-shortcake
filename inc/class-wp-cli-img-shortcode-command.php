@@ -35,9 +35,9 @@ class Image_Shortcake_Command extends WP_CLI_Command {
 	 */
 	public function migrate( $args, $assoc_args ) {
 
-		foreach ( array_filter( $args ) as $post_ID ) {
+		foreach ( array_filter( $args ) as $post_id ) {
 
-			$post = $this->fetcher->get_check( $post_ID );
+			$post = $this->fetcher->get_check( $post_id );
 
 			$_content = $post->post_content;
 
@@ -89,7 +89,7 @@ class Image_Shortcake_Command extends WP_CLI_Command {
 			global $wpdb;
 
 			// @codingStandardsIgnoreStart
-			$updated = $wpdb->update( $wpdb->posts, array( 'post_content' => $_content ), array( 'ID' => $post_ID ) );
+			$updated = $wpdb->update( $wpdb->posts, array( 'post_content' => $_content ), array( 'ID' => $post_id ) );
 			// @codingStandardsIgnoreEnd
 
 			if ( 1 === $updated ) {

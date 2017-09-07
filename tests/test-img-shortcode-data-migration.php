@@ -68,7 +68,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 
 		$this->assertContains( $img_tag, array_keys( $replacements ) );
 
-		$this->assertContains( 'attachment="' . $this->attachment_id .'"', $replacements[ $img_tag ] );
+		$this->assertContains( 'attachment="' . $this->attachment_id . '"', $replacements[ $img_tag ] );
 		$this->assertNotContains( 'src="', $replacements[ $img_tag ] );
 	}
 
@@ -90,7 +90,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 		$replacements = Img_Shortcode_Data_Migration::find_img_tags_for_replacement_on_post( $post_id );
 
 		$this->assertNotContains( 'attachment="', $replacements[ $img_tag ] );
-		$this->assertContains( 'src="' . $this->image_src .'"', $replacements[ $img_tag ] );
+		$this->assertContains( 'src="' . $this->image_src . '"', $replacements[ $img_tag ] );
 
 	}
 
@@ -120,7 +120,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 			$this->assertContains( $should_be_matched, array_keys( $replacements ) );
 		}
 
-		$this->assertContains( 'attachment="' . $this->attachment_id .'"', $replacements[ $img_tag ] );
+		$this->assertContains( 'attachment="' . $this->attachment_id . '"', $replacements[ $img_tag ] );
 		$this->assertNotContains( 'src="', $replacements[ $img_tag ] );
 
 		$this->assertContains( 'href="http://go.to/thislink/"', $replacements[ $img_tag_link_custom ] );
@@ -168,7 +168,7 @@ class Test_Img_Shortcode_Data_Migration extends WP_UnitTestCase {
 	 */
 	private function insert_attachment( $parent_post_id = 0, $image = null, $post_fields = array() ) {
 
-		$filename = rand_str().'.jpg';
+		$filename = rand_str() . '.jpg';
 		$contents = rand_str();
 
 		if ( $image ) {

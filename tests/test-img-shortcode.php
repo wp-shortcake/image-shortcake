@@ -172,7 +172,7 @@ EOL;
 	 */
 	private function insert_attachment( $parent_post_id = 0, $image = null, $post_fields = array() ) {
 
-		$filename = rand_str().'.jpg';
+		$filename = rand_str() . '.jpg';
 		$contents = rand_str();
 
 		if ( $image ) {
