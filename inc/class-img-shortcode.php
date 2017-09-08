@@ -50,9 +50,9 @@ class Img_Shortcode {
 				'attrs' => array(
 
 					array(
-						'label' => esc_html__( 'Choose Attachment', 'image-shortcake' ),
-						'attr'  => 'attachment',
-						'type'  => 'attachment',
+						'label'       => esc_html__( 'Choose Attachment', 'image-shortcake' ),
+						'attr'        => 'attachment',
+						'type'        => 'attachment',
 						'libraryType' => array( 'image' ),
 						'addButton'   => esc_attr__( 'Select Image', 'image-shortcake' ),
 						'frameTitle'  => esc_attr__( 'Select Image', 'image-shortcake' ),
@@ -75,6 +75,12 @@ class Img_Shortcode {
 					),
 
 					array(
+						'label'       => esc_html__( 'Use the alt text from the attachment instead of the custom text above?', 'image-shortcake' ),
+						'attr'        => 'attachment_alt',
+						'type'        => 'checkbox',
+					),
+
+					array(
 						'label'       => esc_html__( 'Caption', 'image-shortcake' ),
 						'attr'        => 'caption',
 						'type'        => 'text',
@@ -83,11 +89,17 @@ class Img_Shortcode {
 					),
 
 					array(
+						'label'       => esc_html__( 'Use the caption from the attachment instead of the custom text above?', 'image-shortcake' ),
+						'attr'        => 'attachment_caption',
+						'type'        => 'checkbox',
+					),
+
+					array(
 						'label'       => esc_html__( 'Alignment', 'image-shortcake' ),
 						'attr'        => 'align',
 						'type'        => 'select',
 						'value'       => 'aligncenter',
-						'options' => array(
+						'options'     => array(
 							'alignleft'   => esc_attr__( 'Left',   'image-shortcake' ),
 							'aligncenter' => esc_attr__( 'Center', 'image-shortcake' ),
 							'alignright'  => esc_attr__( 'Right',  'image-shortcake' ),
@@ -100,7 +112,7 @@ class Img_Shortcode {
 						'attr'        => 'linkto',
 						'type'        => 'select',
 						'value'       => get_option( 'image_default_link_type' ),
-						'options' => array(
+						'options'     => array(
 							'none'       => esc_attr__( 'None (no link)',          'image-shortcake' ),
 							'attachment' => esc_attr__( 'Link to attachment file', 'image-shortcake' ),
 							'file'       => esc_attr__( 'Link to file',            'image-shortcake' ),
@@ -188,11 +200,28 @@ class Img_Shortcode {
 			'class' => trim( implode( ' ', $image_classes ) ),
 		);
 
-		if ( isset( $attr['attachment'] ) &&
-				$attachment = wp_get_attachment_image_src( (int) $attr['attachment'], $attr['size'] ) ) {
-			$image_attr['src'] = esc_url( $attachment[0] );
-			$image_attr['width'] = intval( $attachment[1] );
-			$image_attr['height'] = intval( $attachment[2] );
+		if ( isset( $attr['attachment'] ) ) {
+			$attachment_img_src = wp_get_attachment_image_src( (int) $attr['attachment'], $attr['size'] );
+			$image_attr['src'] = esc_url( $attachment_img_src[0] );
+			$image_attr['width'] = intval( $attachment_img_src[1] );
+			$image_attr['height'] = intval( $attachment_img_src[2] );
+
+			// Use the attachment alt text if that option is specified
+			if ( isset( $attr['attachment_alt'] ) && $attr['attachment_alt'] === 'true' ) {
+				$attachment_alt = get_post_meta( $attr['attachment'], '_wp_attachment_image_alt', true );
+				if ( ! empty( $attachment_alt ) ) {
+					$attr['alt'] = $attachment_alt;
+					$image_attr['alt'] = $attachment_alt;
+				}
+			}
+
+			// Use the attachment caption if that option is specified
+			if ( isset( $attr['attachment_caption'] ) && $attr['attachment_caption'] === 'true' ) {
+				$attachment_caption = get_the_excerpt( $attr['attachment'] );
+				if ( ! empty( $attachment_caption ) ) {
+					$attr['caption'] = $attachment_caption;
+				}
+			}
 		} else if ( ! empty( $attr['src'] ) ) {
 			$image_attr['src'] = esc_url( $attr['src'] );
 		} else {

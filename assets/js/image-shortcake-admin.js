@@ -85,6 +85,26 @@ var ImageShortcake = {
 			} else {
 				customLinkField.$el.val('').hide();
 			}
+		},
+
+		attachmentAlt: function( changed, collection, shortcode ) {
+			var $altField = sui.views.editAttributeField.getField( collection, 'alt' ).$el.find('input');
+
+			if ( changed.value ) {
+				$altField.attr('disabled', 'disabled');
+			} else {
+				$altField.removeAttr('disabled');
+			}
+		},
+
+		attachmentCaption: function( changed, collection, shortcode ) {
+			var $captionField = sui.views.editAttributeField.getField( collection, 'caption' ).$el.find('input');
+
+			if ( changed.value ) {
+				$captionField.attr('disabled', 'disabled');
+			} else {
+				$captionField.removeAttr('disabled');
+			}
 		}
 	}
 
@@ -97,7 +117,9 @@ var ImageShortcake = {
  */
 if ( typeof wp.shortcake !== 'undefined' && typeof wp.shortcake.hooks !== 'undefined' ) {
 
-	wp.shortcake.hooks.addAction( 'img.attachment', ImageShortcake.listeners.attachment );
-	wp.shortcake.hooks.addAction( 'img.linkto',     ImageShortcake.listeners.linkto     );
+	wp.shortcake.hooks.addAction( 'img.attachment',             ImageShortcake.listeners.attachment        );
+	wp.shortcake.hooks.addAction( 'img.linkto',                 ImageShortcake.listeners.linkto            );
+	wp.shortcake.hooks.addAction( 'img.attachment_alt',         ImageShortcake.listeners.attachmentAlt     );
+	wp.shortcake.hooks.addAction( 'img.attachment_caption',     ImageShortcake.listeners.attachmentCaption );
 
 }
