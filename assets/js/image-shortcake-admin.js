@@ -97,7 +97,7 @@ var ImageShortcake = {
  */
 if ( typeof wp.shortcake !== 'undefined' && typeof wp.shortcake.hooks !== 'undefined' ) {
 
-	//wp.shortcake.hooks.addAction( 'img.attachment', ImageShortcake.listeners.attachment );
+	wp.shortcake.hooks.addAction( 'img.attachment', ImageShortcake.listeners.attachment );
 	wp.shortcake.hooks.addAction( 'img.linkto',     ImageShortcake.listeners.linkto     );
 
 }
