@@ -43,79 +43,79 @@ class Img_Shortcode {
 
 		$shortcode_ui_args = array(
 
-				'label' => esc_html__( 'Image', 'image-shortcake' ),
+			'label' => esc_html__( 'Image', 'image-shortcake' ),
 
-				'listItemImage' => 'dashicons-format-image',
+			'listItemImage' => 'dashicons-format-image',
 
-				'attrs' => array(
+			'attrs' => array(
 
-					array(
-						'label' => esc_html__( 'Choose Attachment', 'image-shortcake' ),
-						'attr'  => 'attachment',
-						'type'  => 'attachment',
-						'libraryType' => array( 'image' ),
-						'addButton'   => esc_attr__( 'Select Image', 'image-shortcake' ),
-						'frameTitle'  => esc_attr__( 'Select Image', 'image-shortcake' ),
-					),
+				array(
+					'label' => esc_html__( 'Choose Attachment', 'image-shortcake' ),
+					'attr'  => 'attachment',
+					'type'  => 'attachment',
+					'libraryType' => array( 'image' ),
+					'addButton'   => esc_attr__( 'Select Image', 'image-shortcake' ),
+					'frameTitle'  => esc_attr__( 'Select Image', 'image-shortcake' ),
+				),
 
-					array(
-						'label'       => esc_html__( 'Image size', 'image-shortcake' ),
-						'attr'        => 'size',
-						'type'        => 'select',
-						'value'       => 'large',
-						'options'     => $sizes_available,
-					),
+				array(
+					'label'       => esc_html__( 'Image size', 'image-shortcake' ),
+					'attr'        => 'size',
+					'type'        => 'select',
+					'value'       => 'large',
+					'options'     => $sizes_available,
+				),
 
-					array(
-						'label'       => esc_html__( 'Alt', 'image-shortcake' ),
-						'attr'        => 'alt',
-						'type'        => 'text',
-						'encode'      => true,
-						'placeholder' => esc_attr__( 'Alt text for the image', 'image-shortcake' ),
-					),
+				array(
+					'label'       => esc_html__( 'Alt', 'image-shortcake' ),
+					'attr'        => 'alt',
+					'type'        => 'text',
+					'encode'      => true,
+					'placeholder' => esc_attr__( 'Alt text for the image', 'image-shortcake' ),
+				),
 
-					array(
-						'label'       => esc_html__( 'Caption', 'image-shortcake' ),
-						'attr'        => 'caption',
-						'type'        => 'text',
-						'encode'      => true,
-						'placeholder' => esc_attr__( 'Caption for the image', 'image-shortcake' ),
-					),
+				array(
+					'label'       => esc_html__( 'Caption', 'image-shortcake' ),
+					'attr'        => 'caption',
+					'type'        => 'text',
+					'encode'      => true,
+					'placeholder' => esc_attr__( 'Caption for the image', 'image-shortcake' ),
+				),
 
-					array(
-						'label'       => esc_html__( 'Alignment', 'image-shortcake' ),
-						'attr'        => 'align',
-						'type'        => 'select',
-						'value'       => 'aligncenter',
-						'options' => array(
-							'alignleft'   => esc_attr__( 'Left',   'image-shortcake' ),
-							'aligncenter' => esc_attr__( 'Center', 'image-shortcake' ),
-							'alignright'  => esc_attr__( 'Right',  'image-shortcake' ),
-							'alignnone'   => esc_attr__( 'None',   'image-shortcake' ),
-						),
-					),
-
-					array(
-						'label'       => esc_html__( 'Link to', 'image-shortcake' ),
-						'attr'        => 'linkto',
-						'type'        => 'select',
-						'value'       => get_option( 'image_default_link_type' ),
-						'options' => array(
-							'none'       => esc_attr__( 'None (no link)',          'image-shortcake' ),
-							'attachment' => esc_attr__( 'Link to attachment file', 'image-shortcake' ),
-							'file'       => esc_attr__( 'Link to file',            'image-shortcake' ),
-							'custom'     => esc_attr__( 'Custom link',             'image-shortcake' ),
-						),
-					),
-
-					array(
-						'label'       => esc_html__( 'Custom link', 'image-shortcake' ),
-						'attr'        => 'url',
-						'type'        => 'text',
-						'placeholder' => esc_attr__( 'URL to link to (if above link is "custom")', 'image-shortcake' ),
+				array(
+					'label'       => esc_html__( 'Alignment', 'image-shortcake' ),
+					'attr'        => 'align',
+					'type'        => 'select',
+					'value'       => 'aligncenter',
+					'options' => array(
+						'alignleft'   => esc_attr__( 'Left',   'image-shortcake' ),
+						'aligncenter' => esc_attr__( 'Center', 'image-shortcake' ),
+						'alignright'  => esc_attr__( 'Right',  'image-shortcake' ),
+						'alignnone'   => esc_attr__( 'None',   'image-shortcake' ),
 					),
 				),
-			);
+
+				array(
+					'label'       => esc_html__( 'Link to', 'image-shortcake' ),
+					'attr'        => 'linkto',
+					'type'        => 'select',
+					'value'       => get_option( 'image_default_link_type' ),
+					'options' => array(
+						'none'       => esc_attr__( 'None (no link)',          'image-shortcake' ),
+						'attachment' => esc_attr__( 'Link to attachment file', 'image-shortcake' ),
+						'file'       => esc_attr__( 'Link to file',            'image-shortcake' ),
+						'custom'     => esc_attr__( 'Custom link',             'image-shortcake' ),
+					),
+				),
+
+				array(
+					'label'       => esc_html__( 'Custom link', 'image-shortcake' ),
+					'attr'        => 'url',
+					'type'        => 'text',
+					'placeholder' => esc_attr__( 'URL to link to (if above link is "custom")', 'image-shortcake' ),
+				),
+			),
+		);
 
 		/**
 		 * Filter the shortcode UI definition arguments
@@ -193,7 +193,7 @@ class Img_Shortcode {
 			$image_attr['src'] = esc_url( $attachment[0] );
 			$image_attr['width'] = intval( $attachment[1] );
 			$image_attr['height'] = intval( $attachment[2] );
-		} else if ( ! empty( $attr['src'] ) ) {
+		} elseif ( ! empty( $attr['src'] ) ) {
 			$image_attr['src'] = esc_url( $attr['src'] );
 		} else {
 			return; // An image without a src isn't much of an image
@@ -271,7 +271,7 @@ class Img_Shortcode {
 
 		if ( isset( $attributes['url'] ) ) {
 			$link_attrs['href'] = esc_url( $attributes['url'] );
-		} else if ( ! empty( $attributes['linkto'] ) && 'attachment' === $attributes['linkto'] ) {
+		} elseif ( ! empty( $attributes['linkto'] ) && 'attachment' === $attributes['linkto'] ) {
 			$link_attrs['href'] = get_permalink( $_id );
 		} elseif ( ! empty( $attributes['linkto'] ) && 'file' === $attributes['linkto'] ) {
 			$attachment_src = wp_get_attachment_image_src( $_id, 'full', false, $attributes );
@@ -287,7 +287,7 @@ class Img_Shortcode {
 			$html .= sanitize_key( $attr_name ) . '="' . esc_attr( $attr_value ) . '" ';
 		}
 
-		$html .= '>' . $img_tag .'</a>';
+		$html .= '>' . $img_tag . '</a>';
 
 		return $html;
 	}
@@ -321,7 +321,9 @@ class Img_Shortcode {
 
 		// Ensure the image has a width defined; caption shortcode will break otherwise.
 		if ( 0 === intval( $attributes['width'] ) ) {
-			if ( $_attachment_src = wp_get_attachment_image_src( $attributes['id'], $attributes['size'] ) ) {
+			$_attachment_src = wp_get_attachment_image_src( $attributes['id'], $attributes['size'] );
+
+			if ( $_attachment_src ) {
 				$attributes['width'] = $_attachment_src[1];
 			}
 		}

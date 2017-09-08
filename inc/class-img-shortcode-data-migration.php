@@ -32,7 +32,7 @@ class Img_Shortcode_Data_Migration {
 	private static function caption_shortcode_regex() {
 		$caption_shortcode_regex =
 			'\[caption' .
-				'[^\]]*' .  '\]\]?' .
+				'[^\]]*' . '\]\]?' .
 				self::img_shortcode_regex() .
 				'(?: (?P<caption>[^\]]*))' .
 			'\[\[?\/caption\]\]?';
@@ -40,7 +40,8 @@ class Img_Shortcode_Data_Migration {
 	}
 
 	public static function find_img_tags_for_replacement_on_post( $post ) {
-		if ( ! $post = self::maybe_get_post_from_id( $post ) ) {
+		$post = self::maybe_get_post_from_id( $post );
+		if ( ! $post ) {
 			return false;
 		}
 
@@ -82,7 +83,8 @@ class Img_Shortcode_Data_Migration {
 
 
 	public static function find_caption_shortcodes_for_replacement_on_post( $post ) {
-		if ( ! $post = self::maybe_get_post_from_id( $post ) ) {
+		$post = self::maybe_get_post_from_id( $post );
+		if ( ! $post ) {
 			return false;
 		}
 
@@ -157,7 +159,7 @@ class Img_Shortcode_Data_Migration {
 
 				if ( get_permalink( (int) $attributes['attachment'] ) === $attributes['href'] ) {
 					$shortcode_attrs['linkto'] = 'attachment';
-				} else if ( $attachment_src[0] === $attributes['href'] // link to full size image
+				} elseif ( $attachment_src[0] === $attributes['href'] // link to full size image
 						|| $attributes['src'] === $attributes['href'] // link the same as image src
 						) {
 					$shortcode_attrs['linkto'] = 'file';
