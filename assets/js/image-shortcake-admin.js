@@ -54,7 +54,7 @@ var ImageShortcake = {
 				return;
 			}
 
-			var attachment = sui.views.editAttributeFieldAttachment.getFromCache( changed.value );
+			var attachment = wp.media.attachment( changed.value ).attributes;
 
 			if ( attachment ) {
 
