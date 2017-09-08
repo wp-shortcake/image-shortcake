@@ -364,7 +364,8 @@ class Img_Shortcode {
 			'image-size' => 'size',
 			'image_alt' => 'alt',
 			'post_excerpt' => 'caption',
-			'width' => 'width',
+			'linkto' => 'linkto',
+			'url' => 'url',
 		);
 
 		$shortcode_ui_def = self::get_shortcode_ui_args();
@@ -380,6 +381,10 @@ class Img_Shortcode {
 				$shortcode_attrs[ $shortcode_attr ] = in_array( $shortcode_attr, $encoded_attributes, true ) ?
 					rawurlencode( $attachment[ $attachment_attr ] ) : $attachment[ $attachment_attr ];
 			}
+		}
+
+		if ( ! empty( $shortcode_attrs['linkto'] ) && 'post' === $shortcode_attrs['linkto'] ) {
+			$shortcode_attrs['linkto'] = 'attachment';
 		}
 
 		/**
